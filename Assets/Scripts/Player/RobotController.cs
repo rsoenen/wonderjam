@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class RobotController : MonoBehaviour
 {
-    public float maxSpeed, acceleration, deceleration, inputTrigger, collisionForce;
+    public float maxSpeed, acceleration, deceleration, inputTrigger, dashSpeed, dashDuration;
     public float rotSpeed;
     public int playerId;
     public PlayerInputs input;
@@ -53,6 +53,10 @@ public class RobotController : MonoBehaviour
     {
         if (rigidBody.velocity.magnitude != 0)
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(rigidBody.velocity, Vector3.up), Time.deltaTime * rotSpeed);
-
+        if(input.Turbo)
+        {
+            gameObject.AddComponent<DashBehaviour>().Init(dashDuration, dashSpeed);
+            
+        }
     }
 }

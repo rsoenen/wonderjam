@@ -1,15 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DashBehaviour : MonoBehaviour {
+[RequireComponent(typeof(RobotController))]
+public class DashBehaviour : MonoBehaviour
+{
+    private RobotController robot;
+    private Rigidbody body;
+    public float duration, speed;
+    private float time;
 
-	// Use this for initialization
-	void Start () {
-	
+    public void Init(float duration, float speed)
+    {
+        this.duration = duration;
+        this.speed = speed;
+    }
+
+	void Start ()
+    {
+        robot = GetComponent<RobotController>();
+        body = GetComponent<Rigidbody>();
+        robot.enabled = false;
+        body.velocity = body.velocity.normalized* speed;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
+	void FixedUpdate ()
+    {
+        time += Time.fixedDeltaTime;
+        if (time > duration)
+        {
+            robot.enabled = true;
+            Destroy(this);
+        }
 	}
 }
