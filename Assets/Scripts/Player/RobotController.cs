@@ -13,8 +13,31 @@ public class RobotController : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-        rigidBody = GetComponent<Rigidbody>();
+    rigidBody = GetComponent<Rigidbody>();
+    SetupRobotForPlayer(playerId);
 	}
+
+
+  public void SetupRobotForPlayer(int player)
+  {
+    input = InputManager.Instance.pilot[player];
+    Color color = InputManager.GetColorFromPlayer(player);
+    Light[] lights = GetComponentsInChildren<Light>();
+    foreach (Light l in lights)
+    {
+      l.color = color;
+    }
+
+
+    transform.FindChild("LeftEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+    transform.FindChild("RightEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+    transform.FindChild("Receiver").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+    
+
+
+  }
+
+	
 
     void FixedUpdate()
     {
