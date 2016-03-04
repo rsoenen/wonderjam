@@ -1,0 +1,151 @@
+fileFormatVersion: 2
+guid: 8e12e53beddd98944bb29fd23200bd80
+timeCreated: 1457124744
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Antenna
+    100002: Head
+    100004: LeftArm
+    100006: LeftEye
+    100008: LeftHand
+    100010: Neck
+    100012: Receiver
+    100014: RightArm
+    100016: RightArm2
+    100018: RightEye
+    100020: //RootNode
+    100022: RotaringPlateform
+    100024: Wheel001
+    100026: Wheel002
+    100028: Wheel003
+    100030: Wheel004
+    400000: Antenna
+    400002: Head
+    400004: LeftArm
+    400006: LeftEye
+    400008: LeftHand
+    400010: Neck
+    400012: Receiver
+    400014: RightArm
+    400016: RightArm2
+    400018: RightEye
+    400020: //RootNode
+    400022: RotaringPlateform
+    400024: Wheel001
+    400026: Wheel002
+    400028: Wheel003
+    400030: Wheel004
+    2300000: Antenna
+    2300002: Head
+    2300004: LeftArm
+    2300006: LeftEye
+    2300008: LeftHand
+    2300010: Neck
+    2300012: Receiver
+    2300014: RightArm
+    2300016: RightArm2
+    2300018: RightEye
+    2300020: //RootNode
+    2300022: RotaringPlateform
+    2300024: Wheel001
+    2300026: Wheel002
+    2300028: Wheel003
+    2300030: Wheel004
+    3300000: Antenna
+    3300002: Head
+    3300004: LeftArm
+    3300006: LeftEye
+    3300008: LeftHand
+    3300010: Neck
+    3300012: Receiver
+    3300014: RightArm
+    3300016: RightArm2
+    3300018: RightEye
+    3300020: //RootNode
+    3300022: RotaringPlateform
+    3300024: Wheel001
+    3300026: Wheel002
+    3300028: Wheel003
+    3300030: Wheel004
+    4300000: Body
+    4300002: LeftArm
+    4300004: LeftHand
+    4300006: Neck
+    4300008: Head
+    4300010: RightEye
+    4300012: LeftEye
+    4300014: Antenna
+    4300016: Receiver
+    4300018: RightArm
+    4300020: RightArm2
+    4300022: RotaringPlateform
+    4300024: Wheel001
+    4300026: Wheel002
+    4300028: Wheel003
+    4300030: Wheel004
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
