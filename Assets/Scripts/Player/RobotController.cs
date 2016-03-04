@@ -4,16 +4,17 @@ using System.Collections.Generic;
 public class RobotController : MonoBehaviour
 {
     public float maxSpeed, acceleration, deceleration, inputTrigger, collisionForce;
+    public float rotSpeed;
     public int playerId;
     public PlayerInputs input;
 
-    private Vector2 speed;
-
-    private List<SphereCollider> colliders = new List<SphereCollider>(); 
+    private Rigidbody rigidBody;
+    
 
 	// Use this for initialization
 	void Start () {
-    SetupRobotForPlayer(0);
+    rigidBody = GetComponent<Rigidbody>();
+    SetupRobotForPlayer(playerId);
 	}
 
 
@@ -37,36 +38,21 @@ public class RobotController : MonoBehaviour
   }
 
 	
-	// Update is called once per frame
-	void Update ()
-    {
-        Vector2 inputDir = new Vector2(input.Yaw, -input.Pitch);
-        speed += acceleration * inputDir * Time.deltaTime;
-        if (inputDir.magnitude < inputTrigger)
-            speed *= Mathf.Pow(deceleration, Time.deltaTime);
-        if (speed.magnitude > maxSpeed)
-            speed *= maxSpeed / speed.magnitude;
-        transform.position += new Vector3(speed.x, 0, speed.y) * Time.deltaTime;
 
-        foreach(SphereCollider collider in colliders)
-        {
-            Vector3 forceDir = (transform.position - collider.transform.position);
-            float optimalDist = collider.radius + GetComponent<SphereCollider>().radius;
-            speed += optimalDist / forceDir.magnitude * collisionForce * Time.deltaTime * new Vector2(forceDir.x, forceDir.z).normalized;
-        }
+    void FixedUpdate()
+    {
+        if (input == null)
+            input = InputManager.Instance.pilot[playerId];
+        Vector3 inputDir = new Vector3(input.Yaw, 0, -input.Pitch);
+        rigidBody.AddForce(acceleration * inputDir);
+        rigidBody.AddForce(-rigidBody.velocity * deceleration);
     }
 
-    void OnTriggerEnter(Collider other)
+    // Update is called once per frame
+    void Update ()
     {
-        SphereCollider collider = other.GetComponent<SphereCollider>();
-        if (collider != null)
-        {
-            colliders.Add(collider);
-        }
-    }
+        if (rigidBody.velocity.magnitude != 0)
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(rigidBody.velocity, Vector3.up), Time.deltaTime * rotSpeed);
 
-    void OnTriggerExit(Collider other)
-    {
-        colliders.Remove(other.GetComponent<SphereCollider>());
     }
 }
