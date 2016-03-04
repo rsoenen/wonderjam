@@ -20,6 +20,21 @@ public class InputManager : Singleton<InputManager> {
   private const string Xbox360ControllerName = "Controller (XBOX 360 For Windows)";
   private const string Ps4ControllerName = "Wireless Controller";
 
+  public static Color GetColorFromPlayer(int p)
+  {
+    switch (p)
+    { 
+      default:
+      case 0:
+        return new Color(1.0f, 0.0f, 0.0f);
+      case 1:
+        return new Color(0.0f, 162.0f / 255.0f, 232.0f / 255.0f);
+      case 2:
+        return new Color(0.0f, 193.0f / 255.0f, 0.0f);
+      case 3:
+        return new Color(1.0f, 1.0f, 0.0f);
+    }
+  }
 
   public void AutoMapControllers()
   {
