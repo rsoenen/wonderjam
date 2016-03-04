@@ -3,13 +3,13 @@ using System.Collections;
 using System;
 
 
-public class PilotXbox360Controller : PilotInputs
+public class PilotXbox360Controller : PlayerInputs
 {
   private uint _id;
   private string _axisBasename;
   private string _axisEndname;
 
-  float PilotInputs.Backward
+  float PlayerInputs.Backward
   {
     get
     {
@@ -17,7 +17,7 @@ public class PilotXbox360Controller : PilotInputs
     }
   }
 
-  float PilotInputs.CameraX
+  float PlayerInputs.CameraX
   {
     get
     {
@@ -25,7 +25,7 @@ public class PilotXbox360Controller : PilotInputs
     }
   }
 
-  float PilotInputs.CameraY
+  float PlayerInputs.CameraY
   {
     get
     {
@@ -48,7 +48,7 @@ public class PilotXbox360Controller : PilotInputs
     }
   }
 
-  float PilotInputs.Forward
+  float PlayerInputs.Forward
   {
     get
     {
@@ -57,7 +57,7 @@ public class PilotXbox360Controller : PilotInputs
   }
 
 
-  float PilotInputs.Pitch
+  float PlayerInputs.Pitch
   {
     get
     {
@@ -65,7 +65,7 @@ public class PilotXbox360Controller : PilotInputs
     }
   }
 
-  bool PilotInputs.Turbo
+  bool PlayerInputs.Turbo
   {
     get
     {
@@ -73,7 +73,7 @@ public class PilotXbox360Controller : PilotInputs
     }
   }
 
-  float PilotInputs.Yaw
+  float PlayerInputs.Yaw
   {
     get
     {
@@ -81,67 +81,11 @@ public class PilotXbox360Controller : PilotInputs
     }
   }
 
-  float PilotInputs.SwitchCamera
+  float PlayerInputs.SwitchCamera
   {
     get
     {
        return Input.GetAxisRaw(_axisBasename + "DPad_YAxis" + _axisEndname);
     }
   }
-}
-
-
-public class ShooterXbox360Controller : ShooterInputs
-{
-  private uint _id;
-  private string _axisBasename;
-  private string _axisEndname;
-
-  float ShooterInputs.AimX
-  {
-    get
-    {
-       return Input.GetAxisRaw(_axisBasename + "R_XAxis" + _axisEndname);
-    }
-  }
-
-  float ShooterInputs.AimY
-  {
-    get
-    {
-       return Input.GetAxisRaw(_axisBasename + "R_YAxis" + _axisEndname);
-    }
-  }
-
-  uint PlayerController.ControllerID
-  {
-    get
-    {
-      return _id;
-    }
-
-    set
-    {
-      _id = value;
-      _axisBasename = "Xbox360_";
-      _axisEndname = "_" + (_id+1).ToString();
-    }
-  }
-
-  bool ShooterInputs.FireLeftCanon
-  {
-    get
-    {
-       return Input.GetAxisRaw(_axisBasename + "TriggersL" + _axisEndname)!=0;
-    }
-  }
-
-  bool ShooterInputs.FireRightCanon
-  {
-    get
-    {
-       return Input.GetAxisRaw(_axisBasename + "TriggersR" + _axisEndname)!=0;
-    }
-  }
-
 }
