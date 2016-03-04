@@ -7,13 +7,14 @@ using System.Collections;
 
 public class LightningBolt : MonoBehaviour
 {
-	public Transform target;
-	public int zigs = 100;
+	public Transform emitter;
+	public int zigs = 500;
 	public float speed = 1f;
-	public float scale = 1f;
-	public Light startLight;
+	public float amplitude = 1f;
+  public float energy = 1f;
 	public Light endLight;
-	
+  public float maxDistance = 20.0f;
+
 	Perlin noise;
 	float oneOverZigs;
 	
@@ -30,34 +31,53 @@ public class LightningBolt : MonoBehaviour
 	
 	void Update ()
 	{
-		if (noise == null)
-			noise = new Perlin();
-			
-		float timex = Time.time * speed * 0.1365143f;
-		float timey = Time.time * speed * 1.21688f;
-		float timez = Time.time * speed * 2.5564f;
-		
-		for (int i=0; i < particles.Length; i++)
-		{
-			Vector3 position = Vector3.Lerp(transform.position, target.position, oneOverZigs * (float)i);
-			Vector3 offset = new Vector3(noise.Noise(timex + position.x, timex + position.y, timex + position.z),
-										noise.Noise(timey + position.x, timey + position.y, timey + position.z),
-										noise.Noise(timez + position.x, timez + position.y, timez + position.z));
-			position += (offset * scale * ((float)i * oneOverZigs));
-			
-			particles[i].position = position;
-			particles[i].color = Color.white;
-			particles[i].energy = 1f;
-		}
-		
-		GetComponent<ParticleEmitter>().particles = particles;
-		
-		if (GetComponent<ParticleEmitter>().particleCount >= 2)
-		{
-			if (startLight)
-				startLight.transform.position = particles[0].position;
-			if (endLight)
-				endLight.transform.position = particles[particles.Length - 1].position;
-		}
+    float distance = Vector3.Distance(transform.position, emitter.position);
+    Debug.Log("distance: " + distance);
+    if (distance < maxDistance)
+    {
+      GetComponent<MeshRenderer>().enabled = true;
+      GetComponent<ParticleRenderer>().enabled = true;
+      endLight.enabled = true;
+
+      if (noise == null)
+        noise = new Perlin();
+
+      float timex = Time.time * speed * 0.1365143f;
+      float timey = Time.time * speed * 1.21688f;
+      float timez = Time.time * speed * 2.5564f;
+      float _amplitude = amplitude * (0.5f + 0.5f*distance/maxDistance) ;
+      for (int i = 0; i < particles.Length; i++)
+      {
+
+        Vector3 position = Vector3.Lerp(emitter.position, transform.position, oneOverZigs * (float)i);
+        float pdistance = Vector3.Distance(position, emitter.position);
+        
+        Vector3 offset = new Vector3(noise.Noise(timex-pdistance /*+ position.x*/, timex-pdistance /*+ position.y*/, timex-pdistance /*+ position.z*/),
+                      noise.Noise(timey-pdistance /*+ position.x*/, timey-pdistance /*+ position.y*/, timey-pdistance /*+ position.z*/),
+                      noise.Noise(timez-pdistance /*+ position.x*/, timez-pdistance /*+ position.y*/, timez-pdistance/*+ position.z*/));
+        position += (offset * _amplitude * pdistance/maxDistance);
+
+        particles[i].position = position;
+        particles[i].color = endLight.color;
+        particles[i].energy = energy * (1 - distance / maxDistance);
+        particles[i].size = 1.0f + 2.0f * (1 - distance / maxDistance);
+      }
+
+      GetComponent<ParticleEmitter>().particles = particles;
+
+      if (GetComponent<ParticleEmitter>().particleCount >= 2)
+      {
+        endLight.transform.position = particles[GetComponent<ParticleEmitter>().particleCount-1].position;
+        endLight.intensity = 0.5f + 1.5f * (1 - distance / maxDistance);
+        endLight.bounceIntensity =  (1 - distance / maxDistance);
+       
+      }
+    }
+    else
+    {
+      GetComponent<MeshRenderer>().enabled = false;
+      GetComponent<ParticleRenderer>().enabled = false;
+      endLight.enabled = false;
+    }
 	}	
 }
