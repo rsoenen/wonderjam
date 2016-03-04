@@ -15,7 +15,7 @@ public class InputManager : Singleton<InputManager> {
 	}
 
     
-  private PlayerInputs _PlayerInputs = null;
+  private List<PlayerInputs> _PlayerInputs = new List<PlayerInputs>();
 
   private const string Xbox360ControllerName = "Controller (XBOX 360 For Windows)";
   private const string Ps4ControllerName = "Wireless Controller";
@@ -23,23 +23,22 @@ public class InputManager : Singleton<InputManager> {
 
   public void AutoMapControllers()
   {
-    _PlayerInputs = null;
-
     uint i = 0;
     //D'abord on tente de mettre tout sur les manettes
     foreach (string controller_name in Input.GetJoystickNames())
     {
-      if (_PlayerInputs == null && havePilotMappingForThisController(controller_name))
-      {
-        _PlayerInputs = createPilotMapping(controller_name, i);
-        Debug.Log("Mapped " + controller_name + " to pilot");
-      }
-      else
-      {
-        Debug.Log("Can't find a mapping for controller: " + controller_name + " skipping it");
-      }
-
-      i++;
+            /*if (_PlayerInputs == null && havePilotMappingForThisController(controller_name))
+            {
+              _PlayerInputs.Add(createPilotMapping(controller_name, i));
+              Debug.Log("Mapped " + controller_name + " to pilot");
+            }
+            else
+            {
+              Debug.Log("Can't find a mapping for controller: " + controller_name + " skipping it");
+            }*/
+            _PlayerInputs.Add(new PilotXbox360Controller());
+            _PlayerInputs[(int)i].ControllerID = i;
+            i++;
       if (i > 3)
       {
         //Don't support more than 4 controllers
@@ -47,12 +46,10 @@ public class InputManager : Singleton<InputManager> {
       }
 
     }
-
     Assert.IsNotNull(_PlayerInputs);
-
   }
 
-  public PlayerInputs pilot
+  public List<PlayerInputs> pilot
   {
     get
     {
