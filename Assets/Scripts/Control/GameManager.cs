@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour {
     public float spawnImmuneTime;
     private GameObject[] myRobots;
 
+    private GameObject[] spawns;
+
     // Use this for initialization
     void Start () {
         timeSpawnItem = 0f;
@@ -39,15 +41,14 @@ public class GameManager : MonoBehaviour {
         {
             totemsTransform[i] = totems[i].transform;
         }
-        GameObject[] spawn = GameObject.FindGameObjectsWithTag("Spawn");
+
+        spawns = GameObject.FindGameObjectsWithTag("Spawn");
         for (int i = 0; i < playerCount; i++)
         {
-            myRobots[i] = (GameObject)Instantiate(prefabRobot, spawn[i].transform.position, Quaternion.identity);
-            myRobots[i].GetComponent<RobotController>().playerId = i;
-            myRobots[i].GetComponent<SpawnBehaviour>().Init(GetClosestAvailableTotem(transform.position));
-            myRobots[i].GetComponentInChildren<LightningBolt>().emitter = totemsTransform[0];
-            //Camera.main.GetComponent<CameraController>().pois.Add(myRobots[i].transform);
+            myRobots[i] = (GameObject)Instantiate(prefabRobot, spawns[i].transform.position, Quaternion.identity);
+            SetupRobot(myRobots[i], i);
         }
+
         HudController hud = Instantiate<HudController>(prefabHUD);
         for (int i = 0; i < playerCount; i++)
         {
@@ -66,6 +67,14 @@ public class GameManager : MonoBehaviour {
         {
             hud.m_HudJoueur[1].gameObject.SetActive(false);
         }
+    }
+
+    private void SetupRobot(GameObject _bot, int _id)
+    {
+        _bot.GetComponent<RobotController>().playerId = _id;
+        _bot.GetComponent<SpawnBehaviour>().Init(GetClosestAvailableTotem(transform.position));
+        _bot.GetComponentInChildren<LightningBolt>().emitter = totemsTransform[0];
+        //Camera.main.GetComponent<CameraController>().pois.Add(myRobots[i].transform);
     }
 
     void Awake()
@@ -168,11 +177,13 @@ public class GameManager : MonoBehaviour {
             timeSpawnItem = 0;
         }
     }
+
     public void resetGameController()
     {
         myRobots = null;
         Time.timeScale = 1;
     }
+
     public float lengthTotemRobot(GameObject myRobot)
     {
         return Vector3.Distance(totemsTransform[0].position, myRobot.transform.position);
@@ -184,11 +195,10 @@ public class GameManager : MonoBehaviour {
 
     public Totem GetClosestAvailableTotem(Vector3 position)
     {
-        GameObject[] spawners = GameObject.FindGameObjectsWithTag("Spawn");
         Totem closestTotem = null;
-        for (int i = 0; i < spawners.Length; i++)
+        for (int i = 0; i < spawns.Length; i++)
         {
-            Totem totem = spawners[i].GetComponent<Totem>();
+            Totem totem = spawns[i].GetComponent<Totem>();
             if (!totem.occupied && (closestTotem == null || Vector3.Distance(totem.transform.position, position) < Vector3.Distance(closestTotem.transform.position, position)))
             {
                 closestTotem = totem;
