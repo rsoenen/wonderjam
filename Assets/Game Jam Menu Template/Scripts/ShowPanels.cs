@@ -18,7 +18,21 @@ public class ShowPanels : MonoBehaviour {
 		Application.LoadLevel(name);
 		
 	}
-
+    public void LoadActualScene()
+    {
+       
+        Destroy(GameObject.Find("HUD(Clone)").gameObject);
+        winPanel.SetActive(false);
+        GameObject.Find("GameController").GetComponent<GameManager>().resetGameController();
+        Application.LoadLevel(Application.loadedLevel);
+        
+    }
+    public void BackMainMenu()
+    {
+        Destroy(GameObject.Find("HUD(Clone)").gameObject);
+        Destroy(this.gameObject);
+        Application.LoadLevel(0);
+    }
 	//Call this function to activate and display the Options panel during the main menu
 	public void ShowOptionsPanel()
 	{

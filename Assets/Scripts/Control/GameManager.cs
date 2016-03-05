@@ -125,6 +125,11 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
+    public void resetGameController()
+    {
+        myRobots = null;
+        Time.timeScale = 1;
+    }
 
     public void setNumberPlayer(int _numberPlayer){
         this.numberPlayer = _numberPlayer;
