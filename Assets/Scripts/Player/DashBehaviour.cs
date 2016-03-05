@@ -22,6 +22,7 @@ public class DashBehaviour : MonoBehaviour
         body = GetComponent<Rigidbody>();
         robot.enabled = false;
         body.velocity = dir.normalized * game.dashSpeed;
+        robot.SetImmune(game.dashDuration);
     }
 
     void FixedUpdate()
