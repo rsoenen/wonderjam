@@ -69,7 +69,7 @@ public class PilotXbox360Controller : PlayerInputs
   {
     get
     {
-      return Input.GetButton(_axisBasename + "A" + _axisEndname);
+      return Input.GetButtonDown(_axisBasename + "A" + _axisEndname);
     }
   }
 
@@ -77,7 +77,7 @@ public class PilotXbox360Controller : PlayerInputs
     {
         get
         {
-            return Input.GetButton(_axisBasename + "X" + _axisEndname);
+            return Input.GetButtonDown(_axisBasename + "X" + _axisEndname);
         }
     }
 
@@ -85,7 +85,15 @@ public class PilotXbox360Controller : PlayerInputs
     {
         get
         {
-            return Input.GetButton(_axisBasename + "Y" + _axisEndname);
+            return Input.GetButtonDown(_axisBasename + "Y" + _axisEndname);
+        }
+    }
+
+    bool PlayerInputs.B
+    {
+        get
+        {
+            return Input.GetButtonDown(_axisBasename + "B" + _axisEndname);
         }
     }
 
