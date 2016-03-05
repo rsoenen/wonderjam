@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour {
 
     public List<EnergyTower> towers = new List<EnergyTower>();
 
+    public List<RobotController> rangeReducers = new List<RobotController>();
+
     [Header("Dead Body Parts Prefabs")]
     public GameObject headPrefab;
     public GameObject rightArmPrefab;

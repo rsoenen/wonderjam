@@ -5,7 +5,6 @@ public class EnergyTower : MonoBehaviour {
 
     List<GameObject> bolts = new List<GameObject>();
    
-    public bool lengthReducted;
     private GameObject ThrowerLengthReducted;
     private float timerLengthReducte;
 
@@ -27,7 +26,6 @@ public class EnergyTower : MonoBehaviour {
 
 	void Start () {
         GameManager.Instance().towers.Add(this);
-        lengthReducted = false;
         timerLengthReducte = 0f;
     }
 	
@@ -56,7 +54,7 @@ public class EnergyTower : MonoBehaviour {
     void OnTriggerEnter(Collider collider)
     {
         RobotController robot = collider.GetComponent<RobotController>();
-        if (robot != null && robot.lightningEnabled&&!lengthReducted)
+        if (robot != null && robot.lightningEnabled)
         {
             if (robot != null)
             {
@@ -72,21 +70,17 @@ public class EnergyTower : MonoBehaviour {
 
     void OnTriggerExit(Collider collider)
     {
+        RobotController robot = collider.GetComponent<RobotController>();
 
-        if (!lengthReducted)
+        if (robot != null)
         {
-            RobotController robot = collider.GetComponent<RobotController>();
-
-            if (robot != null)
+            LightningBolt[] rods = robot.lightningRod.GetComponentsInChildren<LightningBolt>();
+            for (int i = rods.Length - 1; i >= 0; i--)
             {
-                LightningBolt[] rods = robot.lightningRod.GetComponentsInChildren<LightningBolt>();
-                for (int i = rods.Length - 1; i >= 0; i--)
+                if (rods[i].GetComponent<LightningBolt>().emitter == transform)
                 {
-                    if (rods[i].GetComponent<LightningBolt>().emitter == transform)
-                    {
-                        bolts.Remove(rods[i].gameObject);
-                        Destroy(rods[i].gameObject);
-                    }
+                    bolts.Remove(rods[i].gameObject);
+                    Destroy(rods[i].gameObject);
                 }
             }
         }
@@ -96,7 +90,6 @@ public class EnergyTower : MonoBehaviour {
     public void reduceArc(GameObject thrower)
     {
         this.ThrowerLengthReducted = thrower;
-        lengthReducted = true;
         this.gameObject.GetComponent<SphereCollider>().radius = 2;
     }
 }

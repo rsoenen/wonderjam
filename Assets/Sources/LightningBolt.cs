@@ -25,6 +25,7 @@ public class LightningBolt : MonoBehaviour
         this.emitter = emitter;
         this.owner = owner;
         this.maxDistance = maxDistance;
+        endLight.color = InputManager.GetColorFromPlayer(owner.playerId);
     }
 
     public Vector3 initPos { get { return emitter.position; } }
@@ -46,8 +47,8 @@ public class LightningBolt : MonoBehaviour
 	void Update ()
 	{
     float distance = Vector3.Distance(transform.position, emitter.position);
-        //Debug.Log("distance: " + distance);
-        if (distance < maxDistance)
+     
+    if (distance < maxDistance)
     {
       GetComponent<MeshRenderer>().enabled = true;
       GetComponent<ParticleRenderer>().enabled = true;
