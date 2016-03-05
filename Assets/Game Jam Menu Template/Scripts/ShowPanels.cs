@@ -25,7 +25,7 @@ public class ShowPanels : MonoBehaviour {
         Destroy(GameObject.Find("HUD(Clone)").gameObject);
         winPanel.SetActive(false);
         GameObject.Find("GameController").GetComponent<GameManager>().resetGameController();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name)
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         
     }
     public void BackMainMenu()
