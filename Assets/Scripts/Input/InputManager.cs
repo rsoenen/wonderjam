@@ -72,6 +72,14 @@ public class InputManager : Singleton<InputManager> {
     }
   }
 
+    public PlayerInputs GetController(int _index)
+    {
+        if (_index < _PlayerInputs.Count)
+            return _PlayerInputs[_index];
+
+        return null;
+    }
+
   public bool haveShooterMappingForThisController(string controller_name)
   {
     if (controller_name == Xbox360ControllerName)
