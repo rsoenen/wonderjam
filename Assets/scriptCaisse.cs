@@ -5,7 +5,11 @@ public class scriptCaisse : MonoBehaviour {
 
     [SerializeField]
     private PickupPower m_content;
-	
+    private int numberBoost;
+
+    public Material[] ListeMaterial;
+
+
 	// Update is called once per frame
 	void Update () {
         this.transform.Rotate(0, Time.deltaTime * 100, 0, Space.World);
