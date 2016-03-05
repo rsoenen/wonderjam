@@ -92,7 +92,7 @@ public class RobotController : MonoBehaviour
             
            
         }
-        
+
         if (input == null)
             return;
 
@@ -128,5 +128,14 @@ public class RobotController : MonoBehaviour
     {
         this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(20);
         gameObject.AddComponent<DeathBehaviour>();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Caisse")
+        {
+            Destroy(collision.gameObject);
+        }
+        
     }
 }

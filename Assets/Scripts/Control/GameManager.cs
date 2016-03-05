@@ -6,8 +6,10 @@ public class GameManager : MonoBehaviour {
     
     public GameObject prefabRobot;
     public GameObject prefabHUD;
+    public GameObject prefabCaisse;
     private Transform totem;
     private int playerCount;
+    private float timeSpawnItem;
 
 
     public bool invertedControl;
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        timeSpawnItem = 0f;
         invertedControl = false;
         playerCount = InputManager.Instance.controllers.Count;
         myRobots = new GameObject[playerCount];
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        #region Gestion fin de la partie
         for (int i = 0; i < playerCount; i++)
         {
             if (myRobots[i].GetComponent<RobotGestionPoint>().getPoint() >= 100 && Time.timeScale != 0)
@@ -126,7 +130,28 @@ public class GameManager : MonoBehaviour {
 
             }
         }
-	}
+        #endregion
+
+        if (timeSpawnItem < 10)
+        {
+            timeSpawnItem += Time.deltaTime;
+        }
+        else
+        {
+            int signeX = 1, signeZ = 1;
+            if (Random.Range(0, 2)==0)
+            {
+                signeX = -1;
+            }
+            if (Random.Range(0, 2) == 0)
+            {
+                signeZ = -1;
+            }
+
+            Instantiate(prefabCaisse, new Vector3(signeX * Random.Range(2f, 9.5f), 0.5f, signeZ * Random.Range(2f, 9.5f)), Quaternion.identity);
+            timeSpawnItem = 0;
+        }
+    }
     public void resetGameController()
     {
         myRobots = null;
