@@ -8,6 +8,7 @@ class ReduceLinkPower : PickupPower
 {
     public override void Activate(RobotGestionPoint _bot)
     {
-        Debug.Log("ReduceLink Powerup activated !");
+        GameObject totem = GameObject.FindGameObjectWithTag("Totem");
+        totem.GetComponent<EnergyTower>().reduceArc(_bot.getOwner());
     }
 }
