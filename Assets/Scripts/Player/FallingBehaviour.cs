@@ -34,14 +34,4 @@ public class FallingBehaviour : MonoBehaviour {
             }
         }
     }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "GroundBox")
-        {
-            GetComponent<RobotController>().enabled = true;
-            if(!GetComponent<RobotController>().groundColliders.Contains(other))
-                GetComponent<RobotController>().groundColliders.Add(other);
-        }
-    }
 }

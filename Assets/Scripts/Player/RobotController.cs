@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(GroundDetector))]
 public class RobotController : MonoBehaviour
 {
     GameManager game;
@@ -17,7 +18,8 @@ public class RobotController : MonoBehaviour
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
     private Transform headTransform;
 
-    public List<Collider> groundColliders = new List<Collider>();
+    private GroundDetector groundDetector;
+
 
     public Vector3 lookDirection
     {
@@ -35,6 +37,7 @@ public class RobotController : MonoBehaviour
         posTotem = GameObject.FindGameObjectWithTag("Totem").transform.position;
         game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
         SetupRobotForPlayer(playerId);
+        groundDetector = GetComponent<GroundDetector>();
 	}
 
 
@@ -64,6 +67,7 @@ public class RobotController : MonoBehaviour
             controleInverse = -1;
         }
         Vector3 inputDir = new Vector3(input.Yaw, 0, -input.Pitch);
+        print(inputDir);
         if (inputDir.sqrMagnitude > 0.01)
             lastLookDirection = controleInverse*inputDir;
 
@@ -89,8 +93,6 @@ public class RobotController : MonoBehaviour
             {
                 hitTotem.collider.GetComponent<RobotController>().Die();
             }
-            
-           
         }
 
         if (input == null)
@@ -123,25 +125,10 @@ public class RobotController : MonoBehaviour
             Die();
         }
 
-        if (groundColliders.Count == 0)
+        if (!groundDetector.isOnGround)
         {
             gameObject.AddComponent<FallingBehaviour>().Init(rigidBody.velocity);
         }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "GroundBox" && !groundColliders.Contains(other))
-            groundColliders.Add(other);
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "GroundBox" && groundColliders.Contains(other))
-        {
-            groundColliders.Remove(other);
-        }
-
     }
 
     void Die()
