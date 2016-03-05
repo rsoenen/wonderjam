@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 [RequireComponent(typeof(GroundDetector))]
+[RequireComponent(typeof(AudioSource))]
 public class RobotController : MonoBehaviour
 {
     GameManager game;
@@ -15,12 +16,30 @@ public class RobotController : MonoBehaviour
     private GameObject gameController;
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
     private Transform headTransform;
+    private Transform rotaringPlatformTransform;
     public Transform lightningRod;
 
     private GroundDetector groundDetector;
 
     private float immuneTime;
 
+	public AudioClip[] dieVoices;
+	public AudioClip[] dashSounds;
+    private bool m_encumbered;
+    public bool Encumbered
+    {
+        get { return m_encumbered; }
+        set
+        {
+            m_encumbered = value;
+            OnEncumberedChanged();
+        }
+    }
+
+    private void OnEncumberedChanged()
+    {
+        // maybe change speed ?
+    }
 
     public Vector3 lookDirection
     {
@@ -73,6 +92,8 @@ public class RobotController : MonoBehaviour
     headChild.FindChild("RightEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headChild.Find("Antenna").FindChild("Receiver").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headTransform = headChild;
+
+        rotaringPlatformTransform = transform.Find("RotaringPlateform");
   }
 
     void FixedUpdate()
@@ -108,10 +129,14 @@ public class RobotController : MonoBehaviour
         
         if(input.Turbo)
         {
-            if (this.gameObject.GetComponent<RobotGestionPoint>().getPoint() >= 5)
+            if(!m_encumbered)
             {
-                this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(5);
-                gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
+                if (this.gameObject.GetComponent<RobotGestionPoint>().getPoint() >= 5)
+                {
+                    this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(5);
+                    gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
+				GetComponent<AudioSource>().PlayOneShot(dieVoices[Random.Range(0,dieVoices.Length)]);
+                }
             }
         }
 
@@ -127,6 +152,20 @@ public class RobotController : MonoBehaviour
         if(input.Y)
         {
             GetComponent<RobotGestionPoint>().ActivatePowerup();
+        }
+
+            Debug.DrawLine(rotaringPlatformTransform.position, rotaringPlatformTransform.position - 2.0f * rotaringPlatformTransform.up);
+        if(input.B)
+        {
+            RaycastHit hit;
+            if (Physics.SphereCast(rotaringPlatformTransform.position, 1.0f, -rotaringPlatformTransform.up, out hit, 2.0f, LayerMask.GetMask("ThrowableObjects")))
+            {
+                GetComponent<ThrowingBehavior>().GrabObject(hit.transform.gameObject);
+            }
+            else
+            {
+                GetComponent<ThrowingBehavior>().ThrowObject();
+            }
         }
         
         /* TEST */
@@ -146,7 +185,8 @@ public class RobotController : MonoBehaviour
     {
         if(immuneTime < 0 && GetComponent<DeathBehaviour>() == null)
         {
-            Debug.Log("You are dead.");
+			GetComponent<AudioSource>().PlayOneShot(dieVoices[Random.Range(0,dieVoices.Length)]);
+            //Debug.Log("You are dead.");
             this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(20);
             gameObject.AddComponent<DeathBehaviour>();
         }
