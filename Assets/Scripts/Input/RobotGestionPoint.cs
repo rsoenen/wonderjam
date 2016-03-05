@@ -117,4 +117,8 @@ public class RobotGestionPoint : MonoBehaviour {
         if (PowerupChanged != null)
             PowerupChanged(_power);
     }
+    public GameObject getOwner()
+    {
+        return this.gameObject;
+    }
 }
