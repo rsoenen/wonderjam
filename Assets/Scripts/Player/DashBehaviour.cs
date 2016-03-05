@@ -6,7 +6,7 @@ public class DashBehaviour : MonoBehaviour
 {
     private RobotController robot;
     private Rigidbody body;
-    public float duration, speed, stuntStrength;
+    public float duration, speed, stuntStrength, stuntDeceleration;
     public Vector3 dir;
     private float time;
 
@@ -41,7 +41,7 @@ public class DashBehaviour : MonoBehaviour
         RobotController other = collision.collider.GetComponent<RobotController>();
         if (other != null && other.enabled)
         {
-            other.gameObject.AddComponent<StuntBehaviour>().Init(collision.contacts[0].normal, stuntStrength);
+            other.gameObject.AddComponent<StuntBehaviour>().Init(collision.contacts[0].normal, stuntStrength, stuntDeceleration);
         }
     }
 }
