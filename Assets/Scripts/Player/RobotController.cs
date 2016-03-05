@@ -17,6 +17,7 @@ public class RobotController : MonoBehaviour
     private Vector3 posTotem;
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
     private Transform headTransform;
+    public Transform lightningRod;
 
     private GroundDetector groundDetector;
 
