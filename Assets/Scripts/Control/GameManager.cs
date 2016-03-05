@@ -28,6 +28,13 @@ public class GameManager : MonoBehaviour {
 
     private GameObject[] spawns;
 
+    [Header("Dead Body Parts Prefabs")]
+    public GameObject headPrefab;
+    public GameObject rightArmPrefab;
+    public GameObject leftArmPrefab;
+    public GameObject bodyPrefab;
+    public GameObject rotaringPlateformPrefab;
+
     // Use this for initialization
     void Start () {
         timeSpawnItem = 0f;
