@@ -23,6 +23,7 @@ public class RobotController : MonoBehaviour
     private float immuneTime;
 
 	public AudioClip[] dieVoices;
+	public AudioClip[] dashSounds;
 
 
     public Vector3 lookDirection
@@ -101,6 +102,7 @@ public class RobotController : MonoBehaviour
             {
                 this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(5);
                 gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
+				GetComponent<AudioSource>().PlayOneShot(dieVoices[Random.Range(0,dieVoices.Length)]);
             }
         }
 
