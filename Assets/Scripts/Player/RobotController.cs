@@ -24,6 +24,7 @@ public class RobotController : MonoBehaviour
     private float immuneTime;
 
 	public AudioClip[] dieVoices;
+	public AudioClip[] dashSounds;
 
     private bool m_encumbered;
     public bool Encumbered
@@ -139,7 +140,7 @@ public class RobotController : MonoBehaviour
                 {
                     this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(5);
                     gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
-				GetComponent<AudioSource>().PlayOneShot(dieVoices[Random.Range(0,dieVoices.Length)]);
+					GetComponent<AudioSource>().PlayOneShot(dashSounds[Random.Range(0,dashSounds.Length)]);
                 }
             }
         }
