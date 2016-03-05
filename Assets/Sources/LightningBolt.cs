@@ -32,7 +32,7 @@ public class LightningBolt : MonoBehaviour
 	void Update ()
 	{
     float distance = Vector3.Distance(transform.position, emitter.position);
-    Debug.Log("distance: " + distance);
+    //Debug.Log("distance: " + distance);
     if (distance < maxDistance)
     {
       GetComponent<MeshRenderer>().enabled = true;
