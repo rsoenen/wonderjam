@@ -2,16 +2,26 @@
 using System.Collections.Generic;
 
 public class EnergyTower : MonoBehaviour {
+
     List<GameObject> bolts = new List<GameObject>();
+   
+    public bool lengthReducted;
+    private GameObject ThrowerLengthReducted;
+    private float timerLengthReducte;
+
     public Transform receiverTransform;
 	// Use this for initialization
 
 	void Start () {
         GameManager.Instance().towers.Add(this);
+        lengthReducted = false;
+        timerLengthReducte = 0f;
+        bolts = null;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        
         foreach(GameObject obj in bolts)
         {
             LightningBolt bolt = obj.GetComponent<LightningBolt>();
@@ -20,10 +30,12 @@ public class EnergyTower : MonoBehaviour {
                 RaycastHit hitTotem;
                 if (Physics.Raycast(bolt.initPos, bolt.destPos - bolt.initPos, out hitTotem))
                 {
+
                     if (hitTotem.collider.gameObject != bolt.owner.gameObject && hitTotem.collider.gameObject.layer == LayerMask.NameToLayer("Robots"))
                     {
                         hitTotem.collider.GetComponent<RobotController>().Die();
                     }
+
                 }
             }
         }
@@ -32,32 +44,47 @@ public class EnergyTower : MonoBehaviour {
     void OnTriggerEnter(Collider collider)
     {
         RobotController robot = collider.GetComponent<RobotController>();
-        if (robot != null && robot.lightningEnabled)
+        if (robot != null && robot.lightningEnabled&&!lengthReducted)
         {
-            Transform instance = Transform.Instantiate<Transform>(receiverTransform);
-            instance.parent = robot.lightningRod.transform;
-            instance.transform.localPosition = new Vector3(0, 0, 0);
-            LightningBolt bolt = instance.GetComponent<LightningBolt>();
-            bolt.Init(transform, robot, GetComponent<SphereCollider>().radius);
-            bolts.Add(bolt.gameObject);
+            if (robot != null)
+            {
+                Transform instance = Transform.Instantiate<Transform>(receiverTransform);
+                instance.parent = robot.lightningRod.transform;
+                instance.transform.localPosition = new Vector3(0, 0, 0);
+                LightningBolt bolt = instance.GetComponent<LightningBolt>();
+                bolt.Init(transform, robot, GetComponent<SphereCollider>().radius);
+                bolts.Add(bolt.gameObject);
+            }
         }
     }
 
     void OnTriggerExit(Collider collider)
     {
-        RobotController robot = collider.GetComponent<RobotController>();
-        if(robot != null)
-        {
-            LightningBolt[] rods = robot.lightningRod.GetComponentsInChildren<LightningBolt>();
-            for (int i = rods.Length - 1; i >= 0; i--)
-            {
-                if (rods[i].GetComponent<LightningBolt>().emitter == transform)
-                {
-                    bolts.Remove(rods[i].gameObject);
-                    Destroy(rods[i].gameObject);
 
+        if (!lengthReducted)
+        {
+            RobotController robot = collider.GetComponent<RobotController>();
+
+            if (robot != null)
+            {
+                LightningBolt[] rods = robot.lightningRod.GetComponentsInChildren<LightningBolt>();
+                for (int i = rods.Length - 1; i >= 0; i--)
+                {
+                    if (rods[i].GetComponent<LightningBolt>().emitter == transform)
+                    {
+                        bolts.Remove(rods[i].gameObject);
+                        Destroy(rods[i].gameObject);
+                    }
                 }
             }
         }
+        
+    }
+
+    public void reduceArc(GameObject thrower)
+    {
+        this.ThrowerLengthReducted = thrower;
+        lengthReducted = true;
+        this.gameObject.GetComponent<SphereCollider>().radius = 2;
     }
 }
