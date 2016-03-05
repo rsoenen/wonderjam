@@ -5,20 +5,33 @@ using UnityEngine.UI;
 
 public class RobotGestionPoint : MonoBehaviour {
 
+    public delegate void PointChangedEventHandler(int _old, int _new);
+    public event PointChangedEventHandler PointChanged;
+
     private int point;
     private float timerPoints;
     private int playerId;
-    private int idHUD;
     private GameObject barrePointMax;
 
-	// Use this for initialization
-	void Start () {
-        point = 0;
+    public int Point
+    {
+        get { return point; }
+        private set
+        {
+            if (point != value)
+            {
+                int old = point;
+                point = value;
+                OnPointChanged(old, point);
+            }
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
+        Point = 0;
         timerPoints = 0f;
         this.playerId = this.GetComponent<RobotController>().playerId;
-        
-        idHUD = playerId + 1;
-        barrePointMax = GameObject.Find("fondPointJoueur" + idHUD);
 	}
 	
 	// Update is called once per frame
@@ -33,31 +46,25 @@ public class RobotGestionPoint : MonoBehaviour {
        else
        {
            
-           float distance = GameObject.Find("GameController").GetComponent<GameManager>().lengthTotemRobot(this.gameObject);
+           float distance = GameManager.Instance().lengthTotemRobot(this.gameObject);
            if (distance < 3)
            {
-               point += 3;
+               Point += 3;
            }
            if (distance >= 3 && distance < 6)
            {
-               point += 2;
+               Point += 2;
            }
            if (distance >= 6 && distance < 10)
            {
-               point++;
+               Point++;
            }
            timerPoints = 0;
        }
-       GameObject.Find("textPointJoueur" + idHUD).GetComponent<Text>().text= point+"/100";
 
-
-
-       GameObject.Find("pointJoueur" + idHUD).GetComponent<RectTransform>().sizeDelta = new Vector2(95 * (100-point) / 100, 15);
-       GameObject.Find("pointJoueur" + idHUD).GetComponent<RectTransform>().position = new Vector3(barrePointMax.GetComponent<RectTransform>().position.x + point / 2, barrePointMax.GetComponent<RectTransform>().position.y, 0);
-
-       if (point >= 100)
+       if (Point >= 100)
        {
-           point = 100;
+           Point = 100;
        }
 	}
 
@@ -67,15 +74,21 @@ public class RobotGestionPoint : MonoBehaviour {
     {
         if (_numberPointLess > this.point)
         {
-            this.point = 0;
+            this.Point = 0;
         }
         else
         {
-            this.point -= _numberPointLess;
+            this.Point -= _numberPointLess;
         }
     }
     public int getPoint()
     {
-        return this.point;
+        return this.Point;
+    }
+
+    private void OnPointChanged(int _old, int _new)
+    {
+        if (PointChanged != null)
+            PointChanged(_old, _new);
     }
 }
