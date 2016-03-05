@@ -8,6 +8,8 @@ public class RobotController : MonoBehaviour
     public int playerId;
     public PlayerInputs input;
 
+    public float rodPlacementDistance = 0.5f;
+
     private Rigidbody rigidBody;
 
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
@@ -68,6 +70,15 @@ public class RobotController : MonoBehaviour
             gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection, dashDuration, dashSpeed, dashStrength);
             
         }
+        if(input.X)
+        {
+            RaycastHit hit;
+            if(Physics.Raycast(lastLookDirection.normalized * rodPlacementDistance + transform.position, Vector3.down, out hit))
+            {
+                GetComponent<RodPlacementBehavior>().Activate(hit.point, lastLookDirection.normalized);
+            }
+        }
+        
     }
 
     public bool hasControl { get { return rigidBody.velocity.sqrMagnitude < controlSpeed * controlSpeed; } }
