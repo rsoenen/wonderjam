@@ -9,10 +9,10 @@ public class InputManager : Singleton<InputManager> {
   protected InputManager() { }
 
 	void Awake ()
-  {
-    AutoMapControllers();
+    {
+        AutoMapControllers();
 
-	}
+	    }
 
     
   private List<PlayerInputs> _PlayerInputs = new List<PlayerInputs>();
@@ -64,7 +64,7 @@ public class InputManager : Singleton<InputManager> {
     Assert.IsNotNull(_PlayerInputs);
   }
 
-  public List<PlayerInputs> pilot
+  public List<PlayerInputs> controllers
   {
     get
     {

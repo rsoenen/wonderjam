@@ -6,24 +6,27 @@ public class DashBehaviour : MonoBehaviour
 {
     private RobotController robot;
     private Rigidbody body;
-    public float duration, speed;
+    public float duration, speed, stuntStrength;
+    public Vector3 dir;
     private float time;
 
-    public void Init(float duration, float speed)
+    public void Init(Vector3 dir, float duration, float speed, float strength)
     {
         this.duration = duration;
         this.speed = speed;
+        this.dir = dir;
+        this.stuntStrength = strength;
     }
 
-	void Start ()
+    void Start()
     {
         robot = GetComponent<RobotController>();
         body = GetComponent<Rigidbody>();
         robot.enabled = false;
-        body.velocity = body.velocity.normalized* speed;
-	}
-	
-	void FixedUpdate ()
+        body.velocity = dir.normalized * speed;
+    }
+
+    void FixedUpdate()
     {
         time += Time.fixedDeltaTime;
         if (time > duration)
@@ -31,5 +34,14 @@ public class DashBehaviour : MonoBehaviour
             robot.enabled = true;
             Destroy(this);
         }
-	}
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        RobotController other = collision.collider.GetComponent<RobotController>();
+        if (other != null && other.enabled)
+        {
+            other.gameObject.AddComponent<StuntBehaviour>().Init(collision.contacts[0].normal, stuntStrength);
+        }
+    }
 }
