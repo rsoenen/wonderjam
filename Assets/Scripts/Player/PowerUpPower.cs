@@ -8,6 +8,6 @@ class PowerUpPower : PickupPower
 {
     public override void Activate(RobotGestionPoint _bot)
     {
-        Debug.Log("Powerup activated !");
+        _bot.reducePoint(-10);
     }
 }
