@@ -60,7 +60,7 @@ public class HeadOnBeat : MonoBehaviour {
 
 
 			}
-			Debug.Log("pattern " + pattern + " row " + row);
+			//Debug.Log("pattern " + pattern + " row " + row);
 			transform.localPosition = p;
 			transform.localRotation = Quaternion.Euler(r);
 			//pb = b;
