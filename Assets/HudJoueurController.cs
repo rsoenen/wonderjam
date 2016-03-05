@@ -15,6 +15,9 @@ public class HudJoueurController : MonoBehaviour {
     [SerializeField]
     private RectTransform m_BarrePointMax;
 
+    [SerializeField]
+    private Image m_PowerupIcon;
+
     public void Init(RobotGestionPoint _pointController)
     {
         if (m_pointController != null)
@@ -27,11 +30,13 @@ public class HudJoueurController : MonoBehaviour {
     private void UnsubscribeFromCurrentController()
     {
         m_pointController.PointChanged -= OnPointChanged;
+        m_pointController.PowerupChanged -= OnPowerupChanged;
     }
 
     private void SubscribeToCurrentController()
     {
         m_pointController.PointChanged += OnPointChanged;
+        m_pointController.PowerupChanged += OnPowerupChanged;
     }
 
 	void OnPointChanged(int _old, int _new)
@@ -39,5 +44,19 @@ public class HudJoueurController : MonoBehaviour {
         m_PointLabel.text = _new + "/100";
         m_PointRect.sizeDelta = new Vector2(95 * (100 - _new) / 100, 15);
         m_PointRect.position = new Vector3(m_BarrePointMax.position.x + _new/ 2, m_BarrePointMax.position.y, 0);
+    }
+
+    void OnPowerupChanged(PickupPower _powerup)
+    {
+        if (_powerup != null)
+        {
+            m_PowerupIcon.sprite = _powerup.Icon;
+            m_PowerupIcon.color = Color.white;
+        }
+        else
+        {
+            m_PowerupIcon.sprite = null;
+            m_PowerupIcon.color = Color.clear;
+        }
     }
 }

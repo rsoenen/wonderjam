@@ -81,6 +81,14 @@ public class PilotXbox360Controller : PlayerInputs
         }
     }
 
+    bool PlayerInputs.Y
+    {
+        get
+        {
+            return Input.GetButton(_axisBasename + "Y" + _axisEndname);
+        }
+    }
+
   float PlayerInputs.Yaw
   {
     get

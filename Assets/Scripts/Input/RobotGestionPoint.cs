@@ -8,10 +8,25 @@ public class RobotGestionPoint : MonoBehaviour {
     public delegate void PointChangedEventHandler(int _old, int _new);
     public event PointChangedEventHandler PointChanged;
 
+    public delegate void PowerupChangedEventHandler(PickupPower _power);
+    public event PowerupChangedEventHandler PowerupChanged;
+
     private int point;
     private float timerPoints;
     private int playerId;
     private GameObject barrePointMax;
+
+    private PickupPower powerup;
+
+    public PickupPower Powerup
+    {
+        get { return powerup; }
+        set
+        {
+            powerup = value;
+            OnPowerupChanged(powerup);
+        }
+    }
 
     public int Point
     {
@@ -66,8 +81,6 @@ public class RobotGestionPoint : MonoBehaviour {
        }
 	}
 
-
-
     public void reducePoint(int _numberPointLess)
     {
         if (_numberPointLess > this.point)
@@ -84,9 +97,24 @@ public class RobotGestionPoint : MonoBehaviour {
         return this.Point;
     }
 
+    public void ActivatePowerup()
+    {
+        if(Powerup != null)
+        {
+            Powerup.Activate(this);
+            Powerup = null;
+        }
+    }
+
     private void OnPointChanged(int _old, int _new)
     {
         if (PointChanged != null)
             PointChanged(_old, _new);
+    }
+
+    private void OnPowerupChanged(PickupPower _power)
+    {
+        if (PowerupChanged != null)
+            PowerupChanged(_power);
     }
 }

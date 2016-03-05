@@ -119,12 +119,16 @@ public class RobotController : MonoBehaviour
 
         if(input.X)
         {
-            print("X");
             RaycastHit hit;
             if(Physics.Raycast(lastLookDirection.normalized * rodPlacementDistance + headTransform.position, Vector3.down, out hit))
             {
                 GetComponent<RodPlacementBehavior>().Activate(hit.point, lastLookDirection.normalized);
             }
+        }
+
+        if(input.Y)
+        {
+            GetComponent<RobotGestionPoint>().ActivatePowerup();
         }
         
         /* TEST */
@@ -153,8 +157,8 @@ public class RobotController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Caisse")
         {
+            collision.gameObject.GetComponent<scriptCaisse>().Consume(this);
             Destroy(collision.gameObject);
         }
-        
     }
 }

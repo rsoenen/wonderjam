@@ -54,4 +54,7 @@ public interface PlayerInputs : PlayerController
     // The X Button
     bool X { get; }
 
+    // The Y Button
+    bool Y { get; }
+
 }

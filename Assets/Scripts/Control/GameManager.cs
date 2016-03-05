@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject prefabRobot;
     public HudController prefabHUD;
-    public GameObject prefabCaisse;
+    public GameObject[] prefabCaisses;
     private Transform[] totemsTransform;
     private int playerCount;
     private float timeSpawnItem;
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour {
             
             float r = Random.Range(2f, 10f);
             float teta = Random.Range(0, 360);
-            Instantiate(prefabCaisse, new Vector3(r * Mathf.Cos(teta), 0.5f, r * Mathf.Sin(teta)), Quaternion.identity);
+            Instantiate(prefabCaisses[Random.Range(0, prefabCaisses.Length)], new Vector3(r * Mathf.Cos(teta), 0.5f, r * Mathf.Sin(teta)), Quaternion.identity);
             timeSpawnItem = 0;
         }
     }
