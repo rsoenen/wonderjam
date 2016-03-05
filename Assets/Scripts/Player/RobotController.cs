@@ -12,6 +12,7 @@ public class RobotController : MonoBehaviour
 
     private Rigidbody rigidBody;
 
+    private GameObject gameController;
     private Vector3 posTotem;
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
     private Transform headTransform;
@@ -27,6 +28,7 @@ public class RobotController : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
+        gameController = GameObject.Find("GameController");
         rigidBody = GetComponent<Rigidbody>();
         m_layerBot = LayerMask.NameToLayer("Robots");
         posTotem = GameObject.FindGameObjectWithTag("Totem").transform.position;
@@ -61,11 +63,20 @@ public class RobotController : MonoBehaviour
         if (input == null)
             return;
 
+        int controleInverse = 1;
+        if (gameController.GetComponent<GameManager>().invertedControl)
+        {
+            controleInverse = -1;
+        }
         Vector3 inputDir = new Vector3(input.Yaw, 0, -input.Pitch);
         if (inputDir.sqrMagnitude > 0.01)
-            lastLookDirection = inputDir;
-        rigidBody.AddForce(game.playerAcceleration * inputDir);
+            lastLookDirection = controleInverse*inputDir;
+
+
+
+        rigidBody.AddForce(controleInverse*game.playerAcceleration * inputDir);
         rigidBody.AddForce(-rigidBody.velocity * game.playerDeceleration);
+        
     }
 
     // Update is called once per frame

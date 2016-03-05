@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
     public GameObject prefabHUD;
     private Transform totem;
 
+
+    public bool invertedControl;
     public float stuntDeceleration, stuntDuration, stuntStrength, stuntControlSpeed;
     public float dashDuration, dashSpeed, dashContactSlow;
     public float playerMaxSpeed, playerAcceleration, playerDeceleration;
@@ -15,6 +17,7 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        invertedControl = false;
         totem = GameObject.FindGameObjectWithTag("Totem").transform;
         Vector3[] posSpawn = new Vector3[] { new Vector3(1, 0.51f, 1), new Vector3(-1, 0.51f, -1), new Vector3(-1, 0.51f, 1), new Vector3(1, 0.51f, -1) };
         for (int i = 0; i < numberPlayer; i++)
