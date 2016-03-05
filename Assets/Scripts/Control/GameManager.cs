@@ -3,9 +3,12 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    
+
+    private static GameManager s_Instance = null;
+    public static GameManager Instance() { return s_Instance; }
+
     public GameObject prefabRobot;
-    public GameObject prefabHUD;
+    public HudController prefabHUD;
     public GameObject prefabCaisse;
     private Transform[] totemsTransform;
     private int playerCount;
@@ -45,20 +48,31 @@ public class GameManager : MonoBehaviour {
             myRobots[i].GetComponentInChildren<LightningBolt>().emitter = totemsTransform[0];
             //Camera.main.GetComponent<CameraController>().pois.Add(myRobots[i].transform);
         }
-        Instantiate(prefabHUD);
+        HudController hud = Instantiate<HudController>(prefabHUD);
+        for (int i = 0; i < playerCount; i++)
+        {
+            hud.m_HudJoueur[i].Init(myRobots[i].GetComponent<RobotGestionPoint>());
+        }
+
         if (playerCount < 4)
         {
-            GameObject.Find("HUDJoueur4").SetActive(false);
+            hud.m_HudJoueur[3].gameObject.SetActive(false);
         }
         if (playerCount < 3)
         {
-            GameObject.Find("HUDJoueur3").SetActive(false);
+            hud.m_HudJoueur[2].gameObject.SetActive(false);
         }
         if (playerCount < 2)
         {
-            GameObject.Find("HUDJoueur2").SetActive(false);
+            hud.m_HudJoueur[1].gameObject.SetActive(false);
         }
-	}
+    }
+
+    void Awake()
+    {
+        Debug.Log("GameManager singleton instance set.");
+        s_Instance = this;
+    }
 
     // Update is called once per frame
     void Update()
