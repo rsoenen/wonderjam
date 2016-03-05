@@ -87,7 +87,7 @@ public class RobotController : MonoBehaviour
         {
             if (hitTotem.collider.gameObject != this.gameObject && hitTotem.collider.gameObject.layer == m_layerBot)
             {
-                //METTRE L'ACTION QUAND UN ENEMI PASSE DANS NOTRE LIEN
+                hitTotem.collider.GetComponent<RobotController>().Die();
             }
             
            
@@ -122,19 +122,6 @@ public class RobotController : MonoBehaviour
 
     void Die()
     {
-        GameObject[] spawners = GameObject.FindGameObjectsWithTag("Spawn");
-        Totem closestTotem = null;
-        for(int i=0; i<spawners.Length; i++)
-        {
-            Totem totem = spawners[i].GetComponent<Totem>();
-            if (!totem.occupied && (closestTotem == null || Vector3.Distance(totem.transform.position, transform.position) < Vector3.Distance(closestTotem.transform.position, transform.position)))
-            {
-                closestTotem = totem;
-            }
-        }
-        if (closestTotem != null)
-        {
-            gameObject.AddComponent<SpawnBehaviour>().Init(closestTotem);
-        }
+        gameObject.AddComponent<DeathBehaviour>();
     }
 }

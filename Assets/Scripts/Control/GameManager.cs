@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     
-    public int numberPlayer;
     public GameObject prefabRobot;
     public GameObject prefabHUD;
     private Transform totem;
+    private int playerCount;
 
 
     public bool invertedControl;
@@ -15,15 +15,17 @@ public class GameManager : MonoBehaviour {
     public float dashDuration, dashSpeed, dashContactSlow;
     public float playerMaxSpeed, playerAcceleration, playerDeceleration;
     public float playerRotSpeed;
+    public float deathDuration;
     private GameObject[] myRobots;
 
     // Use this for initialization
     void Start () {
         invertedControl = false;
-        myRobots = new GameObject[numberPlayer];
+        playerCount = InputManager.Instance.controllers.Count;
+        myRobots = new GameObject[playerCount];
         totem = GameObject.FindGameObjectWithTag("Totem").transform;
         Vector3[] posSpawn = new Vector3[] { new Vector3(1, 0.51f, 1), new Vector3(-1, 0.51f, -1), new Vector3(-1, 0.51f, 1), new Vector3(1, 0.51f, -1) };
-        for (int i = 0; i < numberPlayer; i++)
+        for (int i = 0; i < playerCount; i++)
         {
             myRobots[i] = (GameObject)Instantiate(prefabRobot, posSpawn[i], Quaternion.identity);
             myRobots[i].GetComponent<RobotController>().playerId = i;
@@ -32,15 +34,15 @@ public class GameManager : MonoBehaviour {
 
         }
         Instantiate(prefabHUD);
-        if (numberPlayer < 4)
+        if (playerCount < 4)
         {
             GameObject.Find("HUDJoueur4").SetActive(false);
         }
-        if (numberPlayer < 3)
+        if (playerCount < 3)
         {
             GameObject.Find("HUDJoueur3").SetActive(false);
         }
-        if (numberPlayer < 2)
+        if (playerCount < 2)
         {
             GameObject.Find("HUDJoueur2").SetActive(false);
         }
@@ -49,7 +51,7 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < numberPlayer; i++)
+        for (int i = 0; i < playerCount; i++)
         {
             if (myRobots[i].GetComponent<RobotGestionPoint>().getPoint() >= 100 && Time.timeScale != 0)
             {
@@ -58,22 +60,22 @@ public class GameManager : MonoBehaviour {
                 Time.timeScale = 0;
                 GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
 
-                if (numberPlayer < 4)
+                if (playerCount < 4)
                 {
                     GameObject.Find("TextForth").SetActive(false);
                 }
-                if (numberPlayer < 3)
+                if (playerCount < 3)
                 {
                     GameObject.Find("TextThird").SetActive(false);
                 }
-                int[] pointPlayer = new int[numberPlayer];
+                int[] pointPlayer = new int[playerCount];
 
-                for (int j = 0; j < numberPlayer; j++)
+                for (int j = 0; j < playerCount; j++)
                 {
                     pointPlayer[j] = myRobots[j].GetComponent<RobotGestionPoint>().getPoint();
                 }
 
-                int[] ladder = new int[numberPlayer];
+                int[] ladder = new int[playerCount];
                 ladder[0] = i;
                 pointPlayer[i] = -1;
                 ladder[1] = 0;
@@ -81,7 +83,7 @@ public class GameManager : MonoBehaviour {
 
 
                 //On cherche le deuxième
-                for (int j = 0; j < numberPlayer; j++)
+                for (int j = 0; j < playerCount; j++)
                 {
                     if (pointPlayer[j] > pointPlayer[ladder[1]])
                     {
@@ -91,10 +93,10 @@ public class GameManager : MonoBehaviour {
                 pointPlayer[ladder[1]] = -1;
                 GameObject.Find("TextSecond").GetComponent<Text>().text += ladder[1] + 1;
                 //On cherche le troisième
-                if (numberPlayer > 2)
+                if (playerCount > 2)
                 {
                     ladder[2] = 0;
-                    for (int j = 0; j < numberPlayer; j++)
+                    for (int j = 0; j < playerCount; j++)
                     {
                         if (pointPlayer[j] > pointPlayer[ladder[2]])
                         {
@@ -106,11 +108,11 @@ public class GameManager : MonoBehaviour {
                 }
 
                 //On cherche le quatrième
-                if (numberPlayer > 3)
+                if (playerCount > 3)
                 {
 
                     ladder[3] = 0;
-                    for (int j = 0; j < numberPlayer; j++)
+                    for (int j = 0; j < playerCount; j++)
                     {
                         Debug.Log(pointPlayer[j]);
                         if (pointPlayer[j] > pointPlayer[ladder[3]])
@@ -126,7 +128,7 @@ public class GameManager : MonoBehaviour {
         }
 	}
 
-    public void setNumberPlayer(int _numberPlayer){
-        this.numberPlayer = _numberPlayer;
+    public void setplayerCount(int _playerCount){
+        this.playerCount = _playerCount;
     }
 }
