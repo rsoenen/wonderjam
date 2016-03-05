@@ -17,6 +17,8 @@ public class RobotController : MonoBehaviour
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
     private Transform headTransform;
 
+    public List<Collider> groundColliders = new List<Collider>();
+
     public Vector3 lookDirection
     {
         get
@@ -24,7 +26,6 @@ public class RobotController : MonoBehaviour
             return lastLookDirection;
         }
     }
-    
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +35,6 @@ public class RobotController : MonoBehaviour
         posTotem = GameObject.FindGameObjectWithTag("Totem").transform.position;
         game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
         SetupRobotForPlayer(playerId);
-
 	}
 
 
@@ -118,6 +118,26 @@ public class RobotController : MonoBehaviour
         {
             Die();
         }
+
+        if (groundColliders.Count == 0)
+        {
+            gameObject.AddComponent<FallingBehaviour>().Init(rigidBody.velocity);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "GroundBox" && !groundColliders.Contains(other))
+            groundColliders.Add(other);
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "GroundBox" && groundColliders.Contains(other))
+        {
+            groundColliders.Remove(other);
+        }
+
     }
 
     void Die()

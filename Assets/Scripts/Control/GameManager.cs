@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
     public float playerMaxSpeed, playerAcceleration, playerDeceleration;
     public float playerRotSpeed;
     public float deathDuration;
+    public float gravity;
+    public float deathHeight;
     private GameObject[] myRobots;
 
     // Use this for initialization
@@ -29,9 +31,9 @@ public class GameManager : MonoBehaviour {
         {
             myRobots[i] = (GameObject)Instantiate(prefabRobot, posSpawn[i], Quaternion.identity);
             myRobots[i].GetComponent<RobotController>().playerId = i;
+            myRobots[i].GetComponent<SpawnBehaviour>().Init(GetClosestAvailableTotem(transform.position));
             myRobots[i].GetComponentInChildren<LightningBolt>().emitter = totem;
-			//Camera.main.GetComponent<CameraController>().pois.Add(myRobots[i].transform);
-
+            //Camera.main.GetComponent<CameraController>().pois.Add(myRobots[i].transform);
         }
         Instantiate(prefabHUD);
         if (playerCount < 4)
@@ -135,5 +137,20 @@ public class GameManager : MonoBehaviour {
 
     public void setplayerCount(int _playerCount){
         this.playerCount = _playerCount;
+    }
+
+    public Totem GetClosestAvailableTotem(Vector3 position)
+    {
+        GameObject[] spawners = GameObject.FindGameObjectsWithTag("Spawn");
+        Totem closestTotem = null;
+        for (int i = 0; i < spawners.Length; i++)
+        {
+            Totem totem = spawners[i].GetComponent<Totem>();
+            if (!totem.occupied && (closestTotem == null || Vector3.Distance(totem.transform.position, position) < Vector3.Distance(closestTotem.transform.position, position)))
+            {
+                closestTotem = totem;
+            }
+        }
+        return closestTotem;
     }
 }

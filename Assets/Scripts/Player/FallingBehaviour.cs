@@ -1,24 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DeathBehaviour : MonoBehaviour {
-    private float time;
-    private GameManager game;
+public class FallingBehaviour : MonoBehaviour {
+    GameManager game;
+    Vector3 speed;
+
+    public void Init(Vector3 initSpeed)
+    {
+        this.speed = initSpeed;
+    }
 
 	// Use this for initialization
 	void Start () {
-        time = 0;
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<RobotController>().enabled = false;
         game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
-	}
+    }
 	
 	// Update is called once per frame
-	void Update ()
-    {
-        time += Time.deltaTime;
-        transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, 90 * time / game.deathDuration);
-        if(time > game.deathDuration)
+	void FixedUpdate () {
+        speed += Vector3.down * game.gravity * Time.fixedDeltaTime;
+        transform.position += speed * Time.fixedDeltaTime;
+
+        if(transform.position.y < game.deathHeight)
         {
             Totem closestTotem = game.GetClosestAvailableTotem(transform.position);
             if (closestTotem != null)
@@ -26,10 +30,18 @@ public class DeathBehaviour : MonoBehaviour {
                 GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<RobotController>().enabled = true;
                 gameObject.AddComponent<SpawnBehaviour>().Init(closestTotem);
-                transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, 0);
                 Destroy(this);
             }
         }
-	}
-    
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "GroundBox")
+        {
+            GetComponent<RobotController>().enabled = true;
+            if(!GetComponent<RobotController>().groundColliders.Contains(other))
+                GetComponent<RobotController>().groundColliders.Add(other);
+        }
+    }
 }
