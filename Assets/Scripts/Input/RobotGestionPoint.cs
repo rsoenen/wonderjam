@@ -34,15 +34,15 @@ public class RobotGestionPoint : MonoBehaviour {
        {
            
            float distance = GameObject.Find("GameController").GetComponent<GameManager>().lengthTotemRobot(this.gameObject);
-           if (distance < 2)
+           if (distance < 3)
            {
                point += 3;
            }
-           if (distance >= 2 && distance < 5)
+           if (distance >= 3 && distance < 6)
            {
                point += 2;
            }
-           if (distance >= 5 && distance < 10)
+           if (distance >= 6 && distance < 10)
            {
                point++;
            }
