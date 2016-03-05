@@ -4,10 +4,24 @@ using System.Collections.Generic;
 public class EnergyTower : MonoBehaviour {
     List<GameObject> bolts = new List<GameObject>();
     public Transform receiverTransform;
+    public Transform spawnerPrefab;
+    public int spawnerCount;
 	// Use this for initialization
+
+    void Awake()
+    {
+        for (int i = 0; i < spawnerCount; i++)
+        {
+            Transform instance = Transform.Instantiate<Transform>(spawnerPrefab);
+            instance.parent = transform;
+            instance.localRotation = Quaternion.Euler(new Vector3(0, 0, i * 360 / spawnerCount));
+            instance.localPosition = Vector3.zero;
+        }
+    }
 
 	void Start () {
         GameManager.Instance().towers.Add(this);
+        
     }
 	
 	// Update is called once per frame
