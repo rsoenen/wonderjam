@@ -9,7 +9,7 @@ public class StuntBehaviour : MonoBehaviour
     public Vector3 dir;
     private float time;
 
-    GameInstance game;
+    GameController game;
 
     public void Init(Vector3 dir)
     {
@@ -18,7 +18,7 @@ public class StuntBehaviour : MonoBehaviour
 
     void Start()
     {
-        game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameInstance>();
+        game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameController>();
         robot = GetComponent<RobotController>();
         body = GetComponent<Rigidbody>();
         robot.enabled = false;

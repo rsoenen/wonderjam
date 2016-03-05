@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(RobotController))]
 public class DashBehaviour : MonoBehaviour
 {
-    GameInstance game;
+    GameController game;
     private RobotController robot;
     private Rigidbody body;
     public Vector3 dir;
@@ -17,7 +17,7 @@ public class DashBehaviour : MonoBehaviour
 
     void Start()
     {
-        game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameInstance>();
+        game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameController>();
         robot = GetComponent<RobotController>();
         body = GetComponent<Rigidbody>();
         robot.enabled = false;
