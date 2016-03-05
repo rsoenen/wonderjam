@@ -50,8 +50,12 @@ public class HeadOnBeat : MonoBehaviour {
 		
 			if (row==48 && ((pattern>0 && pattern<5) || (pattern>17 && pattern<22)))
 			{
-				p.y = .2f;
+				//p.y = .2f;
 				r.y = -90.0f;
+			}
+			else if (row==0 && pattern > 0)
+			{
+			   p.y = .2f;
 			}
 			else
 			{
