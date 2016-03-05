@@ -12,6 +12,7 @@ public class RobotController : MonoBehaviour
     private Rigidbody rigidBody;
 
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
+    private Transform headTransform;
 
     public Vector3 lookDirection
     {
@@ -43,6 +44,7 @@ public class RobotController : MonoBehaviour
     headChild.Find("LeftEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headChild.FindChild("RightEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headChild.Find("Antenna").FindChild("Receiver").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+        headTransform = headChild;
   }
 
 	
@@ -74,10 +76,11 @@ public class RobotController : MonoBehaviour
         {
             gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
         }
+
         if(input.X)
         {
             RaycastHit hit;
-            if(Physics.Raycast(lastLookDirection.normalized * rodPlacementDistance + transform.position, Vector3.down, out hit))
+            if(Physics.Raycast(lastLookDirection.normalized * rodPlacementDistance + headTransform.position, Vector3.down, out hit))
             {
                 GetComponent<RodPlacementBehavior>().Activate(hit.point, lastLookDirection.normalized);
             }
