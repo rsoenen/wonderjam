@@ -7,7 +7,8 @@ public class ShowPanels : MonoBehaviour {
 	public GameObject optionsTint;							//Store a reference to the Game Object OptionsTint 
 	public GameObject menuPanel;							//Store a reference to the Game Object MenuPanel 
 	public GameObject pausePanel;							//Store a reference to the Game Object PausePanel 
-
+    public GameObject numberPlayerPanel;					//Store a reference to the Game Object PausePanel 
+    public GameObject chooseMapPanel;					//Store a reference to the Game Object PausePanel 
 
 	//Call this function to activate and display the Options panel during the main menu
 	public void ShowOptionsPanel()
@@ -34,7 +35,25 @@ public class ShowPanels : MonoBehaviour {
 	{
 		menuPanel.SetActive (false);
 	}
-	
+    public void ShowMenuNumberPlayer()
+    {
+        numberPlayerPanel.SetActive(true);
+    }
+
+    public void HideMenuNumberPlayer()
+    {
+        numberPlayerPanel.SetActive(false);
+    }
+
+    public void ShowMenuChooseMap()
+    {
+        chooseMapPanel.SetActive(true);
+    }
+
+    public void HideShowMenuChooseMap()
+    {
+        chooseMapPanel.SetActive(false);
+    }
 	//Call this function to activate and display the Pause panel during game play
 	public void ShowPausePanel()
 	{
