@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 
 
     public bool invertedControl;
-    public float stuntDeceleration, stuntDuration, stuntStrength, stuntControlSpeed;
+    public float stuntDeceleration, stuntDuration, stuntStrength, stuntControlSpeed, floorY;
     public float dashDuration, dashSpeed, dashContactSlow;
     public float playerMaxSpeed, playerAcceleration, playerDeceleration;
     public float playerRotSpeed;
