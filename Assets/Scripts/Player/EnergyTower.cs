@@ -20,9 +20,7 @@ public class EnergyTower : MonoBehaviour {
             {
                 if (hitTotem.collider.gameObject != bolt.owner.gameObject && hitTotem.collider.gameObject.layer == LayerMask.NameToLayer("Robots"))
                 {
-                    Debug.DrawLine(bolt.initPos, bolt.destPos, Color.blue, 5);
-                    Debug.DrawLine(bolt.owner.gameObject.transform.position, bolt.destPos, Color.yellow, 5);
-                    print(hitTotem.collider.gameObject + " " + bolt.owner.gameObject);
+
                     hitTotem.collider.GetComponent<RobotController>().Die();
                 }
             }
@@ -38,7 +36,7 @@ public class EnergyTower : MonoBehaviour {
             instance.parent = robot.lightningRod.transform;
             instance.transform.localPosition = new Vector3(0, 0, 0);
             LightningBolt bolt = instance.GetComponent<LightningBolt>();
-            bolt.Init(transform, robot);
+            bolt.Init(transform, robot, GetComponent<SphereCollider>().radius);
             bolts.Add(bolt.gameObject);
         }
     }
