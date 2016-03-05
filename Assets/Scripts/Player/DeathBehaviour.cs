@@ -30,7 +30,7 @@ public class DeathBehaviour : MonoBehaviour {
 
 	AudioClip getRandomVoice()
 	{
-		AudioClip[] clips = Resources.LoadAll<AudioClip>("Assets/Voices");
+		AudioClip[] clips = Resources.LoadAll<AudioClip>("Voices");
 		return clips[Random.Range(0,clips.Length)];
 	}
 

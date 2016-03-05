@@ -66,7 +66,7 @@ public class RobotController : MonoBehaviour
         if (input == null)
             input = InputManager.Instance.GetController(playerId);
         int controleInverse = 1;
-        if (gameController.GetComponent<GameManager>().invertedControl)
+        if (gameController.GetComponent<GameManager>().invertedControl&&gameController.GetComponent<GameManager>().ThrowerInvertedControl !=this.gameObject)
         {
             controleInverse = -1;
         }
