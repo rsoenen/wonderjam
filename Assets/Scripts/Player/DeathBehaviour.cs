@@ -64,6 +64,7 @@ public class DeathBehaviour : MonoBehaviour {
         GameObject deadRotaringPlateform = Instantiate<GameObject>(game.rotaringPlateformPrefab);
         deadRotaringPlateform.transform.position = rotaringPlateform.transform.position;
         deadRotaringPlateform.transform.rotation = rotaringPlateform.transform.rotation;
+        deadRotaringPlateform.GetComponent<Rigidbody>().AddForce(1.5f * Vector3.up, ForceMode.Impulse);
     }
 	
 	// Update is called once per frame
