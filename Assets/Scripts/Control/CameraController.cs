@@ -6,9 +6,9 @@ using System.Collections.Generic;
 public class CameraController : MonoBehaviour {
 
 	public List<Transform> pois;
-	public float tweak = 0.20f;
-	public float limit = 0.5f;
-
+	public float tweak = 0.60f;
+	public float limit = 3f;
+	public float minY = 3f;
 
 	// Use this for initialization
 	void Start () {
@@ -49,7 +49,13 @@ public class CameraController : MonoBehaviour {
 			r = z;
 		}
 
-		transform.position = new Vector3(ppcam.x, r * tweak + pmax.y, ppcam.z);
+		float y = r*tweak + pmax.y;
+		if (y < minY)
+		{
+			y = minY;
+		}
+
+		transform.position = new Vector3(ppcam.x, y, ppcam.z);
 
 	}
 }

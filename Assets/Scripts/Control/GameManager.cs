@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
             myRobots[i].GetComponent<RobotController>().playerId = i;
             myRobots[i].GetComponent<SpawnBehaviour>().Init(GetClosestAvailableTotem(transform.position));
             myRobots[i].GetComponentInChildren<LightningBolt>().emitter = totemsTransform[0];
-            //Camera.main.GetComponent<CameraController>().pois.Add(myRobots[i].transform);
+            Camera.main.GetComponent<CameraController>().pois.Add(myRobots[i].transform);
         }
         Instantiate(prefabHUD);
         if (playerCount < 4)
