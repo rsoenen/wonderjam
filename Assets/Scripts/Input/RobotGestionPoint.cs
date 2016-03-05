@@ -41,6 +41,11 @@ public class RobotGestionPoint : MonoBehaviour {
 
        GameObject.Find("pointJoueur" + idHUD).GetComponent<RectTransform>().sizeDelta = new Vector2(95 * (100-point) / 100, 15);
        GameObject.Find("pointJoueur" + idHUD).GetComponent<RectTransform>().position = new Vector3(barrePointMax.GetComponent<RectTransform>().position.x + point / 2, barrePointMax.GetComponent<RectTransform>().position.y, 0);
+
+       if (point >= 100)
+       {
+           point = 100;
+       }
 	}
 
 

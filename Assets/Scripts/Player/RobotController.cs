@@ -34,6 +34,7 @@ public class RobotController : MonoBehaviour
         posTotem = GameObject.FindGameObjectWithTag("Totem").transform.position;
         game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
         SetupRobotForPlayer(playerId);
+
 	}
 
 
@@ -50,19 +51,13 @@ public class RobotController : MonoBehaviour
     headChild.Find("LeftEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headChild.FindChild("RightEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headChild.Find("Antenna").FindChild("Receiver").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
-        headTransform = headChild;
+    headTransform = headChild;
   }
-
-	
 
     void FixedUpdate()
     {
         if (input == null)
             input = InputManager.Instance.GetController(playerId);
-
-        if (input == null)
-            return;
-
         int controleInverse = 1;
         if (gameController.GetComponent<GameManager>().invertedControl)
         {
@@ -72,11 +67,13 @@ public class RobotController : MonoBehaviour
         if (inputDir.sqrMagnitude > 0.01)
             lastLookDirection = controleInverse*inputDir;
 
-
-
         rigidBody.AddForce(controleInverse*game.playerAcceleration * inputDir);
         rigidBody.AddForce(-rigidBody.velocity * game.playerDeceleration);
-        
+        if (rigidBody.velocity.magnitude > 0.01f)
+        {
+            transform.rotation = Quaternion.LookRotation(rigidBody.velocity, Vector3.up);
+        }
+        else rigidBody.angularVelocity = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -84,7 +81,7 @@ public class RobotController : MonoBehaviour
     {
         RaycastHit hitTotem;
         Vector3 posRobot = this.transform.position + (posTotem-transform.position).normalized*1.0f;
-        Debug.DrawLine(posRobot, posTotem);
+        //Debug.DrawLine(posRobot, posTotem);
 
         if (Physics.Raycast(posTotem, posRobot, out hitTotem))
         {
@@ -95,12 +92,12 @@ public class RobotController : MonoBehaviour
             
            
         }
-
+        
         if (input == null)
             return;
 
-        if (rigidBody.velocity.magnitude != 0)
-            transform.rotation = Quaternion.LookRotation(rigidBody.velocity, Vector3.up);
+
+        
         if(input.Turbo)
         {
             gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
@@ -108,6 +105,7 @@ public class RobotController : MonoBehaviour
 
         if(input.X)
         {
+            print("X");
             RaycastHit hit;
             if(Physics.Raycast(lastLookDirection.normalized * rodPlacementDistance + headTransform.position, Vector3.down, out hit))
             {
@@ -115,5 +113,28 @@ public class RobotController : MonoBehaviour
             }
         }
         
+        /* TEST */
+        if(Input.GetButtonDown("Test"))
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        GameObject[] spawners = GameObject.FindGameObjectsWithTag("Spawn");
+        Totem closestTotem = null;
+        for(int i=0; i<spawners.Length; i++)
+        {
+            Totem totem = spawners[i].GetComponent<Totem>();
+            if (!totem.occupied && (closestTotem == null || Vector3.Distance(totem.transform.position, transform.position) < Vector3.Distance(closestTotem.transform.position, transform.position)))
+            {
+                closestTotem = totem;
+            }
+        }
+        if (closestTotem != null)
+        {
+            gameObject.AddComponent<SpawnBehaviour>().Init(closestTotem);
+        }
     }
 }
