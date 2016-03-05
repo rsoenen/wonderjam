@@ -130,6 +130,10 @@ public class GameManager : MonoBehaviour {
         myRobots = null;
         Time.timeScale = 1;
     }
+    public float lengthTotemRobot(GameObject myRobot)
+    {
+        return Vector3.Distance(totem.position, myRobot.transform.position);
+    }
 
     public void setNumberPlayer(int _numberPlayer){
         this.numberPlayer = _numberPlayer;
