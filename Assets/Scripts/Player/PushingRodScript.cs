@@ -23,7 +23,7 @@ public class PushingRodScript : MonoBehaviour {
         foreach (var rigidbody in m_to_add)
             m_rigidbodies.Add(rigidbody);
         foreach (var rigidbody in m_to_remove)
-            m_rigidbodies.Add(rigidbody);
+            m_rigidbodies.Remove(rigidbody);
 
         m_to_add.Clear();
         m_to_remove.Clear();
@@ -31,6 +31,7 @@ public class PushingRodScript : MonoBehaviour {
         foreach(var rigidbody in m_rigidbodies)
         {
             var forceDirection = rigidbody.transform.position - transform.position;
+            forceDirection.y = 0;
             rigidbody.AddForce(forceDirection.normalized * m_force);
         }
     }
