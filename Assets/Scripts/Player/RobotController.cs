@@ -14,8 +14,6 @@ public class RobotController : MonoBehaviour
 
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
 
-    public float controlSpeed;
-
     public Vector3 lookDirection
     {
         get
@@ -80,6 +78,4 @@ public class RobotController : MonoBehaviour
         }
         
     }
-
-    public bool hasControl { get { return rigidBody.velocity.sqrMagnitude < controlSpeed * controlSpeed; } }
 }

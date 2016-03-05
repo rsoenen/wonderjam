@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
     public GameObject prefabHUD;
     public Transform totem;
 
-    public float stuntDeceleration, stuntDuration, stuntStrength;
+    public float stuntDeceleration, stuntDuration, stuntStrength, stuntControlSpeed;
     public float dashDuration, dashSpeed;
 
     // Use this for initialization
