@@ -24,7 +24,7 @@ public class RobotController : MonoBehaviour
     private float immuneTime;
 
 	public AudioClip[] dieVoices;
-	public AudioClip[] dashSounds;
+
     private bool m_encumbered;
     public bool Encumbered
     {
@@ -35,6 +35,10 @@ public class RobotController : MonoBehaviour
             OnEncumberedChanged();
         }
     }
+
+    [SerializeField]
+    private GameObject pickupArrow;
+
 
     private void OnEncumberedChanged()
     {
@@ -154,20 +158,27 @@ public class RobotController : MonoBehaviour
             GetComponent<RobotGestionPoint>().ActivatePowerup();
         }
 
-            Debug.DrawLine(rotaringPlatformTransform.position, rotaringPlatformTransform.position - 2.0f * rotaringPlatformTransform.up);
-        if(input.B)
         {
             RaycastHit hit;
             if (Physics.SphereCast(rotaringPlatformTransform.position, 1.0f, -rotaringPlatformTransform.up, out hit, 2.0f, LayerMask.GetMask("ThrowableObjects")))
             {
-                GetComponent<ThrowingBehavior>().GrabObject(hit.transform.gameObject);
+                if (!pickupArrow.activeSelf)
+                    pickupArrow.SetActive(true);
+                pickupArrow.transform.position = hit.transform.position + Vector3.up * 1.0f;
+
+                if (input.B)
+                    GetComponent<ThrowingBehavior>().GrabObject(hit.transform.gameObject);
             }
             else
             {
-                GetComponent<ThrowingBehavior>().ThrowObject();
+                if (pickupArrow.activeSelf)
+                    pickupArrow.SetActive(false);
+
+                if (input.B)
+                    GetComponent<ThrowingBehavior>().ThrowObject();
             }
         }
-        
+
         /* TEST */
         if(Input.GetButtonDown("Test"))
         {
