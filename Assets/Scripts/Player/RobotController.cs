@@ -67,7 +67,7 @@ public class RobotController : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(rigidBody.velocity, Vector3.up), Time.deltaTime * rotSpeed);
         if(input.Turbo)
         {
-            gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection, dashDuration, dashSpeed, dashStrength);
+            gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
             
         }
         if(input.X)

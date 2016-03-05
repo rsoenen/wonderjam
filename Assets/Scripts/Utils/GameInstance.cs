@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 
 public class GameInstance : MonoBehaviour
 {
-    public float stuntDeceleration;
+    public float stuntDeceleration, stuntDuration, stuntStrength;
+    public float dashDuration, dashSpeed;
 
 }

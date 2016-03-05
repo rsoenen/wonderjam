@@ -6,24 +6,24 @@ public class StuntBehaviour : MonoBehaviour
 {
     private RobotController robot;
     private Rigidbody body;
-    public float duration, strength, deceleration;
     public Vector3 dir;
     private float time;
 
-    public void Init(Vector3 dir, float strength, float deceleration)
+    GameInstance game;
+
+    public void Init(Vector3 dir)
     {
-        this.strength = strength;
         this.dir = dir;
-        this.deceleration = deceleration;
     }
 
     void Start()
     {
+        game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameInstance>();
         robot = GetComponent<RobotController>();
         body = GetComponent<Rigidbody>();
         robot.enabled = false;
-        body.AddForce(dir * strength / Time.fixedDeltaTime);
-        body.AddForce(-body.velocity * deceleration);
+        body.AddForce(dir * game.stuntStrength / Time.fixedDeltaTime);
+        body.AddForce(-body.velocity * game.stuntDeceleration);
     }
 
     void FixedUpdate()
