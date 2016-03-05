@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
             GameObject myRobot =(GameObject) Instantiate(prefabRobot, posSpawn[i], Quaternion.identity);
             myRobot.GetComponent<RobotController>().playerId = i;
             myRobot.GetComponentInChildren<LightningBolt>().emitter = totem;
+			Camera.main.GetComponent<CameraController>().pois.Add(myRobot.transform);
         }
         Instantiate(prefabHUD);
         if (numberPlayer < 4)
