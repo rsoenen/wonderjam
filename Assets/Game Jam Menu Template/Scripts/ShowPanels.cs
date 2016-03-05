@@ -10,6 +10,13 @@ public class ShowPanels : MonoBehaviour {
     public GameObject numberPlayerPanel;					//Store a reference to the Game Object PausePanel 
     public GameObject chooseMapPanel;					//Store a reference to the Game Object PausePanel 
 
+
+	public void LoadScene(string name)
+	{
+		Application.LoadLevel(name);
+		Destroy(this.gameObject);
+	}
+
 	//Call this function to activate and display the Options panel during the main menu
 	public void ShowOptionsPanel()
 	{
