@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     public float deathDuration;
     public float gravity;
     public float deathHeight;
+    public float spawnImmuneTime;
     private GameObject[] myRobots;
 
     // Use this for initialization

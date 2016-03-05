@@ -24,12 +24,14 @@ public class SpawnBehaviour : MonoBehaviour {
         speed = totem.initSpeed.x * totem.transform.forward + totem.initSpeed.y * Vector3.up;
         initY = transform.position.y;
         this.body.isKinematic = true;
-	}
+        robot.SetImmune(game.spawnImmuneTime);
+    }
 	
 	void Update () {
         if (transform.position.y < game.floorY)
         {
             transform.position = new Vector3(transform.position.x, game.floorY, transform.position.z);
+            robot.SetImmune(game.spawnImmuneTime);
             body.isKinematic = false;
             totem.occupied = false;
             Destroy(this);

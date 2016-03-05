@@ -20,6 +20,8 @@ public class RobotController : MonoBehaviour
 
     private GroundDetector groundDetector;
 
+    private float immuneTime;
+
 
     public Vector3 lookDirection
     {
@@ -38,8 +40,13 @@ public class RobotController : MonoBehaviour
         game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
         SetupRobotForPlayer(playerId);
         groundDetector = GetComponent<GroundDetector>();
+        SetImmune(game.spawnImmuneTime);
 	}
 
+    public void SetImmune(float seconds)
+    {
+        immuneTime = seconds;
+    }
 
   public void SetupRobotForPlayer(int player)
   {
@@ -83,6 +90,7 @@ public class RobotController : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        immuneTime -= Time.deltaTime;
         RaycastHit hitTotem;
         Vector3 posRobot = this.transform.position + (posTotem-transform.position).normalized*1.0f;
         //Debug.DrawLine(posRobot, posTotem);
@@ -133,8 +141,11 @@ public class RobotController : MonoBehaviour
 
     void Die()
     {
-        this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(20);
-        gameObject.AddComponent<DeathBehaviour>();
+        if(immuneTime < 0 && GetComponent<DeathBehaviour>() == null)
+        {
+            this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(20);
+            gameObject.AddComponent<DeathBehaviour>();
+        }
     }
 
     void OnCollisionEnter(Collision collision)
