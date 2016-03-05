@@ -32,7 +32,7 @@ public class RobotController : MonoBehaviour
 
   public void SetupRobotForPlayer(int player)
   {
-    input = InputManager.Instance.controllers[player];
+    input = InputManager.Instance.GetController(player);
     Color color = InputManager.GetColorFromPlayer(player);
     Light[] lights = GetComponentsInChildren<Light>();
     foreach (Light l in lights)
@@ -50,7 +50,11 @@ public class RobotController : MonoBehaviour
     void FixedUpdate()
     {
         if (input == null)
-            input = InputManager.Instance.controllers[playerId];
+            input = InputManager.Instance.GetController(playerId);
+
+        if (input == null)
+            return;
+
         Vector3 inputDir = new Vector3(input.Yaw, 0, -input.Pitch);
         if (inputDir.sqrMagnitude > 0.01)
             lastLookDirection = inputDir;
@@ -61,6 +65,9 @@ public class RobotController : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        if (input == null)
+            return;
+
         if (rigidBody.velocity.magnitude != 0)
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(rigidBody.velocity, Vector3.up), Time.deltaTime * rotSpeed);
         if(input.Turbo)
