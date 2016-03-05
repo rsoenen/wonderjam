@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
     public GameObject prefabRobot;
     public GameObject prefabHUD;
     public GameObject prefabCaisse;
-    private Transform totem;
+    private Transform[] totemsTransform;
     private int playerCount;
     private float timeSpawnItem;
 
@@ -29,14 +29,20 @@ public class GameManager : MonoBehaviour {
         invertedControl = false;
         playerCount = InputManager.Instance.controllers.Count;
         myRobots = new GameObject[playerCount];
-        totem = GameObject.FindGameObjectWithTag("Totem").transform;
-        Vector3[] posSpawn = new Vector3[] { new Vector3(1, 0.51f, 1), new Vector3(-1, 0.51f, -1), new Vector3(-1, 0.51f, 1), new Vector3(1, 0.51f, -1) };
+        
+        GameObject[] totems =  GameObject.FindGameObjectsWithTag("Totem");
+        totemsTransform = new Transform[totems.Length];
+        for (int i = 0; i < totems.Length; i++)
+        {
+            totemsTransform[i] = totems[i].transform;
+        }
+        GameObject[] spawn = GameObject.FindGameObjectsWithTag("Spawn");
         for (int i = 0; i < playerCount; i++)
         {
-            myRobots[i] = (GameObject)Instantiate(prefabRobot, posSpawn[i], Quaternion.identity);
+            myRobots[i] = (GameObject)Instantiate(prefabRobot, spawn[i].transform.position, Quaternion.identity);
             myRobots[i].GetComponent<RobotController>().playerId = i;
             myRobots[i].GetComponent<SpawnBehaviour>().Init(GetClosestAvailableTotem(transform.position));
-            myRobots[i].GetComponentInChildren<LightningBolt>().emitter = totem;
+            myRobots[i].GetComponentInChildren<LightningBolt>().emitter = totemsTransform[0];
             //Camera.main.GetComponent<CameraController>().pois.Add(myRobots[i].transform);
         }
         Instantiate(prefabHUD);
@@ -155,7 +161,7 @@ public class GameManager : MonoBehaviour {
     }
     public float lengthTotemRobot(GameObject myRobot)
     {
-        return Vector3.Distance(totem.position, myRobot.transform.position);
+        return Vector3.Distance(totemsTransform[0].position, myRobot.transform.position);
     }
 
     public void setplayerCount(int _playerCount){

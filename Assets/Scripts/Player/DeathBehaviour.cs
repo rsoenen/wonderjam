@@ -16,6 +16,7 @@ public class DeathBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        print("Mort ="+time);
         time += Time.deltaTime;
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, 90 * time / game.deathDuration);
         if(time > game.deathDuration)

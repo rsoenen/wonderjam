@@ -135,6 +135,7 @@ public class RobotController : MonoBehaviour
 
         if (!groundDetector.isOnGround)
         {
+            //Die();
             gameObject.AddComponent<FallingBehaviour>().Init(rigidBody.velocity);
         }
     }
