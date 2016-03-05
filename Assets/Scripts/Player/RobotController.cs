@@ -17,6 +17,7 @@ public class RobotController : MonoBehaviour
     private Vector3 posTotem;
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
     private Transform headTransform;
+    public Transform lightningRod;
 
     private GroundDetector groundDetector;
 
@@ -74,7 +75,7 @@ public class RobotController : MonoBehaviour
             controleInverse = -1;
         }
         Vector3 inputDir = new Vector3(input.Yaw, 0, -input.Pitch);
-        print(inputDir);
+        // print(inputDir);
         if (inputDir.sqrMagnitude > 0.01)
             lastLookDirection = controleInverse*inputDir;
 
@@ -148,6 +149,7 @@ public class RobotController : MonoBehaviour
     {
         if(immuneTime < 0 && GetComponent<DeathBehaviour>() == null)
         {
+            Debug.Log("You are dead.");
             this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(20);
             gameObject.AddComponent<DeathBehaviour>();
         }

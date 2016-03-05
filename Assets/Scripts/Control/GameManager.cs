@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
@@ -27,6 +27,15 @@ public class GameManager : MonoBehaviour {
     private GameObject[] myRobots;
 
     private GameObject[] spawns;
+
+    public List<EnergyTower> towers = new List<EnergyTower>();
+
+    [Header("Dead Body Parts Prefabs")]
+    public GameObject headPrefab;
+    public GameObject rightArmPrefab;
+    public GameObject leftArmPrefab;
+    public GameObject bodyPrefab;
+    public GameObject rotaringPlateformPrefab;
 
     // Use this for initialization
     void Start () {

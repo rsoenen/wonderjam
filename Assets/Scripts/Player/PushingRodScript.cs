@@ -8,8 +8,7 @@ public class PushingRodScript : MonoBehaviour {
 
     [SerializeField]
     private float m_force = 10;
-
-    private int m_layerBot = 0;
+    private int m_layerBot = 0;    
 
     void Start()
     {

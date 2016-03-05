@@ -6,8 +6,6 @@ public class RodPlacementBehavior : MonoBehaviour {
     [SerializeField]
     private GameObject m_RodPrefab;
 
-    private GameObject m_rod;
-
     [SerializeField]
     private float m_cooldown = 1;
     private bool m_onCooldown = false;
@@ -23,18 +21,13 @@ public class RodPlacementBehavior : MonoBehaviour {
         if (m_onCooldown)
             return;
 
-        if (m_rod == null)
-            m_rod = Instantiate<GameObject>(m_RodPrefab);
-        else
-            m_rod.SetActive(true);
+        GameObject rod = Instantiate<GameObject>(m_RodPrefab);
 
-        m_rod.transform.position = _position;
-        m_rod.transform.forward = _direction;
+        rod.transform.position = _position;
+        rod.transform.forward = _direction;
 
         m_onCooldown = true;
         m_cooldown_timer = 0;
-
-        m_despawn_timer = 0;
     }
 
     void Update()
@@ -46,13 +39,6 @@ public class RodPlacementBehavior : MonoBehaviour {
             {
                 m_onCooldown = false;
             }
-        }
-
-        if(m_rod != null && m_rod.activeSelf)
-        {
-            m_despawn_timer += Time.deltaTime;
-            if (m_despawn_timer > m_despawn)
-                m_rod.SetActive(false);
         }
     }
 }
