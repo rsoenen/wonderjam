@@ -138,11 +138,11 @@ public class RobotController : MonoBehaviour
             GetComponent<RobotGestionPoint>().ActivatePowerup();
         }
 
-            Debug.DrawLine(rotaringPlatformTransform.position, rotaringPlatformTransform.position - 5.0f * rotaringPlatformTransform.up);
+            Debug.DrawLine(rotaringPlatformTransform.position, rotaringPlatformTransform.position - 2.0f * rotaringPlatformTransform.up);
         if(input.B)
         {
             RaycastHit hit;
-            if (Physics.Raycast(rotaringPlatformTransform.position, -rotaringPlatformTransform.up, out hit, 5.0f, LayerMask.GetMask("ThrowableObjects")))
+            if (Physics.SphereCast(rotaringPlatformTransform.position, 1.0f, -rotaringPlatformTransform.up, out hit, 2.0f, LayerMask.GetMask("ThrowableObjects")))
             {
                 GetComponent<ThrowingBehavior>().GrabObject(hit.transform.gameObject);
             }
