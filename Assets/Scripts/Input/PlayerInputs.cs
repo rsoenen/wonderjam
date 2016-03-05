@@ -51,4 +51,7 @@ public interface PlayerInputs : PlayerController
   /// </summary>
   bool Turbo { get; }
 
+    // The X Button
+    bool X { get; }
+
 }
