@@ -41,10 +41,10 @@ public class RobotController : MonoBehaviour
     {
       l.color = color;
     }
-
-    transform.FindChild("LeftEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
-    transform.FindChild("RightEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
-    transform.FindChild("Receiver").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+    Transform headChild = transform.Find("Neck").Find("Head");
+    headChild.Find("LeftEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+    headChild.FindChild("RightEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+    headChild.Find("Antenna").FindChild("Receiver").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
   }
 
 	
