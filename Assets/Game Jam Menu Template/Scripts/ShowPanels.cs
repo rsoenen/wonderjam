@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ShowPanels : MonoBehaviour {
 
@@ -15,7 +16,7 @@ public class ShowPanels : MonoBehaviour {
 	public void LoadScene(string name)
 	{
         chooseMapPanel.SetActive(false);
-		Application.LoadLevel(name);
+		SceneManager.LoadScene(name);
 		
 	}
     public void LoadActualScene()
@@ -24,14 +25,14 @@ public class ShowPanels : MonoBehaviour {
         Destroy(GameObject.Find("HUD(Clone)").gameObject);
         winPanel.SetActive(false);
         GameObject.Find("GameController").GetComponent<GameManager>().resetGameController();
-        Application.LoadLevel(Application.loadedLevel);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name)
         
     }
     public void BackMainMenu()
     {
         Destroy(GameObject.Find("HUD(Clone)").gameObject);
         Destroy(this.gameObject);
-        Application.LoadLevel(0);
+        SceneManager.LoadScene("MainMenu");
     }
 	//Call this function to activate and display the Options panel during the main menu
 	public void ShowOptionsPanel()

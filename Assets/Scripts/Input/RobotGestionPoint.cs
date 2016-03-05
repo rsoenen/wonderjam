@@ -36,8 +36,6 @@ public class RobotGestionPoint : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-
         //On rajoute 1 point toutes les secondes au robot
        if (timerPoints < 1f)
        {
