@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     private Transform[] totemsTransform;
     private int playerCount;
     private float timeSpawnItem;
+    private float timeGlobal;
 
 
     public bool invertedControl;
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour {
         ThrowerInvertedControl = null;
         timerInverted = 0f;
         invertedControl = false;
-
+        timeGlobal = 0f;
         timeSpawnItem = 0f;
         playerCount = InputManager.Instance.controllers.Count;
         myRobots = new GameObject[playerCount];
@@ -106,10 +107,10 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        timeGlobal += Time.deltaTime;
         #region Gestion fin de la partie
-        for (int i = 0; i < playerCount; i++)
-        {
-            if (myRobots[i].GetComponent<RobotGestionPoint>().getPoint() >= 100 && Time.timeScale != 0)
+
+        if (Time.timeScale != 0 && timeGlobal > 10)
             {
                 Time.timeScale = 0;
                 GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
@@ -124,14 +125,20 @@ public class GameManager : MonoBehaviour {
                 }
                 int[] pointPlayer = new int[playerCount];
 
+
+                int[] ladder = new int[playerCount];
+                ladder[0] = 0;
+                int id = 0;
                 for (int j = 0; j < playerCount; j++)
                 {
                     pointPlayer[j] = myRobots[j].GetComponent<RobotGestionPoint>().getPoint();
+                    if (pointPlayer[j]>pointPlayer[ladder[0]]){
+                        ladder[0]=j;
+                        id=j;
+                    }
                 }
-
-                int[] ladder = new int[playerCount];
-                ladder[0] = i;
-                pointPlayer[i] = -1;
+               
+                pointPlayer[id] = -1;
                 ladder[1] = 0;
                 GameObject.Find("TextFirst").GetComponent<Text>().text += ladder[0] + 1;
 
@@ -177,7 +184,7 @@ public class GameManager : MonoBehaviour {
                     GameObject.Find("TextForth").GetComponent<Text>().text += ladder[3] + 1;
                 }
 
-            }
+            
         }
         #endregion
 
@@ -196,7 +203,10 @@ public class GameManager : MonoBehaviour {
             timeSpawnItem = 0;
         }
 
-
+        
+        int tempsRestant = 2 * 60 - (int)timeGlobal;
+        Debug.Log(tempsRestant);
+        GameObject.Find("TextTimeRemaining").GetComponent<Text>().text = "TEMPS RESTANT : " + tempsRestant;
 
         if (timerInverted > 10 && invertedControl)
         {
@@ -213,6 +223,7 @@ public class GameManager : MonoBehaviour {
     public void resetGameController()
     {
         myRobots = null;
+        timeGlobal = 0;
         Time.timeScale = 1;
     }
 
