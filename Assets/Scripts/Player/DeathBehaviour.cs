@@ -15,6 +15,7 @@ public class DeathBehaviour : MonoBehaviour {
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<RobotController>().enabled = false;
         game = GameManager.Instance();
+        GetComponent<RobotController>().lightningEnabled = false;
 
         FetchParts();
         EnableRenderers(false);
@@ -82,6 +83,7 @@ public class DeathBehaviour : MonoBehaviour {
             {
                 GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<RobotController>().enabled = true;
+                GetComponent<RobotController>().lightningEnabled = true;
                 gameObject.AddComponent<SpawnBehaviour>().Init(closestTotem);
                 transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, 0);
 

@@ -25,12 +25,17 @@ public class EnergyTower : MonoBehaviour {
         foreach(GameObject obj in bolts)
         {
             LightningBolt bolt = obj.GetComponent<LightningBolt>();
-            RaycastHit hitTotem;
-            if (Physics.Raycast(bolt.initPos, bolt.destPos - bolt.initPos, out hitTotem))
+            if(bolt.owner.GetComponent<RobotController>().lightningEnabled)
             {
-                if (hitTotem.collider.gameObject != bolt.owner.gameObject && hitTotem.collider.gameObject.layer == LayerMask.NameToLayer("Robots"))
+                RaycastHit hitTotem;
+                if (Physics.Raycast(bolt.initPos, bolt.destPos - bolt.initPos, out hitTotem))
                 {
-                    hitTotem.collider.GetComponent<RobotController>().Die();
+
+                    if (hitTotem.collider.gameObject != bolt.owner.gameObject && hitTotem.collider.gameObject.layer == LayerMask.NameToLayer("Robots"))
+                    {
+                        hitTotem.collider.GetComponent<RobotController>().Die();
+                    }
+
                 }
             }
         }
@@ -38,9 +43,9 @@ public class EnergyTower : MonoBehaviour {
 
     void OnTriggerEnter(Collider collider)
     {
-        if (!lengthReducted)
+        RobotController robot = collider.GetComponent<RobotController>();
+        if (robot != null && robot.lightningEnabled&&!lengthReducted)
         {
-            RobotController robot = collider.GetComponent<RobotController>();
             if (robot != null)
             {
                 Transform instance = Transform.Instantiate<Transform>(receiverTransform);
@@ -55,16 +60,21 @@ public class EnergyTower : MonoBehaviour {
 
     void OnTriggerExit(Collider collider)
     {
+
         if (!lengthReducted)
         {
             RobotController robot = collider.GetComponent<RobotController>();
-            LightningBolt[] rods = robot.lightningRod.GetComponentsInChildren<LightningBolt>();
-            for (int i = rods.Length - 1; i >= 0; i--)
+
+            if (robot != null)
             {
-                if (rods[i].GetComponent<LightningBolt>().emitter == transform)
+                LightningBolt[] rods = robot.lightningRod.GetComponentsInChildren<LightningBolt>();
+                for (int i = rods.Length - 1; i >= 0; i--)
                 {
-                    bolts.Remove(rods[i].gameObject);
-                    Destroy(rods[i].gameObject);
+                    if (rods[i].GetComponent<LightningBolt>().emitter == transform)
+                    {
+                        bolts.Remove(rods[i].gameObject);
+                        Destroy(rods[i].gameObject);
+                    }
                 }
             }
         }
