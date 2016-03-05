@@ -8,7 +8,7 @@ using System.Collections;
 public class LightningBolt : MonoBehaviour
 {
 	public Transform emitter;
-	public int zigs = 500;
+	public int zigs = 200;
 	public float speed = 1f;
 	public float amplitude = 1f;
   public float energy = 1f;
@@ -60,7 +60,7 @@ public class LightningBolt : MonoBehaviour
         particles[i].position = position;
         particles[i].color = endLight.color;
         particles[i].energy = energy * (1 - distance / maxDistance);
-        particles[i].size = 1.0f + 2.0f * (1 - distance / maxDistance);
+        particles[i].size = 0.2f + .5f * (1 - distance / maxDistance);
       }
 
       GetComponent<ParticleEmitter>().particles = particles;
@@ -68,7 +68,7 @@ public class LightningBolt : MonoBehaviour
       if (GetComponent<ParticleEmitter>().particleCount >= 2)
       {
         endLight.transform.position = particles[GetComponent<ParticleEmitter>().particleCount-1].position;
-        endLight.intensity = 0.5f + 1.5f * (1 - distance / maxDistance);
+        endLight.intensity = 0.1f + 0.2f * (1 - distance / maxDistance);
         endLight.bounceIntensity =  (1 - distance / maxDistance);
        
       }
