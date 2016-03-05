@@ -140,17 +140,10 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            int signeX = 1, signeZ = 1;
-            if (Random.Range(0, 2)==0)
-            {
-                signeX = -1;
-            }
-            if (Random.Range(0, 2) == 0)
-            {
-                signeZ = -1;
-            }
-
-            Instantiate(prefabCaisse, new Vector3(signeX * Random.Range(2f, 9.5f), 0.5f, signeZ * Random.Range(2f, 9.5f)), Quaternion.identity);
+            
+            float r = Random.Range(2f, 10f);
+            float teta = Random.Range(0, 360);
+            Instantiate(prefabCaisse, new Vector3(r * Mathf.Cos(teta), 0.5f, r * Mathf.Sin(teta)), Quaternion.identity);
             timeSpawnItem = 0;
         }
     }
