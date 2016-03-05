@@ -9,6 +9,9 @@ public class CameraController : MonoBehaviour {
 	public float tweak = 0.60f;
 	public float limit = 3f;
 	public float minY = 3f;
+	[Range(0.11f, 1.0f)] public float damping = 1.0f;
+
+	private Vector3 targetPosition;
 
 	// Use this for initialization
 	void Start () {
@@ -55,7 +58,8 @@ public class CameraController : MonoBehaviour {
 			y = minY;
 		}
 
-		transform.position = new Vector3(ppcam.x, y, ppcam.z);
+		targetPosition = new Vector3(ppcam.x, y, ppcam.z);
+		transform.position = Vector3.Lerp(transform.position,targetPosition,damping * Time.deltaTime * 60);
 
 	}
 }
