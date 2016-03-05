@@ -22,7 +22,7 @@ public class DeathBehaviour : MonoBehaviour {
         EnableCollision(false);
         InstantiateDeadBodyParts();
 		dieVoice = gameObject.AddComponent<AudioSource>();
-		dieVoice.spatialize = true;
+		//dieVoice.spatialize = true;
 		dieVoice.clip = getRandomVoice();
 		dieVoice.Play();
 
@@ -30,7 +30,7 @@ public class DeathBehaviour : MonoBehaviour {
 
 	AudioClip getRandomVoice()
 	{
-		AudioClip[] clips = Resources.LoadAll<AudioClip>("Voices");
+		AudioClip[] clips = Resources.LoadAll<AudioClip>("Assets/Voices");
 		return clips[Random.Range(0,clips.Length)];
 	}
 
@@ -84,7 +84,6 @@ public class DeathBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        print("Mort ="+time);
         time += Time.deltaTime;
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, 90 * time / game.deathDuration);
         if(time > game.deathDuration)
