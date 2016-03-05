@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public class GameManager : MonoBehaviour {
     
     public int numberPlayer;
     public GameObject prefabRobot;
