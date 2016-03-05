@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 [RequireComponent(typeof(GroundDetector))]
+[RequireComponent(typeof(AudioSource))]
 public class RobotController : MonoBehaviour
 {
     GameManager game;
@@ -20,6 +21,8 @@ public class RobotController : MonoBehaviour
     private GroundDetector groundDetector;
 
     private float immuneTime;
+
+	public AudioClip[] dieVoices;
 
 
     public Vector3 lookDirection
@@ -132,7 +135,8 @@ public class RobotController : MonoBehaviour
     {
         if(immuneTime < 0 && GetComponent<DeathBehaviour>() == null)
         {
-            Debug.Log("You are dead.");
+			GetComponent<AudioSource>().PlayOneShot(dieVoices[Random.Range(0,dieVoices.Length)]);
+            //Debug.Log("You are dead.");
             this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(20);
             gameObject.AddComponent<DeathBehaviour>();
         }
