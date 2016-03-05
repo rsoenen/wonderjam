@@ -16,12 +16,13 @@ public class EnergyTower : MonoBehaviour {
         {
             LightningBolt bolt = obj.GetComponent<LightningBolt>();
             RaycastHit hitTotem;
-            //Debug.DrawLine(posRobot, posTotem);
-
-            if (Physics.Raycast(bolt.initPos, bolt.destPos, out hitTotem))
+            if (Physics.Raycast(bolt.initPos, bolt.destPos - bolt.initPos, out hitTotem))
             {
                 if (hitTotem.collider.gameObject != bolt.owner.gameObject && hitTotem.collider.gameObject.layer == LayerMask.NameToLayer("Robots"))
                 {
+                    Debug.DrawLine(bolt.initPos, bolt.destPos, Color.blue, 5);
+                    Debug.DrawLine(bolt.owner.gameObject.transform.position, bolt.destPos, Color.yellow, 5);
+                    print(hitTotem.collider.gameObject + " " + bolt.owner.gameObject);
                     hitTotem.collider.GetComponent<RobotController>().Die();
                 }
             }
