@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
 
 
     public bool invertedControl;
-    public float stuntDeceleration, stuntDuration, stuntStrength, stuntControlSpeed;
+    public float stuntDeceleration, stuntDuration, stuntStrength, stuntControlSpeed, floorY;
     public float dashDuration, dashSpeed, dashContactSlow;
     public float playerMaxSpeed, playerAcceleration, playerDeceleration;
     public float playerRotSpeed;
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour {
             myRobots[i].GetComponent<RobotController>().playerId = i;
             myRobots[i].GetComponentInChildren<LightningBolt>().emitter = totem;
 			//Camera.main.GetComponent<CameraController>().pois.Add(myRobots[i].transform);
+
         }
         Instantiate(prefabHUD);
         if (numberPlayer < 4)
