@@ -11,9 +11,9 @@ public class LightningBolt : MonoBehaviour
 	public int zigs = 200;
 	public float speed = 1f;
 	public float amplitude = 1f;
-  public float energy = 1f;
+    public float energy = 1f;
 	public Light endLight;
-  public float maxDistance = 20.0f;
+    public float maxDistance = 20.0f;
 
 	Perlin noise;
 	float oneOverZigs;

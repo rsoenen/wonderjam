@@ -30,6 +30,20 @@ public class RobotController : MonoBehaviour
         }
     }
 
+    private bool m_lightningEnabled = true;
+    public bool lightningEnabled
+    {
+        get
+        {
+            return m_lightningEnabled;
+        }
+        set
+        {
+            m_lightningEnabled = value;
+            lightningRod.gameObject.SetActive(value);
+        }
+    }
+
 	// Use this for initialization
 	void Start () {
         gameController = GameObject.Find("GameController");
