@@ -92,7 +92,7 @@ public class RobotController : MonoBehaviour
             
            
         }
-        
+
         if (input == null)
             return;
 
@@ -100,7 +100,11 @@ public class RobotController : MonoBehaviour
         
         if(input.Turbo)
         {
-            gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
+            if (this.gameObject.GetComponent<RobotGestionPoint>().getPoint() >= 5)
+            {
+                this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(5);
+                gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
+            }
         }
 
         if(input.X)
@@ -142,6 +146,16 @@ public class RobotController : MonoBehaviour
 
     void Die()
     {
+        this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(20);
         gameObject.AddComponent<DeathBehaviour>();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Caisse")
+        {
+            Destroy(collision.gameObject);
+        }
+        
     }
 }
