@@ -20,10 +20,11 @@ public class LightningBolt : MonoBehaviour
 	
 	private Particle[] particles;
 
-    public void Init(Transform emitter, RobotController owner)
+    public void Init(Transform emitter, RobotController owner, float maxDistance)
     {
         this.emitter = emitter;
         this.owner = owner;
+        this.maxDistance = maxDistance;
     }
 
     public Vector3 initPos { get { return emitter.position; } }
@@ -32,7 +33,8 @@ public class LightningBolt : MonoBehaviour
 	
 	void Start()
 	{
-		oneOverZigs = 1f / (float)zigs;
+        amplitude = GameManager.Instance().laserShakeFactor;
+        oneOverZigs = 1f / (float)zigs;
 		GetComponent<ParticleEmitter>().emit = false;
 
 		GetComponent<ParticleEmitter>().Emit(zigs);
@@ -44,8 +46,8 @@ public class LightningBolt : MonoBehaviour
 	void Update ()
 	{
     float distance = Vector3.Distance(transform.position, emitter.position);
-    //Debug.Log("distance: " + distance);
-    if (distance < maxDistance)
+        //Debug.Log("distance: " + distance);
+        if (distance < maxDistance)
     {
       GetComponent<MeshRenderer>().enabled = true;
       GetComponent<ParticleRenderer>().enabled = true;

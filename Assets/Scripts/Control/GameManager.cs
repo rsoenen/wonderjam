@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour {
 
 
     public bool invertedControl;
+    public GameObject ThrowerInvertedControl;
+    public float timerInverted;
+
     public float stuntDeceleration, stuntDuration, stuntStrength, stuntControlSpeed, floorY;
     public float dashDuration, dashSpeed, dashContactSlow;
     public float playerMaxSpeed, playerAcceleration, playerDeceleration;
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour {
     public float gravity;
     public float deathHeight;
     public float spawnImmuneTime;
+    public float laserShakeFactor;
     private GameObject[] myRobots;
 
     private GameObject[] spawns;
@@ -39,8 +43,11 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        timeSpawnItem = 0f;
+        ThrowerInvertedControl = null;
+        timerInverted = 0f;
         invertedControl = false;
+
+        timeSpawnItem = 0f;
         playerCount = InputManager.Instance.controllers.Count;
         myRobots = new GameObject[playerCount];
         
@@ -158,7 +165,6 @@ public class GameManager : MonoBehaviour {
                     ladder[3] = 0;
                     for (int j = 0; j < playerCount; j++)
                     {
-                        Debug.Log(pointPlayer[j]);
                         if (pointPlayer[j] > pointPlayer[ladder[3]])
                         {
                             ladder[3] = j;
@@ -178,11 +184,23 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            
             float r = Random.Range(2f, 10f);
             float teta = Random.Range(0, 360);
             Instantiate(prefabCaisses[Random.Range(0, prefabCaisses.Length)], new Vector3(r * Mathf.Cos(teta), 0.5f, r * Mathf.Sin(teta)), Quaternion.identity);
             timeSpawnItem = 0;
+        }
+
+
+
+        if (timerInverted > 10 && invertedControl)
+        {
+            timerInverted = 0;
+            invertedControl = false;
+            ThrowerInvertedControl = null;
+        }
+        if (invertedControl)
+        {
+            timerInverted += Time.deltaTime;
         }
     }
 
