@@ -22,13 +22,13 @@ public class StuntBehaviour : MonoBehaviour
         robot = GetComponent<RobotController>();
         body = GetComponent<Rigidbody>();
         robot.enabled = false;
-        body.AddForce(dir * game.stuntStrength / Time.fixedDeltaTime);
-        body.AddForce(-body.velocity * game.stuntDeceleration);
+        body.AddForce(-dir * game.stuntStrength / Time.fixedDeltaTime);
     }
 
     void FixedUpdate()
     {
-        if(robot.hasControl)
+        body.AddForce(-body.velocity * game.stuntDeceleration);
+        if (body.velocity.sqrMagnitude < game.stuntControlSpeed * game.stuntControlSpeed)
         {
             robot.enabled = true;
             Destroy(this);

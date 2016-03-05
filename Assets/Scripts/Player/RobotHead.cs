@@ -16,7 +16,7 @@ public class RobotHead : MonoBehaviour
     {
         Quaternion rotation = Quaternion.Inverse(transform.parent.localRotation) * Quaternion.LookRotation(robot.lookDirection);
 
-        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, Quaternion.Euler(new Vector3(270, rotation.eulerAngles.y, 0)), 360 * Time.deltaTime);
+        transform.localRotation = Quaternion.Euler(new Vector3(270, rotation.eulerAngles.y, 0));
     }
 
 }

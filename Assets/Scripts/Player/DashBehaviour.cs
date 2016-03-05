@@ -39,7 +39,10 @@ public class DashBehaviour : MonoBehaviour
         RobotController other = collision.collider.GetComponent<RobotController>();
         if (other != null && other.enabled)
         {
+            Vector3 normalSpeed = Vector3.Project(body.velocity, collision.contacts[0].normal);
+            Vector3 tangentSpeed = body.velocity - normalSpeed;
             other.gameObject.AddComponent<StuntBehaviour>().Init(collision.contacts[0].normal);
+            body.velocity = tangentSpeed + normalSpeed * game.dashContactSlow;
         }
     }
 }

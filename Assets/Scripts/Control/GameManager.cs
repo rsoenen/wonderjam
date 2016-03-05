@@ -6,13 +6,16 @@ public class GameManager : MonoBehaviour {
     public int numberPlayer;
     public GameObject prefabRobot;
     public GameObject prefabHUD;
-    public Transform totem;
+    private Transform totem;
 
-    public float stuntDeceleration, stuntDuration, stuntStrength;
-    public float dashDuration, dashSpeed;
+    public float stuntDeceleration, stuntDuration, stuntStrength, stuntControlSpeed;
+    public float dashDuration, dashSpeed, dashContactSlow;
+    public float playerMaxSpeed, playerAcceleration, playerDeceleration;
+    public float playerRotSpeed;
 
     // Use this for initialization
     void Start () {
+        totem = GameObject.FindGameObjectWithTag("Totem").transform;
         Vector3[] posSpawn = new Vector3[] { new Vector3(1, 0.51f, 1), new Vector3(-1, 0.51f, -1), new Vector3(-1, 0.51f, 1), new Vector3(1, 0.51f, -1) };
         for (int i = 0; i < numberPlayer; i++)
         {
