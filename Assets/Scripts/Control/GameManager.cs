@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
     public float gravity;
     public float deathHeight;
     public float spawnImmuneTime;
+    public float laserShakeFactor;
     private GameObject[] myRobots;
 
     private GameObject[] spawns;
@@ -178,7 +179,6 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            
             float r = Random.Range(2f, 10f);
             float teta = Random.Range(0, 360);
             Instantiate(prefabCaisses[Random.Range(0, prefabCaisses.Length)], new Vector3(r * Mathf.Cos(teta), 0.5f, r * Mathf.Sin(teta)), Quaternion.identity);
