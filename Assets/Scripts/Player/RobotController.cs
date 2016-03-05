@@ -7,10 +7,12 @@ public class RobotController : MonoBehaviour
     public int playerId;
     public PlayerInputs input;
 
+    private int m_layerBot = 0;
     public float rodPlacementDistance = 0.5f;
 
     private Rigidbody rigidBody;
 
+    private Vector3 posTotem;
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
     private Transform headTransform;
 
@@ -26,6 +28,8 @@ public class RobotController : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
+        m_layerBot = LayerMask.NameToLayer("Robots");
+        posTotem = GameObject.FindGameObjectWithTag("Totem").transform.position;
         game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
         SetupRobotForPlayer(playerId);
 	}
@@ -67,6 +71,20 @@ public class RobotController : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        RaycastHit hitTotem;
+        Vector3 posRobot = this.transform.position + (posTotem-transform.position).normalized*1.0f;
+        Debug.DrawLine(posRobot, posTotem);
+
+        if (Physics.Raycast(posTotem, posRobot, out hitTotem))
+        {
+            if (hitTotem.collider.gameObject != this.gameObject && hitTotem.collider.gameObject.layer == m_layerBot)
+            {
+                //METTRE L'ACTION QUAND UN ENEMI PASSE DANS NOTRE LIEN
+            }
+            
+           
+        }
+
         if (input == null)
             return;
 
