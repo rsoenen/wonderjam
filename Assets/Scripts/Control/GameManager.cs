@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour {
     private Transform totem;
 
     public float stuntDeceleration, stuntDuration, stuntStrength, stuntControlSpeed;
-    public float dashDuration, dashSpeed;
+    public float dashDuration, dashSpeed, dashContactSlow;
+    public float playerMaxSpeed, playerAcceleration, playerDeceleration;
+    public float playerRotSpeed;
 
     // Use this for initialization
     void Start () {

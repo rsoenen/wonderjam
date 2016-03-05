@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 public class RobotController : MonoBehaviour
 {
-    public float maxSpeed, acceleration, deceleration, inputTrigger, dashSpeed, dashDuration, dashStrength;
-    public float rotSpeed;
+    GameManager game;
     public int playerId;
     public PlayerInputs input;
 
@@ -26,6 +25,7 @@ public class RobotController : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody>();
+        game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
         SetupRobotForPlayer(playerId);
 	}
 
@@ -58,8 +58,8 @@ public class RobotController : MonoBehaviour
         Vector3 inputDir = new Vector3(input.Yaw, 0, -input.Pitch);
         if (inputDir.sqrMagnitude > 0.01)
             lastLookDirection = inputDir;
-        rigidBody.AddForce(acceleration * inputDir);
-        rigidBody.AddForce(-rigidBody.velocity * deceleration);
+        rigidBody.AddForce(game.playerAcceleration * inputDir);
+        rigidBody.AddForce(-rigidBody.velocity * game.playerDeceleration);
     }
 
     // Update is called once per frame
@@ -69,11 +69,10 @@ public class RobotController : MonoBehaviour
             return;
 
         if (rigidBody.velocity.magnitude != 0)
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(rigidBody.velocity, Vector3.up), Time.deltaTime * rotSpeed);
+            transform.rotation = Quaternion.LookRotation(rigidBody.velocity, Vector3.up);
         if(input.Turbo)
         {
             gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
-            
         }
         if(input.X)
         {
