@@ -19,6 +19,16 @@ public class LightningBolt : MonoBehaviour
 	float oneOverZigs;
 	
 	private Particle[] particles;
+
+    public void Init(Transform emitter, RobotController owner)
+    {
+        this.emitter = emitter;
+        this.owner = owner;
+    }
+
+    public Vector3 initPos { get { return emitter.position; } }
+    public Vector3 destPos { get { return transform.position; } }
+    public RobotController owner;
 	
 	void Start()
 	{
@@ -27,6 +37,8 @@ public class LightningBolt : MonoBehaviour
 
 		GetComponent<ParticleEmitter>().Emit(zigs);
 		particles = GetComponent<ParticleEmitter>().particles;
+
+        endLight = GetComponentInChildren<Light>();
 	}
 	
 	void Update ()

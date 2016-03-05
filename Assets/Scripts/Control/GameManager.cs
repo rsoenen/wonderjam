@@ -82,7 +82,8 @@ public class GameManager : MonoBehaviour {
     {
         _bot.GetComponent<RobotController>().playerId = _id;
         _bot.GetComponent<SpawnBehaviour>().Init(GetClosestAvailableTotem(transform.position));
-        _bot.GetComponentInChildren<LightningBolt>().emitter = totemsTransform[0];
+        foreach(LightningBolt bolt in _bot.GetComponentsInChildren<LightningBolt>())
+            bolt.emitter = totemsTransform[0];
         Camera.main.GetComponent<CameraController>().pois.Add(myRobots[_id].transform);
     }
 
@@ -100,8 +101,6 @@ public class GameManager : MonoBehaviour {
         {
             if (myRobots[i].GetComponent<RobotGestionPoint>().getPoint() >= 100 && Time.timeScale != 0)
             {
-
-
                 Time.timeScale = 0;
                 GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
 

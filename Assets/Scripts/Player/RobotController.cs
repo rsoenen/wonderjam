@@ -8,13 +8,11 @@ public class RobotController : MonoBehaviour
     public int playerId;
     public PlayerInputs input;
 
-    private int m_layerBot = 0;
     public float rodPlacementDistance = 0.5f;
 
     private Rigidbody rigidBody;
 
     private GameObject gameController;
-    private Vector3 posTotem;
     private Vector3 lastLookDirection = new Vector3(1, 0, 0);
     private Transform headTransform;
     public Transform lightningRod;
@@ -36,8 +34,6 @@ public class RobotController : MonoBehaviour
 	void Start () {
         gameController = GameObject.Find("GameController");
         rigidBody = GetComponent<Rigidbody>();
-        m_layerBot = LayerMask.NameToLayer("Robots");
-        posTotem = GameObject.FindGameObjectWithTag("Totem").transform.position;
         game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
         SetupRobotForPlayer(playerId);
         groundDetector = GetComponent<GroundDetector>();
@@ -92,22 +88,9 @@ public class RobotController : MonoBehaviour
     void Update ()
     {
         immuneTime -= Time.deltaTime;
-        RaycastHit hitTotem;
-        Vector3 posRobot = this.transform.position + (posTotem-transform.position).normalized*1.0f;
-        //Debug.DrawLine(posRobot, posTotem);
-
-        if (Physics.Raycast(posTotem, posRobot, out hitTotem))
-        {
-            if (hitTotem.collider.gameObject != this.gameObject && hitTotem.collider.gameObject.layer == m_layerBot)
-            {
-                hitTotem.collider.GetComponent<RobotController>().Die();
-            }
-        }
-
+        
         if (input == null)
             return;
-
-
         
         if(input.Turbo)
         {
@@ -145,7 +128,7 @@ public class RobotController : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         if(immuneTime < 0 && GetComponent<DeathBehaviour>() == null)
         {
