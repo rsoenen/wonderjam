@@ -13,6 +13,8 @@ public class EnergyLossBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+        if (GetComponentInChildren<LightningBolt>() != null)
+            Destroy(this);
         time += Time.fixedDeltaTime;
         Rigidbody body = GetComponent<Rigidbody>();
         body.AddForce(-time/duration * body.velocity / Time.fixedDeltaTime);

@@ -20,6 +20,7 @@ public class SpawnBehaviour : MonoBehaviour {
     void Start () {
         this.game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
         this.robot = GetComponent<RobotController>();
+        robot.gameObject.AddComponent<SpawnBlinkBehaviour>();
         this.body = GetComponent<Rigidbody>();
         speed = totem.initSpeed.x * totem.transform.forward + totem.initSpeed.y * Vector3.up;
         initY = transform.position.y;
@@ -34,7 +35,6 @@ public class SpawnBehaviour : MonoBehaviour {
             robot.SetImmune(game.spawnImmuneTime);
             body.isKinematic = false;
             totem.occupied = false;
-            robot.gameObject.AddComponent<SpawnBlinkBehaviour>();
             Destroy(this);
         }
 	}
