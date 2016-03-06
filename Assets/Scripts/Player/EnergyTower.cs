@@ -47,9 +47,12 @@ public class EnergyTower : MonoBehaviour {
                 Debug.DrawLine(bolt.initPos + Vector3.up, bolt.destPos + Vector3.up);
                 foreach (var hitTotem in Physics.RaycastAll(bolt.initPos, bolt.destPos - bolt.initPos, LayerMask.GetMask("Robots")))
                 {
+                    if (hitTotem.collider.GetComponent<RobotController>() == null)
+                        continue;
 
                     if (hitTotem.collider.gameObject != bolt.owner.gameObject)
                     {
+                        print(bolt.owner);
                         hitTotem.collider.GetComponent<RobotController>().SetLastHit(bolt.owner.GetComponent<RobotController>());
                         hitTotem.collider.GetComponent<RobotController>().Die();
                     }
