@@ -54,7 +54,7 @@ public class LightningBolt : MonoBehaviour
     {
             if(!connected)
             {
-                owner.OnBoltConnected();
+            //    owner.OnBoltConnected();
                 connected = true;
             }
 
@@ -104,7 +104,7 @@ public class LightningBolt : MonoBehaviour
 
             if (connected)
             {
-                owner.OnBoltDisconnected();
+//                owner.OnBoltDisconnected();
                 connected = false;
             }
         }
