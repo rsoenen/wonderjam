@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
     private float timeSpawnItem;
     private float timeGlobal;
     private float timeMax;
+    private bool flag;
 
     public bool invertedControl;
     public GameObject ThrowerInvertedControl;
@@ -54,7 +55,8 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        timeMax = 120;
+        flag = false;
+        timeMax = 5;
         ThrowerInvertedControl = null;
         timerInverted = 0f;
         invertedControl = false;
@@ -105,12 +107,14 @@ public class GameManager : MonoBehaviour {
     {
         timeGlobal += Time.deltaTime;
         #region Gestion fin de la partie
+       
+       
 
-        if (timeGlobal > timeMax)
+        if (timeGlobal > timeMax && !flag)
         {
-    
+            flag = true;
             GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
-
+            
             if (playerCount < 4)
             {
                 GameObject.Find("TextForth").SetActive(false);
@@ -200,7 +204,11 @@ public class GameManager : MonoBehaviour {
 
 
         int tempsRestant = (int)timeMax - (int)timeGlobal;
-        GameObject.Find("TextTimeRemaining").GetComponent<Text>().text = "TEMPS RESTANT : " + tempsRestant;
+        if (!flag)
+        {
+            GameObject.Find("TextTimeRemaining").GetComponent<Text>().text = "TEMPS RESTANT : " + tempsRestant;
+        }
+        
 
         if (timerInverted > 10 && invertedControl)
         {

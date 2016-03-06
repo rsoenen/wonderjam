@@ -18,8 +18,8 @@ public class EnergyBar : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        rect.localScale = new Vector3((100 - robot.GetComponent<RobotGestionPoint>().getPoint()) /100f, 1, 1);
-        text.text = robot.GetComponent<RobotGestionPoint>().getPoint() + "/100";
+        rect.localScale = new Vector3((20 - robot.GetComponent<RobotGestionPoint>().getPoint()) /20f, 1, 1);
+        text.text = robot.GetComponent<RobotGestionPoint>().getPoint() + "/20";
 
 	}
 
