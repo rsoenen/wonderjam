@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour {
 
 	public List<Transform> pois;
 	public float tweak = 0.60f;
-	public float limit = 3f;
+	private float limit = 3.5f;
 	public float minY = 3f;
 	[Range(0.11f, 1.0f)] public float damping = 1.0f;
 
@@ -21,19 +21,19 @@ public class CameraController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Vector3 pmin = new Vector3(0,0,0);
-		Vector3 pmax = new Vector3(0,0,0);
+		Vector3 pmin = pois[0].position;
+		Vector3 pmax = pois[0].position;
 
 		foreach (Transform t in pois)
 		{
 			Vector3 p = t.position;
 			if (pmin.x > p.x) pmin.x = p.x;
 			if (pmin.y > p.y) pmin.y = p.y;
-			if (pmin.y > p.z) pmin.z = p.z;
+			if (pmin.z > p.z) pmin.z = p.z;
 
 			if (pmax.x < p.x) pmax.x = p.x;
 			if (pmax.y < p.y) pmax.y = p.y;
-			if (pmax.y < p.z) pmax.z = p.z;
+			if (pmax.z < p.z) pmax.z = p.z;
 		}
 
 
@@ -58,7 +58,8 @@ public class CameraController : MonoBehaviour {
 			y = minY;
 		}
 
-		targetPosition = new Vector3(ppcam.x, y, ppcam.z);
+		targetPosition = new Vector3(ppcam.x, y, ppcam.z - y*Mathf.Sin(Mathf.Deg2Rad*(90-transform.rotation.eulerAngles.x)));
+		Debug.Log(targetPosition);
 		transform.position = Vector3.Lerp(transform.position,targetPosition,damping * Time.deltaTime * 60);
 
 	}
