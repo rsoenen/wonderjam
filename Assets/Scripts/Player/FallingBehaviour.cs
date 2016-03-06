@@ -15,6 +15,8 @@ public class FallingBehaviour : MonoBehaviour {
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<RobotController>().enabled = false;
         game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
+        if (GetComponent<DashBehaviour>() != null)
+            Destroy(GetComponent<DashBehaviour>());
     }
 	
 	// Update is called once per frame
