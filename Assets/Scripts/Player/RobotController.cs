@@ -32,6 +32,9 @@ public class RobotController : MonoBehaviour
 
 	public AudioClip[] dieVoices;
 	public AudioClip[] dashSounds;
+	public AudioClip connectSound;
+	public AudioClip disconnectSound;
+
 
     private bool m_encumbered;
     public bool Encumbered
@@ -82,6 +85,14 @@ public class RobotController : MonoBehaviour
         {
             AntennaRenderer.material.SetColor("_EmissionColor", _value ? AntennaRenderer.material.color : Color.black);
             m_AntennaEmission = _value;
+			if (_value)
+			{
+			GetComponent<AudioSource>().PlayOneShot(connectSound);
+			}
+			else
+			{
+			GetComponent<AudioSource>().PlayOneShot(disconnectSound);
+			}
         }
     }
 
@@ -226,19 +237,27 @@ public class RobotController : MonoBehaviour
         }
     }
 
-    private int m_connectionCount = -1;
+    //private int m_connectionCount = -1;
 
-    public void OnBoltConnected()
+  /*  public void OnBoltConnected()
     {
         if (AntennaRenderer.GetComponentInChildren<LightningBolt>() != null)
+		{
             ChangeAntennaEmission(true);
+			GetComponent<AudioSource>().PlayOneShot(connectSound);
+
+		}
     }
 
     public void OnBoltDisconnected()
     {
         if (AntennaRenderer.GetComponentInChildren<LightningBolt>() == null)
+		{
+			Debug.Log("goes here");
             ChangeAntennaEmission(false);
-    }
+			GetComponent<AudioSource>().PlayOneShot(disconnectSound);
+		}
+    }*/
 
     public void Die()
     {
