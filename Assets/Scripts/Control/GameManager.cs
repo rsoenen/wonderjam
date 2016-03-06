@@ -31,16 +31,19 @@ public class GameManager : MonoBehaviour {
     public float spawnImmuneTime;
     public float laserShakeFactor;
     private GameObject[] myRobots;
+    private RobotController[] robots;
 
     private GameObject[] spawns;
 
     public List<EnergyTower> towers = new List<EnergyTower>();
 
-    public List<RobotController> rangeReducers = new List<RobotController>();
-
     public float slowDownDuration, slowDownDeathRatio;
 
     public float spawnBlinkFreq, spawnBlinkDuration;
+
+    public Transform playerHUDPrefab;
+
+    public PlayerUIPopulator UIPopulator;
 
     [Header("Dead Body Parts Prefabs")]
     public GameObject headPrefab;
@@ -58,7 +61,8 @@ public class GameManager : MonoBehaviour {
         timeSpawnItem = 0f;
         playerCount = InputManager.Instance.controllers.Count;
         myRobots = new GameObject[playerCount];
-        
+        robots = new RobotController[playerCount];
+
         GameObject[] totems =  GameObject.FindGameObjectsWithTag("Totem");
         totemsTransform = new Transform[totems.Length];
         for (int i = 0; i < totems.Length; i++)
@@ -73,27 +77,11 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < playerCount; i++)
         {
             myRobots[i] = (GameObject)Instantiate(prefabRobot, spawns[i].transform.position, Quaternion.identity);
+            robots[i] = myRobots[i].GetComponent<RobotController>();
             SetupRobot(myRobots[i], i);
         }
 
-        HudController hud = Instantiate<HudController>(prefabHUD);
-        for (int i = 0; i < playerCount; i++)
-        {
-            hud.m_HudJoueur[i].Init(myRobots[i].GetComponent<RobotGestionPoint>());
-        }
-
-        if (playerCount < 4)
-        {
-            hud.m_HudJoueur[3].gameObject.SetActive(false);
-        }
-        if (playerCount < 3)
-        {
-            hud.m_HudJoueur[2].gameObject.SetActive(false);
-        }
-        if (playerCount < 2)
-        {
-            hud.m_HudJoueur[1].gameObject.SetActive(false);
-        }
+        GameObject.FindGameObjectWithTag("HUD").GetComponentInChildren<PlayerUIPopulator>().Populate(robots);
     }
 
     private void SetupRobot(GameObject _bot, int _id)

@@ -315,7 +315,7 @@ public class RobotController : MonoBehaviour
         }
     }
 
-    public int getNumberKill()
+    public int getKillsCount()
     {
         return this.killsCount;
     }

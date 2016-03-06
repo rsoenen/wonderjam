@@ -59,7 +59,6 @@ public class CameraController : MonoBehaviour {
 		}
 
 		targetPosition = new Vector3(ppcam.x, y, ppcam.z - y*Mathf.Sin(Mathf.Deg2Rad*(90-transform.rotation.eulerAngles.x)));
-//		Debug.Log(targetPosition);
 		transform.position = Vector3.Lerp(transform.position,targetPosition,damping * Time.deltaTime * 60);
 
 	}
