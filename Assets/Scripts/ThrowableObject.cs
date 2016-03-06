@@ -59,7 +59,7 @@ class ThrowableObject : MonoBehaviour
         {
             Vector3 direction = m_rigidbody.velocity.normalized;
             direction.y = 0;
-            _collider.gameObject.AddComponent<StuntBehaviour>().Init(direction.normalized);
+            _collider.gameObject.AddComponent<StuntBehaviour>().Init(-direction.normalized);
             Destroy(gameObject);
         }
     }
