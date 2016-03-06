@@ -16,9 +16,9 @@ public class ShowPanels : MonoBehaviour {
 	public void LoadScene(string name)
 	{
         chooseMapPanel.SetActive(false);
-		SceneManager.LoadScene(name);
-		
+		SceneManager.LoadScene(name);	
 	}
+
     public void LoadActualScene()
     {
        

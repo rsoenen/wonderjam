@@ -53,26 +53,37 @@ public class RobotGestionPoint : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //On rajoute 1 point toutes les secondes au robot
-       if (timerPoints < 1f)
+       if (timerPoints < 0.5f)
        {
            timerPoints += Time.deltaTime;
        }
-       else
+		else 
        {
-           
-           float distance = GameManager.Instance().lengthTotemRobot(this.gameObject);
-           if (distance < 3)
-           {
-               Point += 3;
-           }
-           if (distance >= 3 && distance < 6)
-           {
-               Point += 2;
-           }
-           if (distance >= 6 && distance < 10)
-           {
-               Point++;
-           }
+			if (GetComponent<RobotController>().enabled)
+			{
+				reducePoint(1);
+
+				Debug.Log(GetComponentsInChildren<LightningBolt>().Length);
+	       		foreach(LightningBolt bolt in GetComponentsInChildren<LightningBolt>())
+				{
+					float distanceMax = bolt.maxDistance;
+					float distance = Vector3.Distance(bolt.emitter.position,transform.position);
+
+					if (distance < distanceMax/3)
+					{
+						Point +=4;
+					}
+					else if (distance < distanceMax*2/3)
+					{
+						Point +=3;
+					}
+					else
+					{
+						Point+=2;
+					}
+				}
+           		
+			}
            timerPoints = 0;
        }
 
@@ -80,6 +91,10 @@ public class RobotGestionPoint : MonoBehaviour {
        {
            Point = 100;
        }
+		else if (Point < 0)
+		{
+			Point = 0;
+		}
 	}
 
     public void reducePoint(int _numberPointLess)

@@ -296,7 +296,7 @@ public class RobotController : MonoBehaviour
         if(lastHitRobot != null)
         {
             lastHitRobot.killsCount++;
-            print(lastHitRobot.killsCount);
+            //print(lastHitRobot.killsCount);
             lastHitRobot = null;
         }
 
