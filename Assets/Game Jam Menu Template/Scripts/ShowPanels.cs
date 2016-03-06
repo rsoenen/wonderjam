@@ -21,9 +21,9 @@ public class ShowPanels : MonoBehaviour {
     public void LoadActualScene()
     {
         winPanel.SetActive(false);
+        pausePanel.SetActive(false);
         GameObject.Find("GameController").GetComponent<GameManager>().resetGameController();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
     }
     public void BackMainMenu()
     {

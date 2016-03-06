@@ -72,7 +72,13 @@ public class PilotXbox360Controller : PlayerInputs
       return Input.GetButtonDown(_axisBasename + "A" + _axisEndname);
     }
   }
-
+  bool PlayerInputs.pause
+  {
+      get
+      {
+          return Input.GetButtonDown(_axisBasename + "Start" + _axisEndname);
+      }
+  }
     bool PlayerInputs.X
     {
         get

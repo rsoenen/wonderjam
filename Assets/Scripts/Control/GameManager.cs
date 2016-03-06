@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour {
         timeGlobal = 0f;
         timeSpawnItem = 0f;
         playerCount = InputManager.Instance.controllers.Count;
+        
+        
         myRobots = new GameObject[playerCount];
         robots = new RobotController[playerCount];
 
