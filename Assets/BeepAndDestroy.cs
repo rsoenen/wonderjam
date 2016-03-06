@@ -22,6 +22,13 @@ public class BeepAndDestroy : MonoBehaviour {
 
     private Renderer[] m_renderers;
 
+    public void Init(float _frequency, float _beepDuration, float _destructionETA)
+    {
+        m_DestructionETA = _destructionETA;
+        m_beepFrequency = _frequency;
+        m_beepDuration = _beepDuration;
+    }
+
 	// Use this for initialization
 	void Start () {
         m_renderers = GetComponentsInChildren<Renderer>();

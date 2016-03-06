@@ -50,20 +50,22 @@ public class DeathBehaviour : MonoBehaviour {
         GameObject deadHead = Instantiate<GameObject>(game.headPrefab);
         deadHead.transform.position = head.transform.position;
         deadHead.transform.rotation = head.transform.rotation;
-        deadHead.GetComponent<Rigidbody>().AddForce(5 * Vector3.up, ForceMode.Impulse);
+        deadHead.GetComponent<Rigidbody>().AddForce(5 * Vector3.up + Random.onUnitSphere * 2.0f, ForceMode.Impulse);
 
         GameObject deadLeftArm = Instantiate<GameObject>(game.leftArmPrefab);
         deadLeftArm.transform.position = leftArm.transform.position;
         deadLeftArm.transform.rotation = leftArm.transform.rotation;
+        deadLeftArm.GetComponent<Rigidbody>().AddForce(-deadLeftArm.transform.right * 2.5f, ForceMode.Impulse);
 
         GameObject deadRightArm = Instantiate<GameObject>(game.rightArmPrefab);
         deadRightArm.transform.position = rightArm.transform.position;
         deadRightArm.transform.rotation = rightArm.transform.rotation;
+        deadRightArm.GetComponent<Rigidbody>().AddForce(-deadRightArm.transform.right * 2.5f, ForceMode.Impulse);
 
         GameObject deadBody = Instantiate<GameObject>(game.bodyPrefab);
         deadBody.transform.position = body.transform.position;
         deadBody.transform.rotation = body.transform.rotation;
-        deadBody.GetComponent<Rigidbody>().AddForce(2.5f * deadBody.transform.forward + 2.0f * Vector3.up, ForceMode.Impulse);
+        deadBody.GetComponent<Rigidbody>().AddForce(2.5f * deadBody.transform.forward + 2.0f * Vector3.up + Random.onUnitSphere * 1.0f, ForceMode.Impulse);
 
         GameObject deadRotaringPlateform = Instantiate<GameObject>(game.rotaringPlateformPrefab);
         deadRotaringPlateform.transform.position = rotaringPlateform.transform.position;
