@@ -60,6 +60,11 @@ public class EnergyTower : MonoBehaviour {
             {
                 Transform instance = Transform.Instantiate<Transform>(receiverTransform);
                 instance.parent = robot.lightningRod.transform;
+                EnergyLossBehaviour behaviour = robot.GetComponent<EnergyLossBehaviour>();
+                if (behaviour != null)
+                {
+                    Destroy(behaviour);
+                }
                 instance.transform.localPosition = new Vector3(0, 0, 0);
                 LightningBolt bolt = instance.GetComponent<LightningBolt>();
                 bolt.Init(transform, robot, GetComponent<SphereCollider>().radius);

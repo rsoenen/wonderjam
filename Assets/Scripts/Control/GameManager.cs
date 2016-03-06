@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour {
 
     public List<RobotController> rangeReducers = new List<RobotController>();
 
+    public float slowDownDuration, slowDownDeathRatio;
+
     [Header("Dead Body Parts Prefabs")]
     public GameObject headPrefab;
     public GameObject rightArmPrefab;
