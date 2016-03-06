@@ -37,6 +37,7 @@ public class RobotController : MonoBehaviour
 	public AudioClip connectSound;
 	public AudioClip disconnectSound;
 	public AudioClip outOfBatterySound;
+	public AudioClip pickUpCaisseSound;
 
     private Color m_color;
     public Color Color
@@ -335,11 +336,8 @@ public class RobotController : MonoBehaviour
         if (collision.gameObject.tag == "Caisse")
         {
             collision.gameObject.GetComponent<scriptCaisse>().Consume(this);
+			GetComponent<AudioSource>().PlayOneShot(pickUpCaisseSound);
             Destroy(collision.gameObject);
-        }
-        if (collision.gameObject.tag == "Caisse")
-        {
-
         }
     }
 
