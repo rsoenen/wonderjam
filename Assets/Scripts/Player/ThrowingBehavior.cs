@@ -22,7 +22,7 @@ public class ThrowingBehavior : MonoBehaviour {
     {
         if (m_grabbedObject == null)
             return;
-
+        
         if(Vector3.Distance(m_anchor.position, m_grabbedObject.transform.position) >= 0.1f)
         {
             m_grabbedObject.transform.position += Mathf.Min(Vector3.Distance(m_anchor.position, m_grabbedObject.transform.position), m_speed * Time.deltaTime) * (m_anchor.position - m_grabbedObject.transform.position).normalized;
@@ -62,7 +62,7 @@ public class ThrowingBehavior : MonoBehaviour {
 
         m_grabbedObject.transform.parent = null;
         m_grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
-        m_grabbedObject.GetComponent<Rigidbody>().AddForce(transform.forward * 10.0f + Vector3.up * 2.0f, ForceMode.Impulse);
+        m_grabbedObject.GetComponent<Rigidbody>().AddForce(transform.forward * 20.0f + Vector3.up * 2.0f, ForceMode.Impulse);
 
         GetComponent<RobotController>().Encumbered = false;
 
