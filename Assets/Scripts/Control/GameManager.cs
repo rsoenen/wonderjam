@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour {
         _bot.GetComponent<SpawnBehaviour>().Init(GetClosestAvailableTotem(transform.position));
         foreach(LightningBolt bolt in _bot.GetComponentsInChildren<LightningBolt>())
             bolt.emitter = totemsTransform[0];
-        Camera.main.GetComponent<CameraController>().pois.Add(myRobots[_id].transform);
+		GameObject.Find("Main Camera").GetComponent<CameraController>().pois.Add(myRobots[_id].transform);
     }
 
     void Awake()
