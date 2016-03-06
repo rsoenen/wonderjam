@@ -44,6 +44,7 @@ public interface PlayerInputs : PlayerController
   float SwitchCamera { get; }
 
 
+
   /* BUTTONS */
   
   /// <summary>
@@ -59,5 +60,7 @@ public interface PlayerInputs : PlayerController
 
     // The B Button
     bool B { get; }
+
+    bool pause { get; }
 
 }

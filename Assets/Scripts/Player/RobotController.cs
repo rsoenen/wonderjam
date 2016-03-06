@@ -201,6 +201,10 @@ public class RobotController : MonoBehaviour
                 GetComponent<RodPlacementBehavior>().Activate(hit.point, lastLookDirection.normalized);
             }
         }
+        if (input.pause)
+        {
+            GameObject.Find("UI").GetComponent<Pause>().DoPause();
+        }
 
         if(input.Y)
         {
