@@ -24,7 +24,7 @@ public class LightningBolt : MonoBehaviour
     {
         this.emitter = emitter;
         this.owner = owner;
-        this.maxDistance = maxDistance;
+        this.maxDistance = maxDistance + 0.1f;
         endLight.color = InputManager.GetColorFromPlayer(owner.playerId);
     }
 
