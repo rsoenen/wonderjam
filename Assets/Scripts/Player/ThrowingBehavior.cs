@@ -7,6 +7,11 @@ public class ThrowingBehavior : MonoBehaviour {
     private Transform m_anchor;
     private GameObject m_grabbedObject;
 
+    private AudioSource m_AudioSource;
+
+    [SerializeField]
+    private AudioClip m_ThrowSound;
+
     [SerializeField]
     private float m_speed = 5.0f;
 
@@ -16,6 +21,11 @@ public class ThrowingBehavior : MonoBehaviour {
         {
             return m_grabbedObject != null;
         }
+    }
+
+    void Start()
+    {
+        m_AudioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -64,6 +74,9 @@ public class ThrowingBehavior : MonoBehaviour {
         m_grabbedObject.GetComponentInChildren<ThrowableObject>().Ignore(gameObject);
         m_grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
         m_grabbedObject.GetComponent<Rigidbody>().AddForce(_direction.normalized * 20.0f + Vector3.up * 2.0f, ForceMode.Impulse);
+
+        m_AudioSource.clip = m_ThrowSound;
+        m_AudioSource.Play();
 
         GetComponent<RobotController>().Encumbered = false;
 
