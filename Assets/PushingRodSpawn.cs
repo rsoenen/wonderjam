@@ -22,8 +22,15 @@ public class PushingRodSpawn : MonoBehaviour {
 
     private bool m_undeploy = false;
 
+    private AudioSource m_audioSource;
+
+    [SerializeField]
+    private AudioClip m_psssht;
+
     void Start()
     {
+        m_audioSource = GetComponent<AudioSource>();
+
         m_pushingRod.enabled = false;
 
         m_targetPosition = transform.position;
@@ -32,6 +39,9 @@ public class PushingRodSpawn : MonoBehaviour {
         m_deployementSpeed = Vector3.Distance(m_targetPosition, transform.position) / m_DeployementETA;
 
         GetComponentInChildren<ParticleSystem>().Stop();
+
+        m_audioSource.clip = m_psssht;
+        m_audioSource.Play();
     }
 
     void Update()
@@ -50,6 +60,9 @@ public class PushingRodSpawn : MonoBehaviour {
                     m_targetPosition = m_targetPosition + Vector3.down * ROD_HEIGHT;
                     m_deployementTimer = 0;
                     GetComponentInChildren<ParticleSystem>().Stop();
+
+                    m_audioSource.Play();
+
                     m_undeploy = true;
                 }
             }

@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour {
 
     public List<RobotController> rangeReducers = new List<RobotController>();
 
+    public float slowDownDuration, slowDownDeathRatio;
+
     [Header("Dead Body Parts Prefabs")]
     public GameObject headPrefab;
     public GameObject rightArmPrefab;
@@ -60,6 +62,7 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < totems.Length; i++)
         {
             totemsTransform[i] = totems[i].transform;
+			totemsTransform[i].GetComponent<EnergyTower>().spawnerCount = playerCount;
         }
 
         spawns = GameObject.FindGameObjectsWithTag("Spawn");
@@ -109,82 +112,80 @@ public class GameManager : MonoBehaviour {
     {
         timeGlobal += Time.deltaTime;
         #region Gestion fin de la partie
+        
+        if (Time.timeScale != 0 && timeGlobal > 180)
+        {
+            Time.timeScale = 0;
+            GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
 
-        if (Time.timeScale != 0 && timeGlobal > 10)
+            if (playerCount < 4)
             {
-                Time.timeScale = 0;
-                GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
-
-                if (playerCount < 4)
-                {
-                    GameObject.Find("TextForth").SetActive(false);
-                }
-                if (playerCount < 3)
-                {
-                    GameObject.Find("TextThird").SetActive(false);
-                }
-                int[] pointPlayer = new int[playerCount];
+                GameObject.Find("TextForth").SetActive(false);
+            }
+            if (playerCount < 3)
+            {
+                GameObject.Find("TextThird").SetActive(false);
+            }
+            int[] pointPlayer = new int[playerCount];
 
 
-                int[] ladder = new int[playerCount];
-                ladder[0] = 0;
-                int id = 0;
-                for (int j = 0; j < playerCount; j++)
-                {
-                    pointPlayer[j] = myRobots[j].GetComponent<RobotGestionPoint>().getPoint();
-                    if (pointPlayer[j]>pointPlayer[ladder[0]]){
-                        ladder[0]=j;
-                        id=j;
-                    }
+            int[] ladder = new int[playerCount];
+            ladder[0] = 0;
+            int id = 0;
+            for (int j = 0; j < playerCount; j++)
+            {
+                pointPlayer[j] = myRobots[j].GetComponent<RobotGestionPoint>().getPoint();
+                if (pointPlayer[j]>pointPlayer[ladder[0]]){
+                    ladder[0]=j;
+                    id=j;
                 }
+            }
                
-                pointPlayer[id] = -1;
-                ladder[1] = 0;
-                GameObject.Find("TextFirst").GetComponent<Text>().text += ladder[0] + 1;
+            pointPlayer[id] = -1;
+            ladder[1] = 0;
+            GameObject.Find("TextFirst").GetComponent<Text>().text += ladder[0] + 1;
 
 
-                //On cherche le deuxième
+            //On cherche le deuxième
+            for (int j = 0; j < playerCount; j++)
+            {
+                if (pointPlayer[j] > pointPlayer[ladder[1]])
+                {
+                    ladder[1] = j;
+                }
+            }
+            pointPlayer[ladder[1]] = -1;
+            GameObject.Find("TextSecond").GetComponent<Text>().text += ladder[1] + 1;
+            //On cherche le troisième
+            if (playerCount > 2)
+            {
+                ladder[2] = 0;
                 for (int j = 0; j < playerCount; j++)
                 {
-                    if (pointPlayer[j] > pointPlayer[ladder[1]])
+                    if (pointPlayer[j] > pointPlayer[ladder[2]])
                     {
-                        ladder[1] = j;
+                        ladder[2] = j;
                     }
                 }
-                pointPlayer[ladder[1]] = -1;
-                GameObject.Find("TextSecond").GetComponent<Text>().text += ladder[1] + 1;
-                //On cherche le troisième
-                if (playerCount > 2)
+                pointPlayer[ladder[2]] = -1;
+                GameObject.Find("TextThird").GetComponent<Text>().text += ladder[2] + 1;
+            }
+
+            //On cherche le quatrième
+            if (playerCount > 3)
+            {
+
+                ladder[3] = 0;
+                for (int j = 0; j < playerCount; j++)
                 {
-                    ladder[2] = 0;
-                    for (int j = 0; j < playerCount; j++)
+                    if (pointPlayer[j] > pointPlayer[ladder[3]])
                     {
-                        if (pointPlayer[j] > pointPlayer[ladder[2]])
-                        {
-                            ladder[2] = j;
-                        }
+                        ladder[3] = j;
                     }
-                    pointPlayer[ladder[2]] = -1;
-                    GameObject.Find("TextThird").GetComponent<Text>().text += ladder[2] + 1;
                 }
-
-                //On cherche le quatrième
-                if (playerCount > 3)
-                {
-
-                    ladder[3] = 0;
-                    for (int j = 0; j < playerCount; j++)
-                    {
-                        if (pointPlayer[j] > pointPlayer[ladder[3]])
-                        {
-                            ladder[3] = j;
-                        }
-                    }
-                    pointPlayer[ladder[3]] = -1;
-                    GameObject.Find("TextForth").GetComponent<Text>().text += ladder[3] + 1;
-                }
-
-            
+                pointPlayer[ladder[3]] = -1;
+                GameObject.Find("TextForth").GetComponent<Text>().text += ladder[3] + 1;
+            }
         }
         #endregion
 
@@ -197,9 +198,9 @@ public class GameManager : MonoBehaviour {
             float r = Random.Range(2f, 10f);
             float teta = Random.Range(0, 360);
             GameObject prefab = null;
-            prefab = Random.value < 0 ? prefabCaisses[Random.Range(0, prefabCaisses.Length)] : prefabThrowables[Random.Range(0, prefabThrowables.Length)];
+            prefab = Random.value < 0.5f ? prefabCaisses[Random.Range(0, prefabCaisses.Length)] : prefabThrowables[Random.Range(0, prefabThrowables.Length)];
 
-            Instantiate(prefab, new Vector3(r * Mathf.Cos(teta), 0.5f, r * Mathf.Sin(teta)), Quaternion.identity);
+            Instantiate(prefab, new Vector3(r * Mathf.Cos(teta), 10.0f, r * Mathf.Sin(teta)), Quaternion.identity);
             timeSpawnItem = 0;
         }
 
