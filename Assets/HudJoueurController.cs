@@ -18,6 +18,7 @@ public class HudJoueurController : MonoBehaviour {
     [SerializeField]
     private Image m_PowerupIcon;
 
+
     public void Init(RobotGestionPoint _pointController)
     {
         if (m_pointController != null)
@@ -50,12 +51,17 @@ public class HudJoueurController : MonoBehaviour {
     {
         if (_powerup != null)
         {
+
             m_PowerupIcon.sprite = _powerup.Icon;
+            Debug.Log(m_PowerupIcon);
+            
+            //m_Background.color = new Color(0, 0, 0, 190 / 255);
             m_PowerupIcon.color = Color.white;
         }
         else
         {
             m_PowerupIcon.sprite = null;
+            Debug.Log("Coucou1");
             m_PowerupIcon.color = Color.clear;
         }
     }

@@ -55,14 +55,15 @@ public class ThrowingBehavior : MonoBehaviour {
         m_grabbedObject = null;
     }
 
-    public void ThrowObject()
+    public void ThrowObject(Vector3 _direction)
     {
         if (m_grabbedObject == null)
             return;
 
         m_grabbedObject.transform.parent = null;
+        m_grabbedObject.GetComponentInChildren<ThrowableObject>().Ignore(gameObject);
         m_grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
-        m_grabbedObject.GetComponent<Rigidbody>().AddForce(transform.forward * 10.0f + Vector3.up * 2.0f, ForceMode.Impulse);
+        m_grabbedObject.GetComponent<Rigidbody>().AddForce(_direction.normalized * 20.0f + Vector3.up * 2.0f, ForceMode.Impulse);
 
         GetComponent<RobotController>().Encumbered = false;
 
