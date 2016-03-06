@@ -13,6 +13,13 @@ class ThrowableObject : MonoBehaviour
     Rigidbody m_rigidbody;
     int m_RobotLayer;
 
+    GameObject m_ignored;
+
+    public void Ignore(GameObject _ignore)
+    {
+        m_ignored = _ignore;
+    }
+
     void Start()
     {
         m_RobotLayer = LayerMask.NameToLayer("Robots");
@@ -20,7 +27,7 @@ class ThrowableObject : MonoBehaviour
 
     void OnTriggerEnter(Collider _collider)
     {
-        if(_collider.gameObject.layer == m_RobotLayer && m_rigidbody.velocity.magnitude > m_HurtingSpeed)
+        if(_collider.gameObject != m_ignored && _collider.gameObject.layer == m_RobotLayer && m_rigidbody.velocity.magnitude > m_HurtingSpeed)
         {
             Vector3 direction = (_collider.transform.position - transform.position);
             direction.y = 0;
@@ -28,4 +35,6 @@ class ThrowableObject : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    
 }

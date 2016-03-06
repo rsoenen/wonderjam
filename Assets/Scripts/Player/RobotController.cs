@@ -176,7 +176,7 @@ public class RobotController : MonoBehaviour
                     pickupArrow.SetActive(false);
 
                 if (input.B)
-                    GetComponent<ThrowingBehavior>().ThrowObject();
+                    GetComponent<ThrowingBehavior>().ThrowObject(headTransform.forward);
             }
         }
 
