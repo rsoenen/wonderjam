@@ -20,8 +20,6 @@ public class ShowPanels : MonoBehaviour {
 
     public void LoadActualScene()
     {
-       
-        
         winPanel.SetActive(false);
         GameObject.Find("GameController").GetComponent<GameManager>().resetGameController();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

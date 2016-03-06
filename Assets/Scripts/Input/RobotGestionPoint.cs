@@ -12,6 +12,7 @@ public class RobotGestionPoint : MonoBehaviour {
     public event PowerupChangedEventHandler PowerupChanged;
 
     private int point;
+    private int pointMax;
     
     private float timerPoints;
     private int playerId;
@@ -45,6 +46,7 @@ public class RobotGestionPoint : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        pointMax = 20;
         Point = 0;
         timerPoints = 0f;
         this.playerId = this.GetComponent<RobotController>().playerId;
@@ -87,9 +89,9 @@ public class RobotGestionPoint : MonoBehaviour {
            timerPoints = 0;
        }
 
-       if (Point >= 100)
+       if (Point >= pointMax)
        {
-           Point = 100;
+           Point = pointMax;
        }
 		else if (Point < 0)
 		{

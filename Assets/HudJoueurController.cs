@@ -45,8 +45,8 @@ public class HudJoueurController : MonoBehaviour {
 
 	void OnPointChanged(int _old, int _new)
     {
-        m_PointLabel.text = _new + "/100";
-        m_PointRect.sizeDelta = new Vector2(95 * (100 - _new) / 100, 15);
+        m_PointLabel.text = _new + "/20";
+        m_PointRect.sizeDelta = new Vector2(95 * (20 - _new) / 20, 15);
         m_PointRect.position = new Vector3(m_BarrePointMax.position.x + _new/ 2, m_BarrePointMax.position.y, 0);
     }
 
