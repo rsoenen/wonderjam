@@ -39,6 +39,12 @@ public class RobotController : MonoBehaviour
 	public AudioClip outOfBatterySound;
 	public AudioClip pickUpCaisseSound;
 
+    private Color m_color;
+    public Color Color
+    {
+        get { return m_color; }
+    }
+
 
     private bool m_encumbered;
     public bool Encumbered
@@ -129,6 +135,7 @@ public class RobotController : MonoBehaviour
     headChild.Find("LeftEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headChild.FindChild("RightEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headChild.Find("Antenna").FindChild("Receiver").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+        m_color = color;
         AntennaRenderer = headChild.Find("Antenna").FindChild("Receiver").GetComponent<MeshRenderer>();
     headTransform = headChild;
 
