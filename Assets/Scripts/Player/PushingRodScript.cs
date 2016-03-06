@@ -26,13 +26,22 @@ public class PushingRodScript : MonoBehaviour {
         }
     }
 
+    void OnTriggerStay(Collider _collider)
+    {
+        if (_collider.gameObject.layer == m_layerBot)
+        {
+            Rigidbody rigidbody = _collider.attachedRigidbody;
+            if (rigidbody != null && !m_rigidbodies.Contains(rigidbody)) m_rigidbodies.Add(rigidbody);
+        }
+    }
+
     void OnTriggerEnter(Collider _collider)
     {
-        if(_collider.gameObject.layer == m_layerBot)
+        /*if(_collider.gameObject.layer == m_layerBot)
         {
             Rigidbody rigidbody = _collider.attachedRigidbody;
             if(rigidbody != null) m_rigidbodies.Add(rigidbody);
-        }
+        }*/
     }
 
     void OnTriggerExit(Collider _collider)
