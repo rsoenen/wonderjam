@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour {
         timeGlobal += Time.deltaTime;
         #region Gestion fin de la partie
 
-        if (Time.timeScale != 0 && timeGlobal > 10)
+        if (Time.timeScale != 0 && timeGlobal > 120)
             {
                 Time.timeScale = 0;
                 GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
