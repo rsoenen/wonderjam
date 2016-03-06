@@ -11,7 +11,7 @@ public class InputManager : Singleton<InputManager> {
 	void Awake ()
     {
         AutoMapControllers();
-
+        DontDestroyOnLoad(gameObject);
 	    }
 
     
