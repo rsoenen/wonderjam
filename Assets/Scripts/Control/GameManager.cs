@@ -53,6 +53,11 @@ public class GameManager : MonoBehaviour {
     public GameObject bodyPrefab;
     public GameObject rotaringPlateformPrefab;
 
+    [Header("Energy Management")]
+    public float pointLostRate = 1;
+    public float maxPointGainRate = 4;
+    public float minPointGainRate = 2;
+
     // Use this for initialization
     void Start () {
         flag = false;

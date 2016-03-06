@@ -63,7 +63,7 @@ public class RobotGestionPoint : MonoBehaviour {
        {
 			if (GetComponent<RobotController>().enabled)
 			{
-				reducePoint(1);
+				reducePoint((int)GameManager.Instance().pointLostRate);
 
 				//Debug.Log(GetComponentsInChildren<LightningBolt>().Length);
 	       		foreach(LightningBolt bolt in GetComponentsInChildren<LightningBolt>())
@@ -73,15 +73,15 @@ public class RobotGestionPoint : MonoBehaviour {
 
 					if (distance < distanceMax/3)
 					{
-						Point +=4;
+						Point += (int)GameManager.Instance().maxPointGainRate;
 					}
 					else if (distance < distanceMax*2/3)
 					{
-						Point +=3;
+						Point += (int) ((GameManager.Instance().maxPointGainRate + GameManager.Instance().minPointGainRate) / 2.0f);
 					}
 					else
 					{
-						Point+=2;
+						Point += (int)GameManager.Instance().minPointGainRate;
 					}
 				}
            		
