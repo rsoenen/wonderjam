@@ -29,7 +29,7 @@ class ThrowableObject : MonoBehaviour
     {
         if(_collider.gameObject != m_ignored && _collider.gameObject.layer == m_RobotLayer && m_rigidbody.velocity.magnitude > m_HurtingSpeed)
         {
-            Vector3 direction = (_collider.transform.position - transform.position);
+            Vector3 direction = m_rigidbody.velocity.normalized;
             direction.y = 0;
             _collider.gameObject.AddComponent<StuntBehaviour>().Init(direction.normalized);
             Destroy(gameObject);

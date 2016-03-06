@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour {
         {
             totemsTransform[i] = totems[i].transform;
 			totemsTransform[i].GetComponent<EnergyTower>().spawnerCount = playerCount;
+			totemsTransform[i].GetComponent<EnergyTower>().SetupSpawns();
+
         }
 
         spawns = GameObject.FindGameObjectsWithTag("Spawn");
