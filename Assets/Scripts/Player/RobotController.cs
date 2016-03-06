@@ -26,6 +26,8 @@ public class RobotController : MonoBehaviour
     private Transform rotaringPlatformTransform;
     public Transform lightningRod;
 
+    private MeshRenderer AntennaRenderer;
+
     private GroundDetector groundDetector;
 
     private float immuneTime;
@@ -75,6 +77,16 @@ public class RobotController : MonoBehaviour
         }
     }
 
+    private bool m_AntennaEmission = false;
+    private void ChangeAntennaEmission(bool _value)
+    {
+        if(m_AntennaEmission != _value)
+        {
+            AntennaRenderer.material.SetColor("_EmissionColor", _value ? AntennaRenderer.material.color : Color.black);
+            m_AntennaEmission = _value;
+        }
+    }
+
 	// Use this for initialization
 	void Start () {
         gameController = GameObject.Find("GameController");
@@ -103,6 +115,7 @@ public class RobotController : MonoBehaviour
     headChild.Find("LeftEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headChild.FindChild("RightEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
     headChild.Find("Antenna").FindChild("Receiver").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
+        AntennaRenderer = headChild.Find("Antenna").FindChild("Receiver").GetComponent<MeshRenderer>();
     headTransform = headChild;
 
         rotaringPlatformTransform = transform.Find("RotaringPlateform");
@@ -134,6 +147,12 @@ public class RobotController : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+
+        if (AntennaRenderer.GetComponentInChildren<LightningBolt>() == null)
+            ChangeAntennaEmission(false);
+        else
+            ChangeAntennaEmission(true);
+
         if(immuneTime > 0 && immuneTime < Time.deltaTime)
         {
             Destroy(GetComponent<SpawnBlinkBehaviour>());
@@ -210,6 +229,20 @@ public class RobotController : MonoBehaviour
             }
             gameObject.AddComponent<FallingBehaviour>().Init(rigidBody.velocity);
         }
+    }
+
+    private int m_connectionCount = -1;
+
+    public void OnBoltConnected()
+    {
+        if (AntennaRenderer.GetComponentInChildren<LightningBolt>() != null)
+            ChangeAntennaEmission(true);
+    }
+
+    public void OnBoltDisconnected()
+    {
+        if (AntennaRenderer.GetComponentInChildren<LightningBolt>() == null)
+            ChangeAntennaEmission(false);
     }
 
     public void Die()

@@ -43,13 +43,21 @@ public class LightningBolt : MonoBehaviour
 
         endLight = GetComponentInChildren<Light>();
 	}
-	
-	void Update ()
+
+    bool connected = false;
+
+    void Update ()
 	{
     float distance = Vector3.Distance(transform.position, emitter.position);
      
     if (distance < maxDistance)
     {
+            if(!connected)
+            {
+                owner.OnBoltConnected();
+                connected = true;
+            }
+
       GetComponent<MeshRenderer>().enabled = true;
       GetComponent<ParticleRenderer>().enabled = true;
       endLight.enabled = true;
@@ -93,6 +101,12 @@ public class LightningBolt : MonoBehaviour
       GetComponent<MeshRenderer>().enabled = false;
       GetComponent<ParticleRenderer>().enabled = false;
       endLight.enabled = false;
-    }
+
+            if (connected)
+            {
+                owner.OnBoltDisconnected();
+                connected = false;
+            }
+        }
 	}	
 }
