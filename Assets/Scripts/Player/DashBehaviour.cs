@@ -37,9 +37,12 @@ public class DashBehaviour : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        print(GetComponent<RobotController>());
         RobotController other = collision.collider.GetComponent<RobotController>();
         if (other != null && other.enabled)
         {
+            print(GetComponent<RobotController>());
+            other.GetComponent<RobotController>().SetLastHit(GetComponent<RobotController>());
             Vector3 normalSpeed = Vector3.Project(body.velocity, collision.contacts[0].normal);
             Vector3 tangentSpeed = body.velocity - normalSpeed;
             other.gameObject.AddComponent<StuntBehaviour>().Init(collision.contacts[0].normal);

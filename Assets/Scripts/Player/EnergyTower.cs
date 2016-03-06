@@ -50,6 +50,7 @@ public class EnergyTower : MonoBehaviour {
 
                     if (hitTotem.collider.gameObject != bolt.owner.gameObject && hitTotem.collider.gameObject.layer == LayerMask.NameToLayer("Robots"))
                     {
+                        hitTotem.collider.GetComponent<RobotController>().SetLastHit(bolt.owner.GetComponent<RobotController>());
                         hitTotem.collider.GetComponent<RobotController>().Die();
                     }
 

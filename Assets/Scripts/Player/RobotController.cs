@@ -11,10 +11,8 @@ public class RobotController : MonoBehaviour
     public PlayerInputs input;
 
    
-    private int nombreKill;
-    public GameObject lastAttack;
-
-   
+    private int killsCount;
+    public RobotController lastHitRobot;
 
     public float rodPlacementDistance = 0.5f;
 
@@ -36,7 +34,7 @@ public class RobotController : MonoBehaviour
     private bool m_encumbered;
     public bool Encumbered
     {
-        get { return m_encumbered; }
+        get{ return m_encumbered; }
         set
         {
             m_encumbered = value;
@@ -204,10 +202,6 @@ public class RobotController : MonoBehaviour
         if (!groundDetector.isOnGround)
         {
             //Die();
-            if (lastAttack != null)
-            {
-                lastAttack.gameObject.GetComponent<RobotController>().addOneKill();
-            }
             gameObject.AddComponent<FallingBehaviour>().Init(rigidBody.velocity);
         }
     }
@@ -219,12 +213,28 @@ public class RobotController : MonoBehaviour
 			GetComponent<AudioSource>().PlayOneShot(dieVoices[Random.Range(0,dieVoices.Length)]);
             //Debug.Log("You are dead.");
             this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(20);
-            if (lastAttack != null)
+            if (lastHitRobot != null)
             {
-                lastAttack.gameObject.GetComponent<RobotController>().addOneKill();
+                GiveKill();
             }
             gameObject.AddComponent<DeathBehaviour>();
         }
+    }
+
+    public void SetLastHit(RobotController robot)
+    {
+        lastHitRobot = robot;
+    }
+
+    public void GiveKill()
+    {
+        if(lastHitRobot != null)
+        {
+            lastHitRobot.killsCount++;
+            print(lastHitRobot.killsCount);
+            lastHitRobot = null;
+        }
+
     }
 
     void OnCollisionEnter(Collision collision)
@@ -240,14 +250,8 @@ public class RobotController : MonoBehaviour
         }
     }
 
-    public void addOneKill()
-    {
-        this.nombreKill++;
-        int idHud=playerId+1;
-        GameObject.Find("KillPlayer" + idHud).GetComponent<Text>().text = ""+nombreKill ;
-    }
     public int getNumberKill()
     {
-        return this.nombreKill;
+        return this.killsCount;
     }
 }

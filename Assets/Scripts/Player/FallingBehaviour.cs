@@ -29,7 +29,9 @@ public class FallingBehaviour : MonoBehaviour {
             {
                 GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<RobotController>().enabled = true;
+                GetComponent<RobotController>().GiveKill();
                 gameObject.AddComponent<SpawnBehaviour>().Init(closestTotem);
+
                 Destroy(this);
             }
         }

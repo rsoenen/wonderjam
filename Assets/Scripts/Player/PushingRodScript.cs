@@ -22,6 +22,7 @@ public class PushingRodScript : MonoBehaviour {
             var forceDirection = rigidbody.transform.position - transform.position;
             forceDirection.y = 0;
             rigidbody.AddForce(forceDirection.normalized * m_force);
+            rigidbody.GetComponent<RobotController>().SetLastHit(GetComponent<RobotController>());
         }
     }
 
