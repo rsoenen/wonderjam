@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(GroundDetector))]
 [RequireComponent(typeof(AudioSource))]
@@ -8,6 +9,12 @@ public class RobotController : MonoBehaviour
     GameManager game;
     public int playerId;
     public PlayerInputs input;
+
+   
+    private int nombreKill;
+    public GameObject lastAttack;
+
+   
 
     public float rodPlacementDistance = 0.5f;
 
@@ -167,12 +174,16 @@ public class RobotController : MonoBehaviour
             RaycastHit hit;
             if (Physics.SphereCast(rotaringPlatformTransform.position, 1.0f, -rotaringPlatformTransform.up, out hit, 2.0f, LayerMask.GetMask("ThrowableObjects")))
             {
-                if (!pickupArrow.activeSelf)
-                    pickupArrow.SetActive(true);
-                pickupArrow.transform.position = hit.transform.position + Vector3.up * 1.0f;
+                if (hit.transform.GetComponent<ThrowableObject>().Grabbed)
+                {
+                    if (!pickupArrow.activeSelf)
+                        pickupArrow.SetActive(true);
+                    pickupArrow.transform.position = hit.transform.position + Vector3.up * 1.0f;
 
-                if (input.B)
-                    GetComponent<ThrowingBehavior>().GrabObject(hit.transform.gameObject);
+                    if (input.B)
+                        GetComponent<ThrowingBehavior>().GrabObject(hit.transform.gameObject);
+                }
+
             }
             else
             {
@@ -193,6 +204,10 @@ public class RobotController : MonoBehaviour
         if (!groundDetector.isOnGround)
         {
             //Die();
+            if (lastAttack != null)
+            {
+                lastAttack.gameObject.GetComponent<RobotController>().addOneKill();
+            }
             gameObject.AddComponent<FallingBehaviour>().Init(rigidBody.velocity);
         }
     }
@@ -204,6 +219,10 @@ public class RobotController : MonoBehaviour
 			GetComponent<AudioSource>().PlayOneShot(dieVoices[Random.Range(0,dieVoices.Length)]);
             //Debug.Log("You are dead.");
             this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(20);
+            if (lastAttack != null)
+            {
+                lastAttack.gameObject.GetComponent<RobotController>().addOneKill();
+            }
             gameObject.AddComponent<DeathBehaviour>();
         }
     }
@@ -215,5 +234,20 @@ public class RobotController : MonoBehaviour
             collision.gameObject.GetComponent<scriptCaisse>().Consume(this);
             Destroy(collision.gameObject);
         }
+        if (collision.gameObject.tag == "Caisse")
+        {
+
+        }
+    }
+
+    public void addOneKill()
+    {
+        this.nombreKill++;
+        int idHud=playerId+1;
+        GameObject.Find("KillPlayer" + idHud).GetComponent<Text>().text = ""+nombreKill ;
+    }
+    public int getNumberKill()
+    {
+        return this.nombreKill;
     }
 }
