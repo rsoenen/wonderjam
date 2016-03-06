@@ -34,6 +34,7 @@ public class RobotController : MonoBehaviour
 	public AudioClip[] dashSounds;
 	public AudioClip connectSound;
 	public AudioClip disconnectSound;
+	public AudioClip outOfBatterySound;
 
 
     private bool m_encumbered;
@@ -273,6 +274,17 @@ public class RobotController : MonoBehaviour
             gameObject.AddComponent<DeathBehaviour>();
         }
     }
+
+	public void OutOfBattery()
+	{
+		if (lastHitRobot != null)
+        {
+        	GiveKill();
+        }
+
+		GetComponent<AudioSource>().PlayOneShot(outOfBatterySound);
+		gameObject.AddComponent<NoBatteryBehavior>();
+	}
 
     public void SetLastHit(RobotController robot)
     {

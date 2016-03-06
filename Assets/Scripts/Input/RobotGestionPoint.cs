@@ -87,7 +87,10 @@ public class RobotGestionPoint : MonoBehaviour {
         if (_numberPointLess > this.point)
         {
             this.Point = 0;
+			if (GetComponent<EnergyLossBehaviour>()==null)
+			{
             gameObject.AddComponent<EnergyLossBehaviour>();
+			}
         }
         else
         {
