@@ -127,6 +127,10 @@ public class RobotController : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        if(immuneTime > 0 && immuneTime < Time.deltaTime)
+        {
+            Destroy(GetComponent<SpawnBlinkBehaviour>());
+        }
         immuneTime -= Time.deltaTime;
         
         if (input == null)

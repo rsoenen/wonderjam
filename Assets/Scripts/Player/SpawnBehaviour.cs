@@ -34,6 +34,7 @@ public class SpawnBehaviour : MonoBehaviour {
             robot.SetImmune(game.spawnImmuneTime);
             body.isKinematic = false;
             totem.occupied = false;
+            robot.gameObject.AddComponent<SpawnBlinkBehaviour>();
             Destroy(this);
         }
 	}
