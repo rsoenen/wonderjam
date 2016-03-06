@@ -197,9 +197,9 @@ public class GameManager : MonoBehaviour {
             float r = Random.Range(2f, 10f);
             float teta = Random.Range(0, 360);
             GameObject prefab = null;
-            prefab = Random.value < 0 ? prefabCaisses[Random.Range(0, prefabCaisses.Length)] : prefabThrowables[Random.Range(0, prefabThrowables.Length)];
+            prefab = Random.value < 0.5f ? prefabCaisses[Random.Range(0, prefabCaisses.Length)] : prefabThrowables[Random.Range(0, prefabThrowables.Length)];
 
-            Instantiate(prefab, new Vector3(r * Mathf.Cos(teta), 0.5f, r * Mathf.Sin(teta)), Quaternion.identity);
+            Instantiate(prefab, new Vector3(r * Mathf.Cos(teta), 10.0f, r * Mathf.Sin(teta)), Quaternion.identity);
             timeSpawnItem = 0;
         }
 
