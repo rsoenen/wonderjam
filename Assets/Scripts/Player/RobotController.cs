@@ -32,6 +32,10 @@ public class RobotController : MonoBehaviour
 
 	public AudioClip[] dieVoices;
 	public AudioClip[] dashSounds;
+	public AudioClip connectSound;
+	public AudioClip disconnectSound;
+	public AudioClip outOfBatterySound;
+
 
     private bool m_encumbered;
     public bool Encumbered
@@ -82,6 +86,14 @@ public class RobotController : MonoBehaviour
         {
             AntennaRenderer.material.SetColor("_EmissionColor", _value ? AntennaRenderer.material.color : Color.black);
             m_AntennaEmission = _value;
+			if (_value)
+			{
+			GetComponent<AudioSource>().PlayOneShot(connectSound);
+			}
+			else
+			{
+			GetComponent<AudioSource>().PlayOneShot(disconnectSound);
+			}
         }
     }
 
@@ -191,7 +203,8 @@ public class RobotController : MonoBehaviour
             RaycastHit hit;
             if (Physics.SphereCast(rotaringPlatformTransform.position, 1.0f, -rotaringPlatformTransform.up, out hit, 2.0f, LayerMask.GetMask("ThrowableObjects")))
             {
-                if (hit.transform.GetComponent<ThrowableObject>() != null && hit.transform.GetComponent<ThrowableObject>().Grabbed)
+                ThrowableObject thobj = hit.transform.GetComponentInChildren<ThrowableObject>();
+                if (thobj != null && !thobj.Grabbed)
                 {
                     if (!pickupArrow.activeSelf)
                         pickupArrow.SetActive(true);
@@ -225,19 +238,27 @@ public class RobotController : MonoBehaviour
         }
     }
 
-    private int m_connectionCount = -1;
+    //private int m_connectionCount = -1;
 
-    public void OnBoltConnected()
+  /*  public void OnBoltConnected()
     {
         if (AntennaRenderer.GetComponentInChildren<LightningBolt>() != null)
+		{
             ChangeAntennaEmission(true);
+			GetComponent<AudioSource>().PlayOneShot(connectSound);
+
+		}
     }
 
     public void OnBoltDisconnected()
     {
         if (AntennaRenderer.GetComponentInChildren<LightningBolt>() == null)
+		{
+			Debug.Log("goes here");
             ChangeAntennaEmission(false);
-    }
+			GetComponent<AudioSource>().PlayOneShot(disconnectSound);
+		}
+    }*/
 
     public void Die()
     {
@@ -253,6 +274,17 @@ public class RobotController : MonoBehaviour
             gameObject.AddComponent<DeathBehaviour>();
         }
     }
+
+	public void OutOfBattery()
+	{
+		if (lastHitRobot != null)
+        {
+        	GiveKill();
+        }
+
+		GetComponent<AudioSource>().PlayOneShot(outOfBatterySound);
+		gameObject.AddComponent<NoBatteryBehavior>();
+	}
 
     public void SetLastHit(RobotController robot)
     {

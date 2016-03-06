@@ -24,6 +24,8 @@ public class ThrowingBehavior : MonoBehaviour {
         }
     }
 
+    private bool m_shouldCarrySomething = false;
+
     void Start()
     {
         m_AudioSource = GetComponent<AudioSource>();
@@ -31,6 +33,9 @@ public class ThrowingBehavior : MonoBehaviour {
 
     void Update()
     {
+        if (m_grabbedObject == null && m_shouldCarrySomething)
+            FailSafe();
+
         if (m_grabbedObject == null)
             return;
         
@@ -40,6 +45,11 @@ public class ThrowingBehavior : MonoBehaviour {
         }
     }
 
+    private void FailSafe()
+    {
+        GetComponent<RobotController>().Encumbered = false;
+    }
+
     public void GrabObject(GameObject _obj)
     {
         UnGrabObject();
@@ -47,7 +57,8 @@ public class ThrowingBehavior : MonoBehaviour {
         m_grabbedObject = _obj;
         m_grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
         m_grabbedObject.transform.parent = m_anchor;
-        m_grabbedObject.GetComponent<ThrowableObject>().Grabbed = true;
+        m_grabbedObject.GetComponentInChildren<ThrowableObject>().Grabbed = true;
+        m_shouldCarrySomething = true;
 
         GetComponent<RobotController>().Encumbered = true;
 
@@ -61,7 +72,8 @@ public class ThrowingBehavior : MonoBehaviour {
         m_grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
         m_grabbedObject.GetComponent<Rigidbody>().AddForce(Vector3.up * 5.0f, ForceMode.Impulse);
         m_grabbedObject.transform.parent = null;
-        m_grabbedObject.GetComponent<ThrowableObject>().Grabbed = false;
+        m_grabbedObject.GetComponentInChildren<ThrowableObject>().Grabbed = false;
+        m_shouldCarrySomething = false;
 
         GetComponent<RobotController>().Encumbered = false;
 
@@ -75,13 +87,15 @@ public class ThrowingBehavior : MonoBehaviour {
 
         m_grabbedObject.transform.parent = null;
         m_grabbedObject.GetComponentInChildren<ThrowableObject>().Ignore(gameObject);
-        m_grabbedObject.GetComponent<ThrowableObject>().Grabbed = false;
+        m_grabbedObject.GetComponentInChildren<ThrowableObject>().Grabbed = false;
 
         m_grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
         m_grabbedObject.GetComponent<Rigidbody>().AddForce(_direction.normalized * 20.0f + Vector3.up * 2.0f, ForceMode.Impulse);
 
         m_AudioSource.clip = m_ThrowSound;
         m_AudioSource.Play();
+
+        m_shouldCarrySomething = false;
 
         GetComponent<RobotController>().Encumbered = false;
 

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
     public GameObject[] prefabThrowables;
     private Transform[] totemsTransform;
     private int playerCount;
+    private float maxTime =120;
     private float timeSpawnItem;
     private float timeGlobal;
 
@@ -90,7 +91,7 @@ public class GameManager : MonoBehaviour {
         _bot.GetComponent<SpawnBehaviour>().Init(GetClosestAvailableTotem(transform.position));
         foreach(LightningBolt bolt in _bot.GetComponentsInChildren<LightningBolt>())
             bolt.emitter = totemsTransform[0];
-        Camera.main.GetComponent<CameraController>().pois.Add(myRobots[_id].transform);
+		GameObject.Find("Main Camera").GetComponent<CameraController>().pois.Add(myRobots[_id].transform);
     }
 
     void Awake()
@@ -105,7 +106,7 @@ public class GameManager : MonoBehaviour {
         timeGlobal += Time.deltaTime;
         #region Gestion fin de la partie
         
-        if (Time.timeScale != 0 && timeGlobal > 180)
+        if (Time.timeScale != 0 && timeGlobal > maxTime)
         {
             Time.timeScale = 0;
             GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
@@ -197,8 +198,8 @@ public class GameManager : MonoBehaviour {
         }
 
         
-        int tempsRestant = 2 * 60 - (int)timeGlobal;
-        GameObject.Find("TextTimeRemaining").GetComponent<Text>().text = "TEMPS RESTANT : " + tempsRestant;
+        int tempsRestant = (int) maxTime - (int)timeGlobal;
+        GameObject.Find("TextTimeRemaining").GetComponent<Text>().text = "TEMPS RESTANT : " + tempsRestant +" s";
 
         if (timerInverted > 10 && invertedControl)
         {

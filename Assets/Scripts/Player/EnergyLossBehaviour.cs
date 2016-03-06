@@ -15,13 +15,14 @@ public class EnergyLossBehaviour : MonoBehaviour {
 	void FixedUpdate () {
         if (GetComponentInChildren<LightningBolt>() != null)
             Destroy(this);
+		
         time += Time.fixedDeltaTime;
         Rigidbody body = GetComponent<Rigidbody>();
         body.AddForce(-time/duration * body.velocity / Time.fixedDeltaTime);
         if (time / duration > deathRatio)
         {
-            GetComponent<RobotController>().Die();
-            Destroy(this);
+			GetComponent<RobotController>().OutOfBattery();
+			Destroy(this);
         }
 	}
 }

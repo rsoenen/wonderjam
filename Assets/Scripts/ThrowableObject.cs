@@ -6,7 +6,8 @@ using UnityEngine;
 
 class ThrowableObject : MonoBehaviour
 {
-    public bool Grabbed { get; set; }
+    private bool m_grabbed = false;
+    public bool Grabbed { get { return m_grabbed; } set { if (m_grabbed != value) { m_grabbed = value; GrabbedChanged(); } } }
 
     [SerializeField]
     private float m_HurtingSpeed = 10.0f;
@@ -22,9 +23,34 @@ class ThrowableObject : MonoBehaviour
         m_ignored = _ignore;
     }
 
+    void GrabbedChanged()
+    {
+        TimerAndDeletion tad = GetComponentInParent<TimerAndDeletion>();
+        if(tad != null)
+        {
+            if (Grabbed)
+                tad.Enable(false);
+            else
+                tad.Enable(true);
+        }
+
+        BeepAndDestroy bad = GetComponentInParent<BeepAndDestroy>();
+        if(bad != null)
+        {
+            if (Grabbed)
+            {
+                Destroy(bad);
+                var toto = transform.parent.gameObject.AddComponent<TimerAndDeletion>();
+                toto.Init(8);
+                toto.Enable(false);
+            }
+        }
+    }
+
     void Start()
     {
         m_RobotLayer = LayerMask.NameToLayer("Robots");
+        Grabbed = false;
     }
 
     void OnTriggerEnter(Collider _collider)
@@ -33,7 +59,7 @@ class ThrowableObject : MonoBehaviour
         {
             Vector3 direction = m_rigidbody.velocity.normalized;
             direction.y = 0;
-            _collider.gameObject.AddComponent<StuntBehaviour>().Init(direction.normalized);
+            _collider.gameObject.AddComponent<StuntBehaviour>().Init(-direction.normalized);
             Destroy(gameObject);
         }
     }

@@ -77,7 +77,7 @@ public class DeathBehaviour : MonoBehaviour {
 	void Update ()
     {
         time += Time.deltaTime;
-        transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, 90 * time / game.deathDuration);
+        //transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, 90 * time / game.deathDuration);
         if(time > game.deathDuration)
         {
             Totem closestTotem = game.GetClosestAvailableTotem(transform.position);
