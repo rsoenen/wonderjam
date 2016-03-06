@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour {
 
     public float slowDownDuration, slowDownDeathRatio;
 
+    public float spawnBlinkFreq, spawnBlinkDuration;
+
     [Header("Dead Body Parts Prefabs")]
     public GameObject headPrefab;
     public GameObject rightArmPrefab;
