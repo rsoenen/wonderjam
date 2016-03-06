@@ -12,6 +12,7 @@ public class RobotGestionPoint : MonoBehaviour {
     public event PowerupChangedEventHandler PowerupChanged;
 
     private int point;
+    
     private float timerPoints;
     private int playerId;
     private GameObject barrePointMax;
@@ -122,4 +123,5 @@ public class RobotGestionPoint : MonoBehaviour {
     {
         return this.gameObject;
     }
+
 }
