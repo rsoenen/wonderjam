@@ -12,6 +12,8 @@ public class BeepAndDestroy : MonoBehaviour {
 
     private bool m_beeping = false;
 
+	public bool beep = true;
+
     [SerializeField]
     private float m_DestructionETA;
 
@@ -35,6 +37,9 @@ public class BeepAndDestroy : MonoBehaviour {
         if (m_destructionTimer > m_DestructionETA)
             Destroy(gameObject);
 
+		if (beep)
+		{
+
         if(!m_beeping)
         {
             if(m_beepTimer > 1.0f / m_beepFrequency)
@@ -53,5 +58,6 @@ public class BeepAndDestroy : MonoBehaviour {
                 m_beeping = false;
             }
         }
+		}
 	}
 }

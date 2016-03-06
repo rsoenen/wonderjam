@@ -210,7 +210,7 @@ public class GameManager : MonoBehaviour {
 
         
         int tempsRestant = 2 * 60 - (int)timeGlobal;
-        Debug.Log(tempsRestant);
+       // Debug.Log(tempsRestant);
         GameObject.Find("TextTimeRemaining").GetComponent<Text>().text = "TEMPS RESTANT : " + tempsRestant;
 
         if (timerInverted > 10 && invertedControl)
