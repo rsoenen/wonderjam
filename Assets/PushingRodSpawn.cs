@@ -18,7 +18,7 @@ public class PushingRodSpawn : MonoBehaviour {
 
     private Vector3 m_targetPosition;
 
-    private static float ROD_HEIGHT = 1.0f;
+    private static float ROD_HEIGHT = 2.5f;
 
     private bool m_undeploy = false;
 
