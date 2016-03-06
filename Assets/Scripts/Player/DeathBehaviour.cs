@@ -6,7 +6,6 @@ public class DeathBehaviour : MonoBehaviour {
     private float time;
     private GameManager game;
 
-	private AudioSource dieVoice;
 
     private Transform head, rightArm, leftArm, rotaringPlateform, body;
 
@@ -16,22 +15,13 @@ public class DeathBehaviour : MonoBehaviour {
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<RobotController>().enabled = false;
         game = GameManager.Instance();
+        GetComponent<RobotController>().lightningEnabled = false;
 
         FetchParts();
         EnableRenderers(false);
         EnableCollision(false);
         InstantiateDeadBodyParts();
-		dieVoice = gameObject.AddComponent<AudioSource>();
-		//dieVoice.spatialize = true;
-		dieVoice.clip = getRandomVoice();
-		dieVoice.Play();
 
-	}
-
-	AudioClip getRandomVoice()
-	{
-		AudioClip[] clips = Resources.LoadAll<AudioClip>("Assets/Voices");
-		return clips[Random.Range(0,clips.Length)];
 	}
 
     void FetchParts()
@@ -93,14 +83,13 @@ public class DeathBehaviour : MonoBehaviour {
             {
                 GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<RobotController>().enabled = true;
+                GetComponent<RobotController>().lightningEnabled = true;
                 gameObject.AddComponent<SpawnBehaviour>().Init(closestTotem);
                 transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, transform.localRotation.eulerAngles.y, 0);
 
                 EnableRenderers(true);
                 EnableCollision(true);
 
-
-				Destroy(dieVoice);
                 Destroy(this);
             }
         }

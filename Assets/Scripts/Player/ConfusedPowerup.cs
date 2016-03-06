@@ -8,6 +8,9 @@ class ConfusedPowerup : PickupPower
 {
     public override void Activate(RobotGestionPoint _bot)
     {
-        Debug.Log("Confused Powerup activated !");
+        GameObject thrower =_bot.getOwner();
+        GameObject gameController =GameObject.FindGameObjectWithTag("Constants");
+        gameController.GetComponent<GameManager>().ThrowerInvertedControl = thrower;
+        gameController.GetComponent<GameManager>().invertedControl = true;
     }
 }

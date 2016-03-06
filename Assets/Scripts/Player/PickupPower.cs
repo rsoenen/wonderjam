@@ -13,7 +13,7 @@ public class PickupPower : MonoBehaviour
 
     public virtual void Activate(RobotGestionPoint _bot)
     {
-        Debug.Log("Coucou");
+        
     }
 
 }

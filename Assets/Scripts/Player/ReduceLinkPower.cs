@@ -8,6 +8,6 @@ class ReduceLinkPower : PickupPower
 {
     public override void Activate(RobotGestionPoint _bot)
     {
-        Debug.Log("ReduceLink Powerup activated !");
+        GameManager.Instance().rangeReducers.Add(_bot.GetComponent<RobotController>());
     }
 }
