@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
     private float timeGlobal;
     
     private bool flag;
+    private float timerAnimationFin;
 
     public bool invertedControl;
     public GameObject ThrowerInvertedControl;
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         flag = false;
-         timeMax = 5;
+         timeMax = 120;
         ThrowerInvertedControl = null;
         timerInverted = 0f;
         invertedControl = false;
@@ -129,14 +130,19 @@ public class GameManager : MonoBehaviour {
 
         if (timeGlobal > timeMax && !flag)
         {
-
-
             flag = true;
 			if (winScene != null)
 			{
 				winScene.SetActive(true);
+                timerAnimationFin = 0;
 				GameObject.Find("Main Camera").gameObject.SetActive(false);
 			}
+        }
+        if (flag)
+        {
+            timerAnimationFin += Time.deltaTime;
+        }
+        if (timerAnimationFin > 5){
 
 			GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
             
