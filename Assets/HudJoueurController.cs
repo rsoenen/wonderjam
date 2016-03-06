@@ -18,6 +18,9 @@ public class HudJoueurController : MonoBehaviour {
     [SerializeField]
     private Image m_PowerupIcon;
 
+    [SerializeField]
+    private Text m_killsText;
+
 
     public void Init(RobotGestionPoint _pointController)
     {
