@@ -3,10 +3,12 @@ using System.Collections;
 
 public class PreviewArena : MonoBehaviour {
 
+
 	private GameObject mainCam, gC, HUD;
 
 	// Use this for initialization
 	void Start () {
+        
 		mainCam = GameObject.Find ("Main Camera");
 		mainCam.SetActive (false);
 		//mainCam.GetComponent<Camera>().enabled = false;
@@ -16,6 +18,8 @@ public class PreviewArena : MonoBehaviour {
 
 		HUD = GameObject.Find ("Ingame HUD");
 		HUD.SetActive (false);
+
+        
 	}
 
 	void endPreview() {
@@ -28,6 +32,10 @@ public class PreviewArena : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+        if (InputManager.Instance.GetController(0).pause || InputManager.Instance.GetController(0).Turbo)
+        {
+            endPreview();
+        }
 	}
 }
