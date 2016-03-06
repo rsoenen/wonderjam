@@ -12,8 +12,7 @@ public class PlayerUIPopulator : MonoBehaviour
         {
             Transform instance = Instantiate<Transform>(UIPrefab);
             instance.GetComponent<PlayerUI>().Init(robot);
-            instance.parent = transform;
-            print("INSTANCE");
+            instance.SetParent(transform);
         }
 	}
 }
