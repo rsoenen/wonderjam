@@ -22,7 +22,7 @@ public class ThrowingBehavior : MonoBehaviour {
     {
         if (m_grabbedObject == null)
             return;
-
+        
         if(Vector3.Distance(m_anchor.position, m_grabbedObject.transform.position) >= 0.1f)
         {
             m_grabbedObject.transform.position += Mathf.Min(Vector3.Distance(m_anchor.position, m_grabbedObject.transform.position), m_speed * Time.deltaTime) * (m_anchor.position - m_grabbedObject.transform.position).normalized;

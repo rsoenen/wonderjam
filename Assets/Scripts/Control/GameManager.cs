@@ -109,82 +109,80 @@ public class GameManager : MonoBehaviour {
     {
         timeGlobal += Time.deltaTime;
         #region Gestion fin de la partie
+        
+        if (Time.timeScale != 0 && timeGlobal > 180)
+        {
+            Time.timeScale = 0;
+            GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
 
-        if (Time.timeScale != 0 && timeGlobal > 120)
+            if (playerCount < 4)
             {
-                Time.timeScale = 0;
-                GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
-
-                if (playerCount < 4)
-                {
-                    GameObject.Find("TextForth").SetActive(false);
-                }
-                if (playerCount < 3)
-                {
-                    GameObject.Find("TextThird").SetActive(false);
-                }
-                int[] pointPlayer = new int[playerCount];
+                GameObject.Find("TextForth").SetActive(false);
+            }
+            if (playerCount < 3)
+            {
+                GameObject.Find("TextThird").SetActive(false);
+            }
+            int[] pointPlayer = new int[playerCount];
 
 
-                int[] ladder = new int[playerCount];
-                ladder[0] = 0;
-                int id = 0;
-                for (int j = 0; j < playerCount; j++)
-                {
-                    pointPlayer[j] = myRobots[j].GetComponent<RobotGestionPoint>().getPoint();
-                    if (pointPlayer[j]>pointPlayer[ladder[0]]){
-                        ladder[0]=j;
-                        id=j;
-                    }
+            int[] ladder = new int[playerCount];
+            ladder[0] = 0;
+            int id = 0;
+            for (int j = 0; j < playerCount; j++)
+            {
+                pointPlayer[j] = myRobots[j].GetComponent<RobotGestionPoint>().getPoint();
+                if (pointPlayer[j]>pointPlayer[ladder[0]]){
+                    ladder[0]=j;
+                    id=j;
                 }
+            }
                
-                pointPlayer[id] = -1;
-                ladder[1] = 0;
-                GameObject.Find("TextFirst").GetComponent<Text>().text += ladder[0] + 1;
+            pointPlayer[id] = -1;
+            ladder[1] = 0;
+            GameObject.Find("TextFirst").GetComponent<Text>().text += ladder[0] + 1;
 
 
-                //On cherche le deuxième
+            //On cherche le deuxième
+            for (int j = 0; j < playerCount; j++)
+            {
+                if (pointPlayer[j] > pointPlayer[ladder[1]])
+                {
+                    ladder[1] = j;
+                }
+            }
+            pointPlayer[ladder[1]] = -1;
+            GameObject.Find("TextSecond").GetComponent<Text>().text += ladder[1] + 1;
+            //On cherche le troisième
+            if (playerCount > 2)
+            {
+                ladder[2] = 0;
                 for (int j = 0; j < playerCount; j++)
                 {
-                    if (pointPlayer[j] > pointPlayer[ladder[1]])
+                    if (pointPlayer[j] > pointPlayer[ladder[2]])
                     {
-                        ladder[1] = j;
+                        ladder[2] = j;
                     }
                 }
-                pointPlayer[ladder[1]] = -1;
-                GameObject.Find("TextSecond").GetComponent<Text>().text += ladder[1] + 1;
-                //On cherche le troisième
-                if (playerCount > 2)
+                pointPlayer[ladder[2]] = -1;
+                GameObject.Find("TextThird").GetComponent<Text>().text += ladder[2] + 1;
+            }
+
+            //On cherche le quatrième
+            if (playerCount > 3)
+            {
+
+                ladder[3] = 0;
+                for (int j = 0; j < playerCount; j++)
                 {
-                    ladder[2] = 0;
-                    for (int j = 0; j < playerCount; j++)
+                    if (pointPlayer[j] > pointPlayer[ladder[3]])
                     {
-                        if (pointPlayer[j] > pointPlayer[ladder[2]])
-                        {
-                            ladder[2] = j;
-                        }
+                        ladder[3] = j;
                     }
-                    pointPlayer[ladder[2]] = -1;
-                    GameObject.Find("TextThird").GetComponent<Text>().text += ladder[2] + 1;
                 }
-
-                //On cherche le quatrième
-                if (playerCount > 3)
-                {
-
-                    ladder[3] = 0;
-                    for (int j = 0; j < playerCount; j++)
-                    {
-                        if (pointPlayer[j] > pointPlayer[ladder[3]])
-                        {
-                            ladder[3] = j;
-                        }
-                    }
-                    pointPlayer[ladder[3]] = -1;
-                    GameObject.Find("TextForth").GetComponent<Text>().text += ladder[3] + 1;
-                }
-
-            
+                pointPlayer[ladder[3]] = -1;
+                GameObject.Find("TextForth").GetComponent<Text>().text += ladder[3] + 1;
+            }
         }
         #endregion
 
