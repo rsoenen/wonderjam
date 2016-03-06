@@ -11,7 +11,8 @@ public class FallEmulation : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (Physics.Raycast(transform.position, Vector3.down, m_DistFromGround))
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, m_DistFromGround, LayerMask.GetMask("Floor")))
             Destroy(this);
 
         transform.position += Vector3.down * m_MaxFallSpeed * Time.deltaTime;
