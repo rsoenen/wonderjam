@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
     private int playerCount;
     private float timeSpawnItem;
     private float timeGlobal;
-    private float timeMax;
+    
     private bool flag;
 
     public bool invertedControl;
@@ -58,10 +58,13 @@ public class GameManager : MonoBehaviour {
     public float maxPointGainRate = 4;
     public float minPointGainRate = 2;
 
+    [Header("Game Duration")]
+    public float timeMax = 120;
+
     // Use this for initialization
     void Start () {
         flag = false;
-        timeMax = 5;
+        // timeMax = 5;
         ThrowerInvertedControl = null;
         timerInverted = 0f;
         invertedControl = false;
