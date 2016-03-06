@@ -90,7 +90,7 @@ public class RobotController : MonoBehaviour
     Light[] lights = GetComponentsInChildren<Light>();
     foreach (Light l in lights)
     {
-      l.color = color;
+        l.color = color;
     }
     Transform headChild = transform.Find("Neck").Find("Head");
     headChild.Find("LeftEye").GetComponent<MeshRenderer>().materials[0].SetColor("_Color", color);
@@ -136,7 +136,7 @@ public class RobotController : MonoBehaviour
         {
             if(!m_encumbered)
             {
-                if (this.gameObject.GetComponent<RobotGestionPoint>().getPoint() >= 5)
+                if (this.gameObject.GetComponent<RobotGestionPoint>().getPoint() > 0)
                 {
                     this.gameObject.GetComponent<RobotGestionPoint>().reducePoint(5);
                     gameObject.AddComponent<DashBehaviour>().Init(lastLookDirection);
