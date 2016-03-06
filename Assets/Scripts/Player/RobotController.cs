@@ -163,12 +163,16 @@ public class RobotController : MonoBehaviour
             RaycastHit hit;
             if (Physics.SphereCast(rotaringPlatformTransform.position, 1.0f, -rotaringPlatformTransform.up, out hit, 2.0f, LayerMask.GetMask("ThrowableObjects")))
             {
-                if (!pickupArrow.activeSelf)
-                    pickupArrow.SetActive(true);
-                pickupArrow.transform.position = hit.transform.position + Vector3.up * 1.0f;
+                if (hit.transform.GetComponent<ThrowableObject>().Grabbed)
+                {
+                    if (!pickupArrow.activeSelf)
+                        pickupArrow.SetActive(true);
+                    pickupArrow.transform.position = hit.transform.position + Vector3.up * 1.0f;
 
-                if (input.B)
-                    GetComponent<ThrowingBehavior>().GrabObject(hit.transform.gameObject);
+                    if (input.B)
+                        GetComponent<ThrowingBehavior>().GrabObject(hit.transform.gameObject);
+                }
+
             }
             else
             {

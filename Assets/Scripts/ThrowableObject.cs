@@ -6,6 +6,8 @@ using UnityEngine;
 
 class ThrowableObject : MonoBehaviour
 {
+    public bool Grabbed { get; set; }
+
     [SerializeField]
     private float m_HurtingSpeed = 10.0f;
 
