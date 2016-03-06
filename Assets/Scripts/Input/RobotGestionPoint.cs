@@ -63,7 +63,7 @@ public class RobotGestionPoint : MonoBehaviour {
 			{
 				reducePoint(1);
 
-				Debug.Log(GetComponentsInChildren<LightningBolt>().Length);
+				//Debug.Log(GetComponentsInChildren<LightningBolt>().Length);
 	       		foreach(LightningBolt bolt in GetComponentsInChildren<LightningBolt>())
 				{
 					float distanceMax = bolt.maxDistance;
