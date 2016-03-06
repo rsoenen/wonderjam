@@ -18,7 +18,7 @@ public class SpawnBehaviour : MonoBehaviour {
     }
 
     void Start () {
-        this.game = GameObject.FindGameObjectWithTag("Constants").GetComponent<GameManager>();
+		this.game = GameManager.Instance ();
         this.robot = GetComponent<RobotController>();
         robot.gameObject.AddComponent<SpawnBlinkBehaviour>();
         this.body = GetComponent<Rigidbody>();
