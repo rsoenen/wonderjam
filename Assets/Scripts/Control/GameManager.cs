@@ -63,10 +63,12 @@ public class GameManager : MonoBehaviour {
     [Header("Game Duration")]
     public float timeMax = 120;
 
+	public GameObject winScene;
+
     // Use this for initialization
     void Start () {
         flag = false;
-        // timeMax = 5;
+         timeMax = 5;
         ThrowerInvertedControl = null;
         timerInverted = 0f;
         invertedControl = false;
@@ -127,8 +129,16 @@ public class GameManager : MonoBehaviour {
 
         if (timeGlobal > timeMax && !flag)
         {
+
+
             flag = true;
-            GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
+			if (winScene != null)
+			{
+				winScene.SetActive(true);
+				GameObject.Find("Main Camera").gameObject.SetActive(false);
+			}
+
+			GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
             
             if (playerCount < 4)
             {
