@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
     private int playerCount;
     private float timeSpawnItem;
     private float timeGlobal;
-
+    private float timeMax;
 
     public bool invertedControl;
     public GameObject ThrowerInvertedControl;
@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        timeMax = 120;
         ThrowerInvertedControl = null;
         timerInverted = 0f;
         invertedControl = false;
@@ -104,10 +105,10 @@ public class GameManager : MonoBehaviour {
     {
         timeGlobal += Time.deltaTime;
         #region Gestion fin de la partie
-        
-        if (Time.timeScale != 0 && timeGlobal > 180)
+
+        if (timeGlobal > timeMax)
         {
-            Time.timeScale = 0;
+    
             GameObject.Find("UI").GetComponent<ShowPanels>().ShowWinPanel();
 
             if (playerCount < 4)
@@ -126,11 +127,12 @@ public class GameManager : MonoBehaviour {
             int id = 0;
             for (int j = 0; j < playerCount; j++)
             {
-                pointPlayer[j] = myRobots[j].GetComponent<RobotGestionPoint>().getPoint();
+                pointPlayer[j] = myRobots[j].GetComponent<RobotController>().getKillsCount();
                 if (pointPlayer[j]>pointPlayer[ladder[0]]){
                     ladder[0]=j;
                     id=j;
                 }
+                 myRobots[j].GetComponent<RobotController>().enabled=false;
             }
                
             pointPlayer[id] = -1;
@@ -196,8 +198,8 @@ public class GameManager : MonoBehaviour {
             timeSpawnItem = 0;
         }
 
-        
-        int tempsRestant = 2 * 60 - (int)timeGlobal;
+
+        int tempsRestant = (int)timeMax - (int)timeGlobal;
         GameObject.Find("TextTimeRemaining").GetComponent<Text>().text = "TEMPS RESTANT : " + tempsRestant;
 
         if (timerInverted > 10 && invertedControl)

@@ -13,6 +13,8 @@ public class RobotController : MonoBehaviour
    
     private int killsCount;
     public RobotController lastHitRobot;
+    private float timerLastHit;
+
 
     public float rodPlacementDistance = 0.5f;
 
@@ -105,6 +107,7 @@ public class RobotController : MonoBehaviour
         SetupRobotForPlayer(playerId);
         groundDetector = GetComponent<GroundDetector>();
         SetImmune(game.spawnImmuneTime);
+        timerLastHit = -1;
 	}
 
     public void SetImmune(float seconds)
@@ -133,6 +136,11 @@ public class RobotController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (timerLastHit < 0)
+        {
+            lastHitRobot = null;
+        }
+        timerLastHit -= Time.deltaTime;
         if (input == null)
             input = InputManager.Instance.GetController(playerId);
         int controleInverse = 1;
@@ -288,16 +296,25 @@ public class RobotController : MonoBehaviour
 
     public void SetLastHit(RobotController robot)
     {
-        lastHitRobot = robot;
+        if (immuneTime < 0 && GetComponent<DeathBehaviour>() == null)
+        {
+            timerLastHit = 5;
+            lastHitRobot = robot;
+        }
+        
     }
 
     public void GiveKill()
     {
-        if(lastHitRobot != null)
+        if (lastHitRobot != null)
         {
             lastHitRobot.killsCount++;
             //print(lastHitRobot.killsCount);
             lastHitRobot = null;
+        }
+        else
+        {
+            killsCount--;
         }
 
     }

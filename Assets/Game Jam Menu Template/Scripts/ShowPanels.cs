@@ -7,8 +7,7 @@ public class ShowPanels : MonoBehaviour {
 	public GameObject optionsPanel;							//Store a reference to the Game Object OptionsPanel 
 	public GameObject optionsTint;							//Store a reference to the Game Object OptionsTint 
 	public GameObject menuPanel;							//Store a reference to the Game Object MenuPanel 
-	public GameObject pausePanel;							//Store a reference to the Game Object PausePanel 
-    public GameObject numberPlayerPanel;					
+	public GameObject pausePanel;							//Store a reference to the Game Object PausePanel 					
     public GameObject chooseMapPanel;
     public GameObject winPanel;				
 
@@ -22,7 +21,7 @@ public class ShowPanels : MonoBehaviour {
     public void LoadActualScene()
     {
        
-        Destroy(GameObject.Find("HUD(Clone)").gameObject);
+        
         winPanel.SetActive(false);
         GameObject.Find("GameController").GetComponent<GameManager>().resetGameController();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -30,7 +29,7 @@ public class ShowPanels : MonoBehaviour {
     }
     public void BackMainMenu()
     {
-        Destroy(GameObject.Find("HUD(Clone)").gameObject);
+        GameObject.Find("GameController").GetComponent<GameManager>().resetGameController();
         Destroy(this.gameObject);
         SceneManager.LoadScene("MainMenu");
     }
@@ -59,15 +58,7 @@ public class ShowPanels : MonoBehaviour {
 	{
 		menuPanel.SetActive (false);
 	}
-    public void ShowMenuNumberPlayer()
-    {
-        numberPlayerPanel.SetActive(true);
-    }
 
-    public void HideMenuNumberPlayer()
-    {
-        numberPlayerPanel.SetActive(false);
-    }
 
     public void ShowMenuChooseMap()
     {
@@ -87,7 +78,7 @@ public class ShowPanels : MonoBehaviour {
     public void ShowWinPanel()
     {
         winPanel.SetActive(true);
-
+        Destroy(GameObject.Find("Ingame HUD"));
     }
     public void HideWinPanel()
     {
