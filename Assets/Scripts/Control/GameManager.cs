@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour {
     public float pointLostRate = 1;
     public float maxPointGainRate = 4;
     public float minPointGainRate = 2;
+    public float groundPlatePointGain = 2;
+    public float groundPlateGainRate = 1.0f;
 
     [Header("Game Duration")]
     public float timeMax = 120;

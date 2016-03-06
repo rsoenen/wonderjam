@@ -114,6 +114,12 @@ public class RobotGestionPoint : MonoBehaviour {
             this.Point -= _numberPointLess;
         }
     }
+
+    public void addPoint(int _count)
+    {
+        this.Point += _count;
+    }
+
     public int getPoint()
     {
         return this.Point;
