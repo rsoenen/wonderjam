@@ -9,7 +9,12 @@ public class ShowPanels : MonoBehaviour {
 	public GameObject menuPanel;							//Store a reference to the Game Object MenuPanel 
 	public GameObject pausePanel;							//Store a reference to the Game Object PausePanel 					
     public GameObject chooseMapPanel;
-    public GameObject winPanel;				
+    public GameObject winPanel;
+    public GameObject commandePanel;
+    public GameObject creditPanel;
+    public GameObject creditText1;
+    public GameObject creditText2;
+    public GameObject creditText3;
 
 
 	public void LoadScene(string name)
@@ -56,7 +61,43 @@ public class ShowPanels : MonoBehaviour {
 	{
 		menuPanel.SetActive (false);
 	}
+    public void ShowCommande()
+    {
+        commandePanel.SetActive(true);
+    }
+    public void HideCommande()
+    {
+        commandePanel.SetActive(false);
+    }
+    public void ShowCredit()
+    {
+        creditPanel.SetActive(true);
+    }
 
+    public void SuiteCredit()
+    {
+        if (creditText1.activeSelf)
+        {
+            creditText1.SetActive(false);
+            creditText2.SetActive(true);
+        }
+        else if (creditText2.activeSelf)
+        {
+            creditText2.SetActive(false);
+            creditText3.SetActive(true);
+        }
+        else
+        {
+            creditText3.SetActive(false);
+            creditText1.SetActive(true);
+            HideCredit();
+            ShowMenu();
+        }
+    }
+    public void HideCredit()
+    {
+        creditPanel.SetActive(false);
+    }
 
     public void ShowMenuChooseMap()
     {
